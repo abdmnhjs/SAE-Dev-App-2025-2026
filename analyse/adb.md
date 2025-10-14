@@ -1,3 +1,4 @@
-#Analyse des besoins
+# Analyse des besoins
 
-##1)Insciption des machines
+## 1)Insciption des machines
+
