@@ -31,15 +31,17 @@ La plateforme web permettra :
 
 Le logiciel permet de gérer un parc informatique, les acteurs sont au nombre de 4 : 
 
-  - L'utilisateur non-inscrit
-  - L'utilisateur inscrit
-  - Le technicien
-  - L'administrateur web
-  - L'administrateur système
+  - **Le visiteur/L'utilisateur non-inscrit** : Prend connaissance de la plateforme web via un texte explicatif et une vidéo explicative des fonctionnalités de la plateforme, et il peut avoir accès à une partie de l'inventaire.
+  - **Le technicien** : Il se connecte à la plateforme et peut consulter le parc informatique, modifier une information dans la liste du parc informatique, mettre une machine dans l’inventaire à partir d’un formulaire, mettre une série de machines dans l’inventaire à partir d’un fichier de données (format csv), supprimer une machine de l’inventaire pour la placer dans une liste dite du rebut
+   - exporter une liste au format csv
+   - consulter la liste du rebut, changer la statut du matériel si il est remis en service.
+  - **L'administrateur web** :
+  - **L'administrateur système** :
 
 # Pré-requis
 
 # Priorités
+
 
 
 
