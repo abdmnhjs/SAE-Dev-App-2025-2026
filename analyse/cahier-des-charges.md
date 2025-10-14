@@ -4,7 +4,7 @@
 
 Nous sommes une équipe de 4 déveleoppeurs travaillant sur une plateforme web qui permet la gestion d'un parc informatique, elle sera principalement développée en php, liée à une base de données sur un serveur MySQL et sera déployée sur un Raspberry Pi, l'application web tournera sur un serveur web Apache.
 
-La plateforme web permettra:
+La plateforme web permettra :
   - La page d’accueil proposera un texte explicatif et une vidéo explicative des fonctionnalités de la plateforme
   - L’utilisateur non inscrit peut consulter une partie de l’inventaire
   - Cas technicien :
@@ -27,6 +27,11 @@ La plateforme web permettra:
   - Cas administrateur système :
     - consulter les différents journaux d’activités de la plateforme
 
+# Enoncé
+
+# Pré-requis
+
+# Priorités
 
 
 
