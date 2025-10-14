@@ -29,9 +29,18 @@ La plateforme web permettra :
 
 # Enoncé
 
+Le logiciel permet de gérer un parc informatique, les acteurs sont au nombre de 4 : 
+
+  - L'utilisateur non-inscrit
+  - L'utilisateur inscrit
+  - Le technicien
+  - L'administrateur web
+  - L'administrateur système
+
 # Pré-requis
 
 # Priorités
+
 
 
 
