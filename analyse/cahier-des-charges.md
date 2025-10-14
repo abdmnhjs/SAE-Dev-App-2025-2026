@@ -8,14 +8,14 @@ La plateforme web permettra:
   - La page d’accueil proposera un texte explicatif et une vidéo explicative des fonctionnalités de la plateforme
   - L’utilisateur non inscrit peut consulter une partie de l’inventaire
   - Cas technicien :
-  - consulter le parc informatique
-  - modifier une information dans la liste du parc informatique
-  - mettre une machine dans l’inventaire à partir d’un formulaire
-  - mettre une série de machines dans l’inventaire à partir d’un fichier de données (format csv)
-  - supprimer une machine de l’inventaire pour la placer dans une liste dite du rebut
-  - Les machines sont séparées en deux catégories, moniteurs et unités centrales.
-  - exporter une liste au format csv
-  - consulter la liste du rebut, changer la statut du matériel si il est remis en service.
+   - consulter le parc informatique
+   - modifier une information dans la liste du parc informatique
+   - mettre une machine dans l’inventaire à partir d’un formulaire
+   - mettre une série de machines dans l’inventaire à partir d’un fichier de données (format csv)
+   - supprimer une machine de l’inventaire pour la placer dans une liste dite du rebut
+   - Les machines sont séparées en deux catégories, moniteurs et unités centrales.
+   - exporter une liste au format csv
+   - consulter la liste du rebut, changer la statut du matériel si il est remis en service.
   - Cas adminisateur web :
     - créer un technicien dans la base
     - créer une information qui peut être réutilisée par les techniciens tels que :
@@ -26,6 +26,7 @@ La plateforme web permettra:
     - bloquer la liste du rebut pour une future exportation de cette liste.
   - Cas administrateur système :
     - consulter les différents journaux d’activités de la plateforme
+
 
 
 
