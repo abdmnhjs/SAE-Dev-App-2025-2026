@@ -33,6 +33,14 @@ nav {
     margin: 0;
 }
 
+.titre {
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+}
+
 .features-title {
     color: white;
     font-size: 2rem;
@@ -105,10 +113,18 @@ button:focus {
 }
 
 input {
-    border-radius: 5px;
+    border-radius: 10px;
     width: 400px;
+    height: 25px;
     margin-bottom: 20px;
 }
 .champs{
     margin-bottom: 10px;
 }
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
