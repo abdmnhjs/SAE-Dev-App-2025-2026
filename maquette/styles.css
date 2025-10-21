@@ -14,11 +14,63 @@ nav {
 }
 
 
-.section {
+.sections {
     color: white;
     text-decoration: none;
     font-size: 0.9rem;
 }
 
+.hero-title {
+    color: white;
+    font-size: 3rem;
+    font-weight: 600;
+    margin: 0;
+}
 
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.1rem;
+}
 
+.hero-section p {
+    margin: 0;
+}
+
+button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button:active {
+    transform: none;
+}
+
+button:focus {
+    outline: none;
+}
+
+.cta-not-registered {
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.cta-not-registered:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.cta-technician {
+    background-color: #282828;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.cta-technician:hover {
+    background-color: rgba(40, 40, 40, 0.8);
+}
