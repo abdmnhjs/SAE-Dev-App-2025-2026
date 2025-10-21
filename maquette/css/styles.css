@@ -40,7 +40,7 @@ nav {
     margin: 0;
 }
 
-.hero-section {
+.section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,13 +48,13 @@ nav {
     gap: 1.1rem;
 }
 
-.not-registered-features-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.1rem;
+.technician-features {
+    color: white;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    margin: 0 400px;
 }
+
 
 .hero-section p {
     margin: 0;
