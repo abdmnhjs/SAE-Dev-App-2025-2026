@@ -2,9 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <title>Accueil</title>
 </head>
 <body>
+
+<nav>
+    <img src="../images/logo.png" alt="logo-img" width="80" height="80">
+    <a href="inventaire.html" class="sections">Inventaire</a>
+    <a href="connexion.html" class="sections">Se connecter</a>
+    <a href="inscription.html" class="sections">S'inscrire</a>
+</nav>
+
+<main style="margin-top: 70px; display: flex; flex-direction: column; gap: 140px;">
+
+    <div class="hero-section">
+        <h2 class="hero-title">Bon retour parmi nous</h2>
+    </div>
+    <form>
+        <div class="connexion">
+        <label class="champs">Nom d'utilisateur</label>
+        <input type="id" class="input"/>
+        <label class="champs">Mot de passe</label>
+        <input type="password" class="input"/>
+            <div class="hero-buttons">
+                <button class="cta-not-registered"><a href="inventaire.html" style="color: #121212; text-decoration: none">Se connecter</a></button>
+            </div>
+        </div>
+    </form>
+</main>
 
 </body>
 </html>

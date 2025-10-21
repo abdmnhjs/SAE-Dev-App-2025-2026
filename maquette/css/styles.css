@@ -95,3 +95,20 @@ button:focus {
 .cta-technician:hover {
     background-color: rgba(40, 40, 40, 0.8);
 }
+
+.connexion{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    align-items: center;
+}
+
+input {
+    border-radius: 5px;
+    width: 400px;
+    margin-bottom: 20px;
+}
+.champs{
+    margin-bottom: 10px;
+}
