@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body { 
+  background-color: #121212;
+  font-family: 'Geist', sans-serif;
+    margin: 20px 40px; /* 0 en haut/bas, 20px à gauche/droite */
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+}
+
+
+.section {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+
+
