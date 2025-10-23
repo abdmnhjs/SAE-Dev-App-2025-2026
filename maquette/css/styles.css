@@ -122,9 +122,19 @@ input {
     margin-bottom: 10px;
 }
 
+.block {
+    display: block;
+    background-color: #282828;
+    border-radius: 10px;
+    height: auto;
+    width: 35%;  /* Garder la largeur à 75% */
+    margin: 0 auto;  /* Centre l'élément dans son parent */
+    padding: 20px;  /* Ajoute un peu de padding pour le confort */
+}
+
 .center {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;  /* Centre l'image à l'intérieur du bloc */
 }
+
 
