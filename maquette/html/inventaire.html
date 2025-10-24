@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/styles.css">
@@ -7,26 +7,256 @@
 </head>
 <body>
 
-<nav>
-    <img src="../images/logo.png" alt="logo-img" width="80" height="80">
-    <a href="inventaire.html" class="sections">Inventaire</a>
-    <a href="connexion.html" class="sections">Se connecter</a>
-    <a href="inscription.html" class="sections">S'inscrire</a>
-</nav>
+<div style="display: flex; justify-content: space-between; ">
+    <nav >
+
+        <a href="accueil.html"><img src="../images/logo.png" alt="logo-img" width="80" height="80"></a>
+        <a href="inventaire.html" class="sections">Inventaire</a>
+        <a href="connexion.html" class="sections">Se connecter</a>
+        <a href="inscription.html" class="sections">S'inscrire</a>
+    </nav>
+    <button style="background-color: red; color: white">Se déconnecter</button>
+</div>
+
 
 <main style="margin-top: 70px; display: flex; flex-direction: column; gap: 140px;">
     <div class="section">
         <h2 class="features-title">Inventaire</h2>
-        <p class="description">Consultez les machines de l’inventaire dont les moniteurs et les unités centrales.</p>
-        <form method="post">
-            <select>
-                <option value="monitors">Moniteurs</option>
-                <option value="central-units">Unités centrales</option>
-            </select>
-        </form>
-        <form>
-            <input type="file"  />
-        </form>
+        <p class="description">Consultez les machines de l'inventaire dont les moniteurs et les unités centrales.</p>
+        <div>
+            <form method="post" class="inventory-form">
+                <div class="form-field">
+                    <label style="color: white; margin-bottom: 5px">Catégorie</label>
+                    <select style="padding: 8px; border-radius: 5px; width: 200px">
+                        <option value="all">Toutes les machines</option>
+                        <option value="monitors">Moniteurs</option>
+                        <option value="central-units">Unités centrales</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label style="color: white; margin-bottom: 5px">Fichier d'unités centrales en CSV à importer
+                        <span style="display: block; font-size: 0.8em; opacity: 0.7">
+                    En-tête : NAME, SERIAL, MANUFACTURER, MODEL, TYPE, CPU, RAM_MB, DISK_GB, OS, DOMAIN,
+                    LOCATION, BUILDING, ROOM, MACADDR, PURCHASE_DATE, WARRANTY_END
+                </span>
+                    </label>
+                    <input type="file" name="csv-file" accept=".csv" style="padding: 5px">
+                </div>
+                <div class="form-field">
+                    <label style="color: white; margin-bottom: 5px">Fichier des moniteurs en CSV à importer
+                        <span style="display: block; font-size: 0.8em; opacity: 0.7">
+                    En-tête : SERIAL, MANUFACTURER,MODEL, SIZE_INCH, RESOLUTION, CONNECTOR, ATTACHED_TO
+                </span>
+                    </label>
+                    <input type="file" name="csv-file" accept=".csv" style="padding: 5px">
+                </div>
+                <div class="form-field">
+                    <label style="color: white; margin-bottom: 5px">Exporter les machines</label>
+                    <button class="classic-button" style="width: 150px">Exporter en CSV</button>
+                </div>
+            </form>
+            <a href="ajout-moniteur.html" class="classic-button" style="height: 40px; align-self: flex-end; text-decoration: none; color: inherit; display: inline-flex; align-items: center; justify-content: center; padding: 10px; border-radius: 5px;">Ajouter un moniteur</a>
+            <a href="ajout-unite-centrale.html" class="classic-button" style="height: 40px; align-self: flex-end; text-decoration: none; color: inherit; display: inline-flex; align-items: center; justify-content: center; padding: 10px; border-radius: 5px;">Ajouter une unité centrale</a>
+        </div>
+        <table class="inventory-table">
+            <tr>
+                <td>Nom</td>
+                <td>Numéro de série</td>
+                <td>Fabricant</td>
+                <td>Modèle</td>
+                <td>Type</td>
+                <td>CPU</td>
+                <td>RAM (Mo)</td>
+                <td>Stockage (Go)</td>
+                <td>Système d'exploitation</td>
+                <td>Domaine</td>
+                <td>Emplacement</td>
+                <td>Bâtiment</td>
+                <td>Pièce</td>
+                <td>Adresse MAC</td>
+                <td>Date d'achat</td>
+                <td>Fin de garantie</td>
+                <td>Actions</td>
+            </tr>
+            <tr>
+                <td>Ordinateur A</td>
+                <td>SN123456789</td>
+                <td>HP</td>
+                <td>ProBook 450</td>
+                <td>Portable</td>
+                <td>Intel i5</td>
+                <td>8192</td>
+                <td>512</td>
+                <td>Windows 10</td>
+                <td>IT</td>
+                <td>Bureau 3</td>
+                <td>Bâtiment A</td>
+                <td>Salle 204</td>
+                <td>00:14:22:56:8B:F1</td>
+                <td>2022-05-12</td>
+                <td>2025-05-12</td>
+                <td style="display: flex; flex-direction: column; gap: 10px">
+                    <button class="classic-button">Modifier</button>
+                    <button style="background-color: red; color: white">Supprimer</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Ordinateur B</td>
+                <td>SN987654321</td>
+                <td>Dell</td>
+                <td>XPS 13</td>
+                <td>Portable</td>
+                <td>Intel i7</td>
+                <td>16384</td>
+                <td>1024</td>
+                <td>Ubuntu 20.04</td>
+                <td>Dev</td>
+                <td>Bureau 1</td>
+                <td>Bâtiment B</td>
+                <td>Salle 101</td>
+                <td>00:1A:2B:3C:4D:5E</td>
+                <td>2021-08-21</td>
+                <td>2024-08-21</td>
+                <td style="display: flex; flex-direction: column; gap: 10px">
+                    <button class="classic-button">Modifier</button>
+                    <button style="background-color: red; color: white">Supprimer</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Serveur C</td>
+                <td>SN1122334455</td>
+                <td>Lenovo</td>
+                <td>ThinkSystem SR650</td>
+                <td>Serveur</td>
+                <td>Xeon Silver 4214</td>
+                <td>32768</td>
+                <td>2048</td>
+                <td>Red Hat 8</td>
+                <td>Infrastructure</td>
+                <td>RDC</td>
+                <td>Bâtiment C</td>
+                <td>Chambre Serveur</td>
+                <td>00:1F:5E:2D:4A:8F</td>
+                <td>2020-11-15</td>
+                <td>2023-11-15</td>
+                <td style="display: flex; flex-direction: column; gap: 10px">
+                    <button class="classic-button">Modifier</button>
+                    <button style="background-color: red; color: white">Supprimer</button>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>Station de travail D</td>
+                <td>SN5566778899</td>
+                <td>Apple</td>
+                <td>MacBook Pro</td>
+                <td>Portable</td>
+                <td>Apple M1</td>
+                <td>8192</td>
+                <td>512</td>
+                <td>macOS Monterey</td>
+                <td>Design</td>
+                <td>Bureau 2</td>
+                <td>Bâtiment A</td>
+                <td>Salle 305</td>
+                <td>00:1D:A1:43:B5:9C</td>
+                <td>2023-01-18</td>
+                <td>2026-01-18</td>
+                <td style="display: flex; flex-direction: column; gap: 10px">
+                    <button class="classic-button">Modifier</button>
+                    <button style="background-color: red; color: white">Supprimer</button>
+                </td>
+            </tr>
+
+
+        </table>
+
+        <table class="inventory-table" style="margin-top: 60px;">
+            <tr>
+                <td>Numéro de série</td>
+                <td>Fabricant</td>
+                <td>Modèle</td>
+                <td>Taille (pouces)</td>
+                <td>Résolution</td>
+                <td>Connecteur</td>
+                <td>Attaché à</td>
+                <td>Actions</td>
+            </tr>
+            <tr>
+                <td>MON123456789</td>
+                <td>Dell</td>
+                <td>UltraSharp U2415</td>
+                <td>24</td>
+                <td>1920x1200</td>
+                <td>HDMI, DisplayPort</td>
+                <td>Ordinateur A</td>
+                <td style="display: flex; flex-direction: column; gap: 10px">
+                    <button class="classic-button">Modifier</button>
+                    <button style="background-color: red; color: white">Supprimer</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>MON987654321</td>
+                <td>Samsung</td>
+                <td>S27E510C</td>
+                <td>27</td>
+                <td>1920x1080</td>
+                <td>HDMI, VGA</td>
+                <td>Ordinateur B</td>
+                <td style="display: flex; flex-direction: column; gap: 10px">
+                    <button class="classic-button">Modifier</button>
+                    <button style="background-color: red; color: white">Supprimer</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>MON1122334455</td>
+                <td>LG</td>
+                <td>27UK850-W</td>
+                <td>27</td>
+                <td>3840x2160</td>
+                <td>USB-C, HDMI, DisplayPort</td>
+                <td>Station de travail D</td>
+                <td style="display: flex; flex-direction: column; gap: 10px">
+                    <button class="classic-button">Modifier</button>
+                    <button style="background-color: red; color: white">Supprimer</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>MON5566778899</td>
+                <td>ASUS</td>
+                <td>VG248QE</td>
+                <td>24</td>
+                <td>1920x1080</td>
+                <td>DVI, HDMI, DisplayPort</td>
+                <td>Non assigné</td>
+                <td style="display: flex; flex-direction: column; gap: 10px">
+                    <button class="classic-button">Modifier</button>
+                    <button style="background-color: red; color: white">Supprimer</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>MON2233445566</td>
+                <td>BenQ</td>
+                <td>GW2480</td>
+                <td>24</td>
+                <td>1920x1080</td>
+                <td>HDMI, VGA, DisplayPort</td>
+                <td>Serveur C</td>
+                <td style="display: flex; flex-direction: column; gap: 10px">
+                    <button class="classic-button">Modifier</button>
+                    <button style="background-color: red; color: white">Supprimer</button>
+                </td>
+            </tr>
+
+        </table>
+
     </div>
 </main>
 

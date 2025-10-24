@@ -1,14 +1,15 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/styles.css">
-    <title>Accueil</title>
+    <title>Connexion</title>
 </head>
 <body>
 
 <nav>
-    <img src="../images/logo.png" alt="logo-img" width="80" height="80">
+    <a href="accueil.html"><img src="../images/logo.png" alt="logo-img" width="80" height="80"></a>
     <a href="inventaire.html" class="sections">Inventaire</a>
     <a href="connexion.html" class="sections">Se connecter</a>
     <a href="inscription.html" class="sections">S'inscrire</a>
@@ -21,12 +22,12 @@
         <h2 class="titre">Bon retour parmi nous</h2>
         <p class="description">Connectez vous à votre compte infra' pour continuer</p>
         <div class="connexion">
-        <label class="champs">Nom d'utilisateur</label>
-        <input type="id" class="input"/>
-        <label class="champs">Mot de passe</label>
-        <input type="password" class="input"/>
+            <label class="champs">Nom d'utilisateur</label>
+            <input type="text" class="input">
+            <label class="champs">Mot de passe</label>
+            <input type="password" class="input">
             <div class="hero-buttons">
-                <button class="cta-not-registered"><a href="inventaire.html" style="color: #121212; text-decoration: none">Se connecter</a></button>
+                <button type="submit" class="classic-button" style="color: #121212;">Se connecter</button>
             </div>
         </div>
     </form>
