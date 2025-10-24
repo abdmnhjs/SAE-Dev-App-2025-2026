@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/styles.css">
@@ -7,17 +7,22 @@
 </head>
 <body>
 
-<nav>
-    <img src="../images/logo.png" alt="logo-img" width="80" height="80">
-    <a href="inventaire.html" class="sections">Inventaire</a>
-    <a href="connexion.html" class="sections">Se connecter</a>
-    <a href="inscription.html" class="sections">S'inscrire</a>
-</nav>
+<div style="display: flex; justify-content: space-between; ">
+    <nav >
+
+        <a href="accueil.html"><img src="../images/logo.png" alt="logo-img" width="80" height="80"></a>
+        <a href="inventaire.html" class="sections">Inventaire</a>
+        <a href="connexion.html" class="sections">Se connecter</a>
+        <a href="inscription.html" class="sections">S'inscrire</a>
+    </nav>
+    <button style="background-color: red; color: white">Se déconnecter</button>
+</div>
+
 
 <main style="margin-top: 70px; display: flex; flex-direction: column; gap: 140px;">
     <div class="section">
         <h2 class="features-title">Inventaire</h2>
-        <p class="description">Consultez les machines de l’inventaire dont les moniteurs et les unités centrales.</p>
+        <p class="description">Consultez les machines de l'inventaire dont les moniteurs et les unités centrales.</p>
         <div>
             <form method="post" class="inventory-form">
                 <div class="form-field">
@@ -35,7 +40,7 @@
                     LOCATION, BUILDING, ROOM, MACADDR, PURCHASE_DATE, WARRANTY_END
                 </span>
                     </label>
-                    <input type="file" name="csv-file" accept=".csv" style="padding: 5px"/>
+                    <input type="file" name="csv-file" accept=".csv" style="padding: 5px">
                 </div>
                 <div class="form-field">
                     <label style="color: white; margin-bottom: 5px">Fichier des moniteurs en CSV à importer
@@ -43,19 +48,15 @@
                     En-tête : SERIAL, MANUFACTURER,MODEL, SIZE_INCH, RESOLUTION, CONNECTOR, ATTACHED_TO
                 </span>
                     </label>
-                    <input type="file" name="csv-file" accept=".csv" style="padding: 5px"/>
+                    <input type="file" name="csv-file" accept=".csv" style="padding: 5px">
                 </div>
                 <div class="form-field">
                     <label style="color: white; margin-bottom: 5px">Exporter les machines</label>
                     <button class="classic-button" style="width: 150px">Exporter en CSV</button>
                 </div>
             </form>
-            <button class="classic-button" style="height: 40px; align-self: flex-end"><a href="ajout-moniteur.html"
-                                                                                         style="text-decoration: none; color: inherit">Ajouter
-                un moniteur</a></button>
-            <button class="classic-button" style="height: 40px; align-self: flex-end"><a href="ajout-unite-centrale.html"
-                                                                                         style="text-decoration: none; color: inherit">Ajouter
-                une unité centrale</a></button>
+            <a href="ajout-moniteur.html" class="classic-button" style="height: 40px; align-self: flex-end; text-decoration: none; color: inherit; display: inline-flex; align-items: center; justify-content: center; padding: 10px; border-radius: 5px;">Ajouter un moniteur</a>
+            <a href="ajout-unite-centrale.html" class="classic-button" style="height: 40px; align-self: flex-end; text-decoration: none; color: inherit; display: inline-flex; align-items: center; justify-content: center; padding: 10px; border-radius: 5px;">Ajouter une unité centrale</a>
         </div>
         <table class="inventory-table">
             <tr>
@@ -67,13 +68,13 @@
                 <td>CPU</td>
                 <td>RAM (Mo)</td>
                 <td>Stockage (Go)</td>
-                <td>Système d’exploitation</td>
+                <td>Système d'exploitation</td>
                 <td>Domaine</td>
                 <td>Emplacement</td>
                 <td>Bâtiment</td>
                 <td>Pièce</td>
                 <td>Adresse MAC</td>
-                <td>Date d’achat</td>
+                <td>Date d'achat</td>
                 <td>Fin de garantie</td>
                 <td>Actions</td>
             </tr>
@@ -173,8 +174,6 @@
 
         </table>
 
-        </table>
-
         <table class="inventory-table" style="margin-top: 60px;">
             <tr>
                 <td>Numéro de série</td>
@@ -257,8 +256,6 @@
             </tr>
 
         </table>
-
-    </div>
 
     </div>
 </main>

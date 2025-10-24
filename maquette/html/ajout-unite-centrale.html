@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/styles.css">
-    <title>Inventaire</title>
+    <title>Ajouter une unité centrale</title>
 </head>
 <body>
 
 <nav>
-    <img src="../images/logo.png" alt="logo-img" width="80" height="80">
+    <a href="accueil.html"><img src="../images/logo.png" alt="logo-img" width="80" height="80"></a>
     <a href="inventaire.html" class="sections">Inventaire</a>
     <a href="connexion.html" class="sections">Se connecter</a>
     <a href="inscription.html" class="sections">S'inscrire</a>
@@ -43,15 +43,7 @@
             <input type="text" id="model" name="model" required placeholder="Ex: ProBook 450">
         </div>
 
-        <!-- Type -->
-        <div class="form-field">
-            <label for="type">Type <span class="required">*</span></label>
-            <select id="type" name="type" required>
-                <option value="">-- Sélectionner un type --</option>
-                <option value="monitor">Moniteur</option>
-                <option value="central-unit">Unité centrale</option>
-            </select>
-        </div>
+
 
         <!-- CPU -->
         <div class="form-field">
@@ -109,15 +101,14 @@
 
         <!-- Date d'achat -->
         <div class="form-field">
-            <label >Date d'achat</label>
+            <label for="purchase_date">Date d'achat</label>
             <input type="date" id="purchase_date" name="purchase_date">
         </div>
 
         <!-- Fin de garantie -->
         <div class="form-field">
-            <label>Fin de garantie</label>
+            <label for="warranty_end">Fin de garantie</label>
             <input type="date" id="warranty_end" name="warranty_end">
-        </div>
         </div>
 
         <div class="form-actions">
