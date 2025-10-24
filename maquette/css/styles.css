@@ -6,6 +6,11 @@ body {
     margin: 20px 40px; /* 0 en haut/bas, 20px à gauche/droite */
 }
 
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
 nav {
     display: flex;
     flex-direction: row;
@@ -85,12 +90,33 @@ button:focus {
     outline: none;
 }
 
-.cta-not-registered {
+.inventory-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    gap: 1rem;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.inventory-table {
+    color: white;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid #fff;
+    padding: 8px;
+}
+
+.classic-button {
     background-color: #fff;
     transition: background-color 0.3s ease;
 }
 
-.cta-not-registered:hover {
+.classic-button:hover {
     background-color: rgba(255, 255, 255, 0.8);
 }
 
