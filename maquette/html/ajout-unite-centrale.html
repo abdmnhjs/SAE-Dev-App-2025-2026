@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/styles.css">
+    <title>Inventaire</title>
+</head>
+<body>
+
+<nav>
+    <img src="../images/logo.png" alt="logo-img" width="80" height="80">
+    <a href="inventaire.html" class="sections">Inventaire</a>
+    <a href="connexion.html" class="sections">Se connecter</a>
+    <a href="inscription.html" class="sections">S'inscrire</a>
+</nav>
+
+<main style="margin-top: 70px; display: flex; flex-direction: column; gap: 140px;">
+    <div class="section">
+        <h2 class="features-title">Ajouter une unité centrale</h2>
+        <p class="description">Ajoutez une unité centrale en remplissant les champs suivants</p>
+    </div>
+    <form class="block">
+        <div class="form-field">
+            <label for="name">Nom <span class="required">*</span></label>
+            <input type="text" id="name" name="name" required placeholder="Ex: PC-BUREAU-01">
+        </div>
+
+        <!-- Numéro de série -->
+        <div class="form-field">
+            <label for="serial">Numéro de série <span class="required">*</span></label>
+            <input type="text" id="serial" name="serial" required placeholder="Ex: SN123456789">
+        </div>
+
+        <!-- Fabricant -->
+        <div class="form-field">
+            <label for="manufacturer">Fabricant <span class="required">*</span></label>
+            <input type="text" id="manufacturer" name="manufacturer" required placeholder="Ex: HP, Dell, Lenovo">
+        </div>
+
+        <!-- Modèle -->
+        <div class="form-field">
+            <label for="model">Modèle <span class="required">*</span></label>
+            <input type="text" id="model" name="model" required placeholder="Ex: ProBook 450">
+        </div>
+
+        <!-- Type -->
+        <div class="form-field">
+            <label for="type">Type <span class="required">*</span></label>
+            <select id="type" name="type" required>
+                <option value="">-- Sélectionner un type --</option>
+                <option value="monitor">Moniteur</option>
+                <option value="central-unit">Unité centrale</option>
+            </select>
+        </div>
+
+        <!-- CPU -->
+        <div class="form-field">
+            <label for="cpu">CPU</label>
+            <input type="text" id="cpu" name="cpu" placeholder="Ex: Intel Core i5-10400">
+        </div>
+
+        <!-- RAM -->
+        <div class="form-field">
+            <label for="ram_mb">RAM (Mo)</label>
+            <input type="number" id="ram_mb" name="ram_mb" min="0" step="1024" placeholder="Ex: 8192">
+        </div>
+
+        <!-- Stockage -->
+        <div class="form-field">
+            <label for="disk_gb">Stockage (Go)</label>
+            <input type="number" id="disk_gb" name="disk_gb" min="0" step="1" placeholder="Ex: 512">
+        </div>
+
+        <!-- Système d'exploitation -->
+        <div class="form-field">
+            <label for="os">Système d'exploitation</label>
+            <input type="text" id="os" name="os" placeholder="Ex: Windows 11 Pro">
+        </div>
+
+        <!-- Domaine -->
+        <div class="form-field">
+            <label for="domain">Domaine</label>
+            <input type="text" id="domain" name="domain" placeholder="Ex: IT, Production, RH">
+        </div>
+
+        <!-- Emplacement -->
+        <div class="form-field">
+            <label for="location">Emplacement</label>
+            <input type="text" id="location" name="location" placeholder="Ex: Bureau 3, Salle serveur">
+        </div>
+
+        <!-- Bâtiment -->
+        <div class="form-field">
+            <label for="building">Bâtiment</label>
+            <input type="text" id="building" name="building" placeholder="Ex: Bâtiment A">
+        </div>
+
+        <!-- Pièce -->
+        <div class="form-field">
+            <label for="room">Pièce</label>
+            <input type="text" id="room" name="room" placeholder="Ex: Salle 204">
+        </div>
+
+        <!-- Adresse MAC -->
+        <div class="form-field">
+            <label for="macaddr">Adresse MAC</label>
+            <input type="text" id="macaddr" name="macaddr" pattern="([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})" placeholder="Ex: 00:14:22:56:8B:F1">
+        </div>
+
+        <!-- Date d'achat -->
+        <div class="form-field">
+            <label >Date d'achat</label>
+            <input type="date" id="purchase_date" name="purchase_date">
+        </div>
+
+        <!-- Fin de garantie -->
+        <div class="form-field">
+            <label>Fin de garantie</label>
+            <input type="date" id="warranty_end" name="warranty_end">
+        </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="classic-button">Ajouter l'unité centrale</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

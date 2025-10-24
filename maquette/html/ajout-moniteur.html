@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/styles.css">
+    <title>Ajouter un moniteur</title>
+</head>
+<body>
+
+<nav>
+    <img src="../images/logo.png" alt="logo-img" width="80" height="80">
+    <a href="inventaire.html" class="sections">Inventaire</a>
+    <a href="connexion.html" class="sections">Se connecter</a>
+    <a href="inscription.html" class="sections">S'inscrire</a>
+</nav>
+
+<main style="margin-top: 70px; display: flex; flex-direction: column; gap: 140px;">
+    <div class="section">
+        <h2 class="features-title">Ajouter un moniteur</h2>
+        <p class="description">Ajoutez un moniteur en remplissant les champs suivants</p>
+    </div>
+    <form class="block">
+        <!-- Numéro de série -->
+        <div class="form-field">
+            <label for="serial">Numéro de série <span class="required">*</span></label>
+            <input type="text" id="serial" name="serial" required placeholder="Ex: MON123456789">
+        </div>
+
+        <!-- Fabricant -->
+        <div class="form-field">
+            <label for="manufacturer">Fabricant <span class="required">*</span></label>
+            <input type="text" id="manufacturer" name="manufacturer" required placeholder="Ex: Dell, Samsung, LG">
+        </div>
+
+        <!-- Modèle -->
+        <div class="form-field">
+            <label for="model">Modèle <span class="required">*</span></label>
+            <input type="text" id="model" name="model" required placeholder="Ex: UltraSharp U2415">
+        </div>
+
+        <!-- Taille en pouces -->
+        <div class="form-field">
+            <label for="size_inch">Taille (pouces) <span class="required">*</span></label>
+            <input type="number" id="size_inch" name="size_inch" required min="10" max="100" step="0.1" placeholder="Ex: 24">
+        </div>
+
+        <!-- Résolution -->
+        <div class="form-field">
+            <label for="resolution">Résolution <span class="required">*</span></label>
+            <input type="text" id="resolution" name="resolution" required placeholder="Ex: 1920x1080, 3840x2160">
+        </div>
+
+        <!-- Connecteur -->
+        <div class="form-field">
+            <label for="connector">Connecteur <span class="required">*</span></label>
+            <input type="text" id="connector" name="connector" required placeholder="Ex: HDMI, DisplayPort, VGA">
+        </div>
+
+        <!-- Attaché à -->
+        <div class="form-field">
+            <label for="attached_to">Attaché à</label>
+            <input type="text" id="attached_to" name="attached_to" placeholder="Ex: Ordinateur A, Non assigné">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="classic-button">Ajouter le moniteur</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>
