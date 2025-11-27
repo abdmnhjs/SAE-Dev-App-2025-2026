@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body { 
+  background-color: #121212;
+  font-family: 'Geist', sans-serif;
+    margin: 20px 40px; /* 0 en haut/bas, 20px à gauche/droite */
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+}
+
+.description {
+    color: #FFFFFF;
+    opacity: 40%;
+    text-align: center;
+}
+
+
+.sections {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.hero-title {
+    color: white;
+    font-size: 3rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.titre {
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+}
+
+.features-title {
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.1rem;
+}
+
+.technician-features {
+    color: white;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    margin: 0 400px;
+}
+
+
+.hero-section p {
+    margin: 0;
+}
+
+button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button:active {
+    transform: none;
+}
+
+label {
+    color: white;
+}
+
+button:focus {
+    outline: none;
+}
+
+.inventory-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    gap: 1rem;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.inventory-table {
+    color: white;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid #fff;
+    padding: 8px;
+}
+
+.classic-button {
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.classic-button:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.cta-technician {
+    background-color: #282828;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.cta-technician:hover {
+    background-color: rgba(40, 40, 40, 0.8);
+}
+
+.connexion{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    align-items: center;
+}
+
+input {
+    border-radius: 10px;
+    width: 400px;
+    height: 25px;
+    margin-bottom: 20px;
+}
+.champs{
+    margin-bottom: 10px;
+}
+
+.block {
+    display: block;
+    background-color: #282828;
+    border-radius: 10px;
+    height: auto;
+    width: 35%;  /* Garder la largeur à 75% */
+    margin: 0 auto;  /* Centre l'élément dans son parent */
+    padding: 20px;  /* Ajoute un peu de padding pour le confort */
+}
+
+.center {
+    display: block;
+    margin: 0 auto;  /* Centre l'image à l'intérieur du bloc */
+}
+
+
