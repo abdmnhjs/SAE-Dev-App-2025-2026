@@ -26,12 +26,12 @@ if($stmt){
         $_SESSION["username"] = $username;
         mysqli_stmt_close($stmt);
         mysqli_close($loginToDb);
-        header('Location: index.php');
+        header('Location: connexion.php');
         exit();
     } else {
         mysqli_stmt_close($stmt);
         mysqli_close($loginToDb);
-        header("Location: login.php?error=1");
+        header("Location: connexion.php?error=1");
         exit();
     }
 } else {
