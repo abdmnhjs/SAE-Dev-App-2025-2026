@@ -3,7 +3,7 @@ session_start();
 
 $host = 'localhost';
 $user = 'root';
-$db_password = "";
+$db_password = "!sae2025!";
 $db = "infra";
 $loginToDb = mysqli_connect($host, $user, $db_password, $db);
 
