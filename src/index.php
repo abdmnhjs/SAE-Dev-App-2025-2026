@@ -4,7 +4,6 @@
 <?php
 session_start();
 
-// Vérifier si l'utilisateur est connecté
 if(isset($_SESSION['username']) && $_SESSION['username'] == "sysadmin"){
     echo "<a href='logout.php'>Se déconnecter</a>";
     echo "<div>

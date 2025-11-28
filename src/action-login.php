@@ -3,39 +3,38 @@ session_start();
 
 $host = 'localhost';
 $user = 'root';
-$password = "";
+$db_password = "";
 $db = "infra";
-$loginToDb = mysqli_connect($host,$user,$password,$db);
+$loginToDb = mysqli_connect($host, $user, $db_password, $db);
 
 if(!$loginToDb){
-    echo "Erreur de connexion à la db";
-} else {
-    $base = mysqli_select_db($loginToDb,$db);
-    if(!$base){
-        echo "erreur";
+    die("Erreur de connexion à la db: " . mysqli_connect_error());
+}
+
+$username = $_POST["username"];
+$password = $_POST["password"];
+
+$query = "SELECT * FROM users WHERE name = ? AND mdp = ?";
+$stmt = mysqli_prepare($loginToDb, $query);
+
+if($stmt){
+    mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if(mysqli_num_rows($result) > 0){
+        $_SESSION["username"] = $username;
+        mysqli_stmt_close($stmt);
+        mysqli_close($loginToDb);
+        header('Location: index.php');
+        exit();
     } else {
-        $query = "SELECT * FROM users";
-        $result = mysqli_query($loginToDb,$query);
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-
-        $loginFound = false; // Variable pour suivre si la connexion a réussi
-
-        if(mysqli_num_rows($result) > 0){
-            while($row = mysqli_fetch_assoc($result)){
-                if ($row["name"] == $username && $row["mdp"] == $password){
-                    $_SESSION["username"] = $username;
-                    header('Location: index.php');
-                    exit();
-                }
-            }
-            // Si on arrive ici, aucun utilisateur valide n'a été trouvé
-            header("Location: login.php?error=1");
-            exit();
-        } else {
-            header("Location: login.php?error=1");
-            exit();
-        }
+        mysqli_stmt_close($stmt);
+        mysqli_close($loginToDb);
+        header("Location: login.php?error=1");
+        exit();
     }
+} else {
+    die("Erreur de préparation de la requête: " . mysqli_error($loginToDb));
 }
 ?>
