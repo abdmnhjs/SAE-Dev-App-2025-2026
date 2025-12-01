@@ -3,7 +3,7 @@ session_start();
 
 $host = 'localhost';
 $user = 'root';
-$db_password = "!sae2025!"; //penser a le changer si vous faites des tests en locaux, le mdp du rpi12 est : !sae2025!
+$db_password = ""; //penser a le changer si vous faites des tests en locaux, le mdp du rpi12 est : !sae2025!
 $db = "infra";
 $loginToDb = mysqli_connect($host, $user, $db_password, $db);
 
@@ -27,7 +27,11 @@ if($stmt){
         $_SESSION["username"] = $username;
         mysqli_stmt_close($stmt);
         mysqli_close($loginToDb);
-        header('Location: accueil.php');
+        if($username === "adminweb"){
+            header('Location: admin-panel.php');
+        } else {
+            header('Location: index.php');
+        }
         exit();
     } else {
         mysqli_stmt_close($stmt);
