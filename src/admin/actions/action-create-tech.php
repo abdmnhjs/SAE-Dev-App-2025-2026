@@ -9,7 +9,7 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] !== "adminweb") {
 
 $host = 'localhost';
 $user = 'root';
-$db_password = ""; // penser à le changer si vous faites des tests en locaux
+$db_password = "!sae2025!"; // penser à le changer si vous faites des tests en locaux
 $db = "infra";
 
 $loginToDb = mysqli_connect($host, $user, $db_password, $db);
