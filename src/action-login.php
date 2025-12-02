@@ -30,7 +30,7 @@ if($stmt){
         if($username === "adminweb"){
             header('Location: admin/admin-panel.php');
         } else {
-            header('Location: index.php');
+            header('Location: tech/tech-panel.php');
         }
         exit();
     } else {
