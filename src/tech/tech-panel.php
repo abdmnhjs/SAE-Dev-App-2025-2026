@@ -142,10 +142,15 @@ font-family: 'Geist', sans-serif                }
 
                 $query = "SELECT * FROM `screen` ";
                 $screens = mysqli_query($loginToDb, $query);
+
                 while($row = mysqli_fetch_assoc($screens)){
+                    $manufacturerNameQuery = "SELECT name FROM `manufacturer_list` WHERE id = ". $row['id_manufacturer'];
+                    $manufacturerNameResult = mysqli_query($loginToDb, $manufacturerNameQuery);
+                    $manufacturerData = mysqli_fetch_assoc($manufacturerNameResult);
+
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($row['serial']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['manufacturer']) . "</td>";
+                    echo "<td>" . htmlspecialchars($manufacturerData['name']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['model']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['size_inch']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['resolution']) . "</td>";
@@ -184,16 +189,24 @@ font-family: 'Geist', sans-serif                }
                 $query = "SELECT * FROM `control_unit` ";
                 $controlUnitsResult = mysqli_query($loginToDb, $query);
                 while ($row = mysqli_fetch_assoc($controlUnitsResult)) {
+                    $manufacturerNameQuery = "SELECT name FROM `manufacturer_list` WHERE id = ". $row['id_manufacturer'];
+                    $manufacturerNameResult = mysqli_query($loginToDb, $manufacturerNameQuery);
+                    $manufacturerData = mysqli_fetch_assoc($manufacturerNameResult);
+
+                    $osNameQuery = "SELECT name FROM `os_list` WHERE id = ". $row['id_os'];
+                    $osNameResult = mysqli_query($loginToDb, $osNameQuery);
+                    $osData = mysqli_fetch_assoc($osNameResult);
+
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($row['serial']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['manufacturer']) . "</td>";
+                    echo "<td>" . htmlspecialchars($manufacturerData['name']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['model']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['type']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['cpu']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['ram_mb']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['disk_gb']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['os']) . "</td>";
+                    echo "<td>" . htmlspecialchars($osData['name']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['domain']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['location']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['building']) . "</td>";

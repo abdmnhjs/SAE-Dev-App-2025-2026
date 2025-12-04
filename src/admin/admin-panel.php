@@ -3,7 +3,7 @@ session_start();
 
 $host = 'localhost';
 $user = 'root';
-$db_password = "!sae2025!"; //penser a le changer si vous faites des tests en locaux, le mdp du rpi12 est : !sae2025!
+$db_password = ""; //penser a le changer si vous faites des tests en locaux, le mdp du rpi12 est : !sae2025!
 $db = "infra";
 $loginToDb = mysqli_connect($host, $user, $db_password, $db);
 
@@ -12,6 +12,8 @@ if (isset($_SESSION['username']) && $_SESSION['username'] === "adminweb"){
 <h1>Ici c l'admin panel</h1>
     <a href='../logout.php' class='sections'>Se déconnecter</a>
     <a href='create-tech-form.php'>Créer un technicien</a> 
+    <a href='add-os-form.php'>Ajouter un système d'exploitation</a>
+    <a href='add-manufacturer-form.php'>Ajouter un fabriquant</a>
 
 </div>
 ";
