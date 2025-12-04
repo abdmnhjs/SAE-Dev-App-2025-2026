@@ -27,7 +27,7 @@ if (!$select) {
             $screen = mysqli_fetch_assoc($result);
 
             echo "<div>
-<form method='post' action='actions/action-edit-screen.php'>
+<form method='post' action='actions/action-edit-screen.php?serial=$serial'>
     <label>Numéro de série</label>
     <input type='text' name='serial' value='" . htmlspecialchars($screen['serial']) . "' readonly required>
     
@@ -46,7 +46,7 @@ if (!$select) {
     <label>Connecteur</label>
     <input type='text' name='connector' value='" . htmlspecialchars($screen['connector']) . "' placeholder='HDMI, DisplayPort, VGA...' required>
     
-    <label>Attaché à (Serial)</label>
+    <label>Attaché à</label>
     <input type='text' name='attachedTo' value='" . htmlspecialchars($screen['attached_to']) . "'>
     
     <button type='submit'>Modifier les informations du moniteur</button>

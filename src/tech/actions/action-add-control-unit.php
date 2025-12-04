@@ -59,7 +59,7 @@ if ($stmt) {
     );
 
     if (mysqli_stmt_execute($stmt)) {
-        header("Location: ../tech-panel.php?success=added");
+        header("Location: ../tech-panel.php?section=control-units");
     } else {
         header("Location: ../tech-panel.php?error=insert_failed");
     }

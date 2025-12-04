@@ -44,7 +44,7 @@ if ($stmt) {
     );
 
     if (mysqli_stmt_execute($stmt)) {
-        header("Location: ../tech-panel.php?success=screen_added");
+        header("Location: ../tech-panel.php?section=screens");
     } else {
         header("Location: ../tech-panel.php?error=screen_insert_failed");
     }
