@@ -28,7 +28,7 @@ if (!$select) {
             $controlUnit = mysqli_fetch_assoc($result);
 
             echo "<div>
-<form method='post' action='actions/edit-control-unit.php'>
+<form method='post' action='actions/action-edit-control-unit.php?serial=$serial'>
     <h3>Modification de l'Unité de Contrôle (Série: ".htmlspecialchars($controlUnit['serial']).")</h3>
     
     <label>Nom</label>

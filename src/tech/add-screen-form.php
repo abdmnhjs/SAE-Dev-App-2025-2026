@@ -22,7 +22,7 @@ if(isset($_SESSION['username']) && $_SESSION['username'] !== 'adminweb' && $_SES
     <label>Connecteur</label>
     <input type='text' name='connector' placeholder='HDMI, DisplayPort, VGA...' required>
     
-    <label>Attaché à (Serial)</label>
+    <label>Attaché à </label>
     <input type='text' name='attachedTo'>
     
     <button type='submit'>Ajouter l'écran</button>
