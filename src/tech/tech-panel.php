@@ -127,10 +127,7 @@ font-family: 'Geist', sans-serif                }
         </div>
         <?php
         if(isset($_GET['section']) && $_GET['section'] == "screens"){
-            $base = mysqli_select_db($loginToDb, $db);
-            if(!$base){
-                die("Erreur pour la sélection");
-            } else {
+
                 echo "<table>
                 <tr>
                     <th>Numéro de série</th>
@@ -155,22 +152,19 @@ font-family: 'Geist', sans-serif                }
                     echo "<td>" . htmlspecialchars($row['connector']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['attached_to']) . "</td>";
                     echo "<td>";
-                    echo "<a href='#'>Modifier</a> ";
+                    echo "<a href='edit-screen-form.php?serial=". htmlspecialchars($row['serial']) ."'>Modifier</a> ";
                     echo "<a href='#'>Supprimer</a>";
                     echo "</td>";
                     echo "</tr>";
                 }
                 echo "</table>";
-            }
+
         } else if (isset($_GET['section']) && $_GET['section'] == "control-units") {
-            $base = mysqli_select_db($loginToDb, $db);
-            if(!$base){
-                die("Erreur dans la sélection");
-            } else {
+
                 echo "<table>
                     <tr>
+                         <th>Numéro de série</th>
                         <th>Nom</th>
-                        <th>Numéro de série</th>
                         <th>Fabricant</th>
                         <th>Modèle</th>
                         <th>Type</th>
@@ -191,8 +185,8 @@ font-family: 'Geist', sans-serif                }
                 $controlUnitsResult = mysqli_query($loginToDb, $query);
                 while ($row = mysqli_fetch_assoc($controlUnitsResult)) {
                     echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['serial']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['manufacturer']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['model']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['type']) . "</td>";
@@ -208,7 +202,7 @@ font-family: 'Geist', sans-serif                }
                     echo "<td>" . htmlspecialchars($row['purchase_date']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['warranty_end']) . "</td>";
                     echo "<td>";
-                    echo "<a href='#'>Modifier</a> ";
+                    echo "<a href='edit-control-unit-form.php?serial=". htmlspecialchars($row['serial']) ."'>Modifier</a> ";
                     echo "<a href='#'>Supprimer</a>";
                     echo "</td>";
                     echo "</tr>";
@@ -220,6 +214,5 @@ font-family: 'Geist', sans-serif                }
         </body>
         </html>
         <?php
-    }
 }
 ?>
