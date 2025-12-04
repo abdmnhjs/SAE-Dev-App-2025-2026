@@ -25,6 +25,10 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] === "adminweb" || $_S
         $_POST['resolution'], $_POST['connector'], $_POST['attachedTo'])) {
 
         $manufacturer = $_POST['manufacturer'];
+        $manufacturerIdQuery = "SELECT id FROM manufacturer_list WHERE name='$manufacturer'";
+        $manufacturerIdResult = mysqli_query($loginToDb, $manufacturerIdQuery);
+        $manufacturerIdData = mysqli_fetch_assoc($manufacturerIdResult);
+
         $model = $_POST['model'];
         $sizeInch = $_POST['sizeInch'];
         $resolution = $_POST['resolution'];
@@ -32,7 +36,7 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] === "adminweb" || $_S
         $attachedTo = $_POST['attachedTo'];
 
         $query = "UPDATE screen SET 
-                manufacturer = ?, 
+                id_manufacturer = ?, 
                 model = ?, 
                 size_inch = ?, 
                 resolution = ?, 
@@ -44,8 +48,8 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] === "adminweb" || $_S
 
         if ($stmt) {
             // Correction: suppression de l'espace dans "ssdsss s"
-            mysqli_stmt_bind_param($stmt, "ssdssss",
-                $manufacturer, $model,
+            mysqli_stmt_bind_param($stmt, "issdsss",
+                $manufacturerIdData['id'], $model,
                 $sizeInch, $resolution, $connector,
                 $attachedTo, $serial
             );

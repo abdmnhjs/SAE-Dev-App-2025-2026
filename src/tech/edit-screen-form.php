@@ -16,8 +16,8 @@ if (!$select) {
     die("Erreur");
 } else {
     if(isset($_SESSION['username']) &&
-        $_SESSION['username'] !== 'adminweb' && $_SESSION['username'] !== 'sysadmin'
-        && isset($_GET['serial'])){
+            $_SESSION['username'] !== 'adminweb' && $_SESSION['username'] !== 'sysadmin'
+            && isset($_GET['serial'])){
 
         $serial = mysqli_real_escape_string($loginToDb, $_GET['serial']);
         $queryScreen = "SELECT * FROM screen WHERE serial = '$serial'";
@@ -30,6 +30,10 @@ if (!$select) {
             $manufacturerNameQuery = "SELECT name FROM `manufacturer_list` WHERE id = ". intval($screen['id_manufacturer']);
             $manufacturerNameResult = mysqli_query($loginToDb, $manufacturerNameQuery);
             $manufacturerData = mysqli_fetch_assoc($manufacturerNameResult);
+
+            // Récupérer TOUTES les unités de contrôle disponibles
+            $allControlUnitsQuery = "SELECT serial FROM `control_unit`";
+            $allControlUnitsResult = mysqli_query($loginToDb, $allControlUnitsQuery);
 
             // Récupérer tous les fabricants
             $allManufacturersQuery = "SELECT id, name FROM `manufacturer_list`";
@@ -69,8 +73,19 @@ if (!$select) {
                     <input type='text' name='connector' value='<?php echo htmlspecialchars($screen['connector']); ?>' placeholder='HDMI, DisplayPort, VGA...' required>
 
                     <label>Attaché à</label>
-                    <input type='text' name='attachedTo' value='<?php echo htmlspecialchars($screen['attached_to']); ?>'>
-
+                    <select name='attachedTo' required>
+                        <option value='<?php echo htmlspecialchars($screen['attached_to']); ?>'>
+                            <?php echo htmlspecialchars($screen['attached_to'] ?? 'N/A'); ?>
+                        </option>
+                        <?php
+                        while($row = mysqli_fetch_assoc($allControlUnitsResult)){
+                            // Ne pas afficher l'unité de contrôle déjà sélectionnée
+                            if($row['serial'] != $screen['attached_to']){
+                                echo "<option value='".htmlspecialchars($row['serial'])."'>".htmlspecialchars($row['serial'])."</option>";
+                            }
+                        }
+                        ?>
+                    </select>
                     <button type='submit'>Modifier les informations du moniteur</button>
                 </form>
             </div>

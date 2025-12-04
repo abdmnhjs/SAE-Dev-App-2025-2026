@@ -110,4 +110,4 @@ VALUES
 INSERT INTO screen (serial, id_manufacturer, model, size_inch, resolution, connector, attached_to)
 VALUES
     ('MON001', 1, 'P2422H', 24.0, '1920x1080', 'DisplayPort', 'SN001'),
-    ('MON002', 5, 'S27A600', 27.0, '2560x1440', 'HDMI', NULL);
+    ('MON002', 5, 'S27A600', 27.0, '2560x1440', 'HDMI', 'SN002');
