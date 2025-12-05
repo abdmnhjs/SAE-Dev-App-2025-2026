@@ -1,11 +1,13 @@
 <?php
 session_start();
 
-$host = 'localhost';
-$user = 'root';
-$db_password = ""; //penser a le changer si vous faites des tests en locaux, le mdp du rpi12 est : !sae2025!
-$db = "infra";
-$loginToDb = mysqli_connect($host, $user, $db_password, $db);
+$filename = '../includes/connexion_bdd.php';
+
+if (file_exists($filename)) {
+    require $filename;
+} else {
+    echo "<b>Erreur :</b> le fichier $filename est introuvable.";
+}
 
 if (isset($_SESSION['username']) && $_SESSION['username'] === "adminweb"){
     echo "<div>

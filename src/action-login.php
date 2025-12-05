@@ -1,21 +1,13 @@
 <?php
 session_start();
 
-$host = 'localhost';
-$user = 'root';
-$db_password = ""; //penser a le changer si vous faites des tests en locaux, le mdp du rpi12 est : !sae2025!
-$db = "infra";
-$loginToDb = mysqli_connect($host, $user, $db_password, $db);
-
-if(!$loginToDb){
-    die("Erreur de connexion à la db: " . mysqli_connect_error());
-}
+require "includes/connexion_bdd.php";
 
 $username = $_POST["username"];
 $password = $_POST["password"];
 
 $query = "SELECT * FROM users WHERE name = ? AND mdp = ?";
-$stmt = mysqli_prepare($loginToDb, $query);
+$stmt = mysqli_prepare($loginToDb, $query); //les variables sont dans connexion_bdd.php
 
 if($stmt){
 
