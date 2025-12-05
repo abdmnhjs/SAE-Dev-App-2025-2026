@@ -1,60 +1,83 @@
 <?php
 session_start();
 
+// --- Configuration et Connexion à la Base de Données ---
 $host = 'localhost';
 $user = 'root';
-$db_password = ""; //penser a le changer si vous faites des tests en locaux, le mdp du rpi12 est : !sae2025!
+$db_password = ""; // À changer pour les tests en local
 $db = "infra";
+
 $loginToDb = mysqli_connect($host, $user, $db_password, $db);
 
-if(!$loginToDb){
+if (!$loginToDb) {
     die("Erreur de connexion à la db: " . mysqli_connect_error());
 }
 
-$select = mysqli_select_db($loginToDb, $db);
-if (!$select) {
-    die("Erreur");
-} else {
-    if(isset($_SESSION['username']) &&
-            $_SESSION['username'] !== 'adminweb' && $_SESSION['username'] !== 'sysadmin'
-            && isset($_GET['serial'])){
+// Vérification de la permission et du paramètre 'serial'
+$isAuthorized = isset($_SESSION['username']) &&
+        $_SESSION['username'] !== 'adminweb' &&
+        $_SESSION['username'] !== 'sysadmin' &&
+        isset($_GET['serial']);
 
-        $serial = mysqli_real_escape_string($loginToDb, $_GET['serial']);
-        $queryScreen = "SELECT * FROM screen WHERE serial = '$serial'";
-        $result = mysqli_query($loginToDb, $queryScreen);
+if ($isAuthorized) {
+    $serial = $_GET['serial']; // Récupération brute pour la préparation
 
-        if($result && mysqli_num_rows($result) > 0){
+    // --- 1. Requête Préparée pour l'écran spécifique ---
+    $queryScreen = "SELECT serial, id_manufacturer, model, size_inch, resolution, connector, attached_to FROM screen WHERE serial = ?";
+    $stmt = mysqli_prepare($loginToDb, $queryScreen);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $serial);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($result && mysqli_num_rows($result) > 0) {
             $screen = mysqli_fetch_assoc($result);
 
-            // Récupérer le fabricant actuel
-            $manufacturerNameQuery = "SELECT name FROM `manufacturer_list` WHERE id = ". intval($screen['id_manufacturer']);
-            $manufacturerNameResult = mysqli_query($loginToDb, $manufacturerNameQuery);
-            $manufacturerData = mysqli_fetch_assoc($manufacturerNameResult);
+            // --- 2. Récupérer le nom du fabricant actuel ---
+            $manufacturerNameQuery = "SELECT name FROM `manufacturer_list` WHERE id = ?";
+            $manufacturerNameStmt = mysqli_prepare($loginToDb, $manufacturerNameQuery);
+            $manufacturerData = ['name' => 'N/A'];
+            if ($manufacturerNameStmt) {
+                mysqli_stmt_bind_param($manufacturerNameStmt, "i", $screen['id_manufacturer']);
+                mysqli_stmt_execute($manufacturerNameStmt);
+                $manufacturerNameResult = mysqli_stmt_get_result($manufacturerNameStmt);
+                $manufacturerData = mysqli_fetch_assoc($manufacturerNameResult) ?: ['name' => 'N/A'];
+                mysqli_stmt_close($manufacturerNameStmt);
+            }
 
-            // Récupérer TOUTES les unités de contrôle disponibles
+            // --- 3. Récupérer TOUTES les unités de contrôle disponibles ---
             $allControlUnitsQuery = "SELECT serial FROM `control_unit`";
             $allControlUnitsResult = mysqli_query($loginToDb, $allControlUnitsQuery);
 
-            // Récupérer tous les fabricants
-            $allManufacturersQuery = "SELECT id, name FROM `manufacturer_list`";
+            // --- 4. Récupérer tous les fabricants ---
+            $allManufacturersQuery = "SELECT id, name FROM `manufacturer_list` ORDER BY name";
             $allManufacturersResult = mysqli_query($loginToDb, $allManufacturersQuery);
+
+            mysqli_stmt_close($stmt);
             ?>
 
             <div>
-                <form method='post' action='actions/action-edit-screen.php?serial=<?php echo htmlspecialchars($serial); ?>'>
+                <form method='post' action='actions/action-edit-screen.php?serial=<?php echo htmlspecialchars($screen['serial']); ?>'>
+                    <h2>Modification de l'Écran: <?php echo htmlspecialchars($screen['serial']); ?></h2>
+
                     <label>Numéro de série</label>
                     <input type='text' name='serial' value='<?php echo htmlspecialchars($screen['serial']); ?>' readonly required>
 
                     <label>Fabricant</label>
                     <select name='manufacturer' required>
-                        <option value='<?php echo htmlspecialchars($screen['id_manufacturer']); ?>'>
-                            <?php echo htmlspecialchars($manufacturerData['name'] ?? 'N/A'); ?>
+                        <option value='<?php echo htmlspecialchars($screen['id_manufacturer']); ?>' selected>
+                            <?php echo htmlspecialchars($manufacturerData['name']); ?>
                         </option>
+
                         <?php
-                        while($row = mysqli_fetch_assoc($allManufacturersResult)){
-                            // Ne pas afficher le fabricant déjà sélectionné
-                            if($row['id'] != $screen['id_manufacturer']){
-                                echo "<option value='".htmlspecialchars($row['id'])."'>".htmlspecialchars($row['name'])."</option>";
+                        // Liste des fabricants
+                        if ($allManufacturersResult) {
+                            while($row = mysqli_fetch_assoc($allManufacturersResult)){
+                                // Éviter de lister deux fois le fabricant actuel s'il n'est pas "N/A"
+                                if (intval($row['id']) !== intval($screen['id_manufacturer'])) {
+                                    echo "<option value='".htmlspecialchars($row['id'])."'>".htmlspecialchars($row['name'])."</option>";
+                                }
                             }
                         }
                         ?>
@@ -74,14 +97,16 @@ if (!$select) {
 
                     <label>Attaché à</label>
                     <select name='attachedTo' required>
-                        <option value='<?php echo htmlspecialchars($screen['attached_to']); ?>'>
-                            <?php echo htmlspecialchars($screen['attached_to'] ?? 'N/A'); ?>
+                        <option value='<?php echo htmlspecialchars($screen['attached_to']); ?>' selected>
+                            <?php echo htmlspecialchars($screen['attached_to'] ?? 'AUCUNE'); ?>
                         </option>
-                        <?php
-                        while($row = mysqli_fetch_assoc($allControlUnitsResult)){
-                            // Ne pas afficher l'unité de contrôle déjà sélectionnée
-                            if($row['serial'] != $screen['attached_to']){
-                                echo "<option value='".htmlspecialchars($row['serial'])."'>".htmlspecialchars($row['serial'])."</option>";
+                        <option value=''>AUCUNE</option> <?php
+                        // Liste des unités de contrôle
+                        if ($allControlUnitsResult) {
+                            while($row = mysqli_fetch_assoc($allControlUnitsResult)){
+                                if ($row['serial'] !== $screen['attached_to']) {
+                                    echo "<option value='".htmlspecialchars($row['serial'])."'>".htmlspecialchars($row['serial'])."</option>";
+                                }
                             }
                         }
                         ?>
@@ -92,10 +117,17 @@ if (!$select) {
 
             <?php
         } else {
+            // L'écran n'existe pas ou la requête a échoué
             echo "<p>Écran non trouvé.</p>";
+            if ($stmt) mysqli_stmt_close($stmt); // Fermer le statement s'il a été préparé
         }
     } else {
-        echo "<p>Accès non autorisé ou paramètre manquant.</p>";
+        echo "<p>Erreur lors de la préparation de la requête: " . mysqli_error($loginToDb) . "</p>";
     }
+} else {
+    echo "<p>Accès non autorisé ou paramètre 'serial' manquant.</p>";
 }
+
+// Fermeture de la connexion
+mysqli_close($loginToDb);
 ?>

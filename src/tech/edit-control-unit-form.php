@@ -1,76 +1,102 @@
 <?php
 session_start();
 
+// --- Configuration et Connexion à la Base de Données ---
 $host = 'localhost';
 $user = 'root';
-$db_password = ""; //penser a le changer si vous faites des tests en locaux, le mdp du rpi12 est : !sae2025!
+$db_password = ""; // À changer pour les tests en local
 $db = "infra";
+
 $loginToDb = mysqli_connect($host, $user, $db_password, $db);
 
-if(!$loginToDb){
+if (!$loginToDb) {
     die("Erreur de connexion à la db: " . mysqli_connect_error());
 }
 
-$select = mysqli_select_db($loginToDb, $db);
-if (!$select) {
-    die("Erreur");
-} else {
-    // Vérifie l'accès et la présence du paramètre 'serial'
-    if(isset($_SESSION['username']) &&
-        $_SESSION['username'] !== 'adminweb' && $_SESSION['username'] !== 'sysadmin'
-        && isset($_GET['serial'])){
+// Vérifie l'accès et la présence du paramètre 'serial'
+$isAuthorized = isset($_SESSION['username']) &&
+        $_SESSION['username'] !== 'adminweb' &&
+        $_SESSION['username'] !== 'sysadmin' &&
+        isset($_GET['serial']);
 
-        $serial = mysqli_real_escape_string($loginToDb, $_GET['serial']);
-        $queryControlUnit = "SELECT * FROM control_unit WHERE serial = '$serial'";
-        $result = mysqli_query($loginToDb, $queryControlUnit);
+if ($isAuthorized) {
+    $serial = $_GET['serial'];
 
-        if($result && mysqli_num_rows($result) > 0){
+    // --- 1. Requête Préparée pour l'unité de contrôle spécifique ---
+    $queryControlUnit = "SELECT * FROM control_unit WHERE serial = ?";
+    $stmt = mysqli_prepare($loginToDb, $queryControlUnit);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $serial);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($result && mysqli_num_rows($result) > 0) {
             $controlUnit = mysqli_fetch_assoc($result);
 
-            // Récupérer le fabricant actuel
-            $manufacturerNameQuery = "SELECT name FROM `manufacturer_list` WHERE id = ". intval($controlUnit['id_manufacturer']);
-            $manufacturerNameResult = mysqli_query($loginToDb, $manufacturerNameQuery);
-            $manufacturerData = mysqli_fetch_assoc($manufacturerNameResult);
-
-            // Récupérer tous les fabricants
-            $allManufacturersQuery = "SELECT id, name FROM `manufacturer_list`";
-            $allManufacturersResult = mysqli_query($loginToDb, $allManufacturersQuery);
-
-            // Récupérer le système d'exploitation actuel (si la table existe)
-            $osData = null;
-            if(isset($controlUnit['id_os']) && !empty($controlUnit['id_os'])){
-                $osNameQuery = "SELECT name FROM `os_list` WHERE id = ". intval($controlUnit['id_os']);
-                $osNameResult = mysqli_query($loginToDb, $osNameQuery);
-                if($osNameResult){
-                    $osData = mysqli_fetch_assoc($osNameResult);
+            // --- 2. Récupérer le nom du fabricant actuel ---
+            $manufacturerId = intval($controlUnit['id_manufacturer']);
+            $manufacturerData = ['name' => 'N/A'];
+            if ($manufacturerId) {
+                $manufacturerNameQuery = "SELECT name FROM `manufacturer_list` WHERE id = ?";
+                $manufacturerNameStmt = mysqli_prepare($loginToDb, $manufacturerNameQuery);
+                if ($manufacturerNameStmt) {
+                    mysqli_stmt_bind_param($manufacturerNameStmt, "i", $manufacturerId);
+                    mysqli_stmt_execute($manufacturerNameStmt);
+                    $manufacturerNameResult = mysqli_stmt_get_result($manufacturerNameStmt);
+                    $manufacturerData = mysqli_fetch_assoc($manufacturerNameResult) ?: $manufacturerData;
+                    mysqli_stmt_close($manufacturerNameStmt);
                 }
             }
 
-            // Récupérer tous les systèmes d'exploitation
-            $allOsQuery = "SELECT id, name FROM `os_list`";
+            // --- 3. Récupérer le système d'exploitation actuel ---
+            $osId = intval($controlUnit['id_os']);
+            $osData = ['name' => 'N/A'];
+            if ($osId) {
+                $osNameQuery = "SELECT name FROM `os_list` WHERE id = ?";
+                $osNameStmt = mysqli_prepare($loginToDb, $osNameQuery);
+                if ($osNameStmt) {
+                    mysqli_stmt_bind_param($osNameStmt, "i", $osId);
+                    mysqli_stmt_execute($osNameStmt);
+                    $osNameResult = mysqli_stmt_get_result($osNameStmt);
+                    $osData = mysqli_fetch_assoc($osNameResult) ?: $osData;
+                    mysqli_stmt_close($osNameStmt);
+                }
+            }
+
+            // --- 4. Récupérer tous les fabricants ---
+            $allManufacturersQuery = "SELECT id, name FROM `manufacturer_list` ORDER BY name";
+            $allManufacturersResult = mysqli_query($loginToDb, $allManufacturersQuery);
+
+            // --- 5. Récupérer tous les systèmes d'exploitation ---
+            $allOsQuery = "SELECT id, name FROM `os_list` ORDER BY name";
             $allOsResult = mysqli_query($loginToDb, $allOsQuery);
+
+            mysqli_stmt_close($stmt);
             ?>
 
             <div>
-                <form method='post' action='actions/action-edit-control-unit.php?serial=<?php echo htmlspecialchars($serial); ?>'>
+                <form method='post' action='actions/action-edit-control-unit.php?serial=<?php echo htmlspecialchars($controlUnit['serial']); ?>'>
                     <h3>Modification de l'Unité de Contrôle (Série: <?php echo htmlspecialchars($controlUnit['serial']); ?>)</h3>
 
                     <label>Nom</label>
                     <input type='text' name='name' value='<?php echo htmlspecialchars($controlUnit['name']); ?>' required>
 
                     <label>Numéro de série</label>
-                    <input type='hidden' name='serial' value='<?php echo htmlspecialchars($controlUnit['serial']); ?>'>
                     <input type='text' value='<?php echo htmlspecialchars($controlUnit['serial']); ?>' readonly required>
 
                     <label>Fabricant</label>
                     <select name='manufacturer' required>
-                        <option value='<?php echo htmlspecialchars($controlUnit['id_manufacturer']); ?>'>
-                            <?php echo htmlspecialchars($manufacturerData['name'] ?? 'N/A'); ?>
+                        <option value='<?php echo htmlspecialchars($controlUnit['id_manufacturer']); ?>' selected>
+                            <?php echo htmlspecialchars($manufacturerData['name']); ?>
                         </option>
                         <?php
-                        while($row = mysqli_fetch_assoc($allManufacturersResult)){
-                            if($row['id'] != $controlUnit['id_manufacturer']){
-                                echo "<option value='".htmlspecialchars($row['id'])."'>".htmlspecialchars($row['name'])."</option>";
+                        // Afficher tous les autres fabricants
+                        if ($allManufacturersResult) {
+                            while($row = mysqli_fetch_assoc($allManufacturersResult)){
+                                if(intval($row['id']) !== $manufacturerId){
+                                    echo "<option value='".htmlspecialchars($row['id'])."'>".htmlspecialchars($row['name'])."</option>";
+                                }
                             }
                         }
                         ?>
@@ -92,22 +118,21 @@ if (!$select) {
                     <input type='number' name='diskGb' value='<?php echo htmlspecialchars($controlUnit['disk_gb']); ?>' placeholder='512' required>
 
                     <label>Système d'exploitation</label>
-                    <?php if($allOsResult && mysqli_num_rows($allOsResult) > 0): ?>
-                        <select name='os' required>
-                            <option value='<?php echo htmlspecialchars($controlUnit['id_os'] ?? ''); ?>'>
-                                <?php echo htmlspecialchars($osData['name'] ?? $controlUnit['os'] ?? 'N/A'); ?>
-                            </option>
-                            <?php
+                    <select name='os' required>
+                        <option value='<?php echo htmlspecialchars($controlUnit['id_os']); ?>' selected>
+                            <?php echo htmlspecialchars($osData['name']); ?>
+                        </option>
+                        <?php
+                        // Afficher tous les autres OS
+                        if ($allOsResult) {
                             while($row = mysqli_fetch_assoc($allOsResult)){
-                                if($row['id'] != ($controlUnit['id_os'] ?? null)){
+                                if(intval($row['id']) !== $osId){
                                     echo "<option value='".htmlspecialchars($row['id'])."'>".htmlspecialchars($row['name'])."</option>";
                                 }
                             }
-                            ?>
-                        </select>
-                    <?php else: ?>
-                        <input type='text' name='os' value='<?php echo htmlspecialchars($controlUnit['os']); ?>' placeholder='Windows 11 Pro' required>
-                    <?php endif; ?>
+                        }
+                        ?>
+                    </select>
 
                     <label>Domaine</label>
                     <input type='text' name='domain' value='<?php echo htmlspecialchars($controlUnit['domain']); ?>' placeholder='CORP.LOCAL'>
@@ -139,7 +164,12 @@ if (!$select) {
             echo "<p>Unité de contrôle non trouvée.</p>";
         }
     } else {
-        echo "<p>Accès non autorisé ou paramètre manquant.</p>";
+        echo "<p>Erreur lors de la préparation de la requête: " . mysqli_error($loginToDb) . "</p>";
     }
+} else {
+    echo "<p>Accès non autorisé ou paramètre 'serial' manquant.</p>";
 }
+
+// Fermeture de la connexion
+mysqli_close($loginToDb);
 ?>
