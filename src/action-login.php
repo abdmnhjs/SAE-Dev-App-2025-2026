@@ -28,7 +28,7 @@ if($stmt){
         mysqli_stmt_close($stmt);
         mysqli_close($loginToDb);
         if($username === "adminweb"){
-            header('Location: admin/admin-panel.php');
+            header('Location: admin/admin-panel.php?section=os');
         } else {
             header('Location: tech/tech-panel.php?section=screens');
         }
