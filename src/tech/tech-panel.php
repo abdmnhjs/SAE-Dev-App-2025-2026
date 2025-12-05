@@ -68,8 +68,9 @@ if (isset($_GET['section']) && $_GET['section'] == "screens") {
         echo "</tr>";
     }
     echo "</table>";
-}
-if (isset($_GET['section']) && $_GET['section'] == "control-units") {
+
+} else if (isset($_GET['section']) && $_GET['section'] == "control-units") {
+
     echo "<table>
                     <tr>
                          <th>Numéro de série</th>
@@ -101,8 +102,8 @@ if (isset($_GET['section']) && $_GET['section'] == "control-units") {
         $osNameResult = mysqli_query($loginToDb, $osNameQuery);
         $osData = mysqli_fetch_assoc($osNameResult);
 
-        echo "<tr>";
-        foreach ($osData as $key => $value) {
+                echo "<tr>";
+        foreach ($row as $key => $value) {
             echo "<td>" . htmlspecialchars($value) . "</td>";
         }
         echo "<td><a href='edit-screen-form.php?serial=" . htmlspecialchars($row['serial']) . "'>Modifier</a><br>";

@@ -1,5 +1,7 @@
 <?php
 session_start();
+require "../../includes/connexion_bdd.php";
+
 
 // Vérifier que l'utilisateur est admin
 if (!isset($_SESSION['username']) || $_SESSION['username'] !== "adminweb") {
@@ -7,16 +9,7 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] !== "adminweb") {
     exit();
 }
 
-$host = 'localhost';
-$user = 'root';
-$db_password = ""; // penser à le changer si vous faites des tests en locaux
-$db = "infra";
 
-$loginToDb = mysqli_connect($host, $user, $db_password, $db);
-
-if (!$loginToDb) {
-    die("Erreur de connexion à la db: " . mysqli_connect_error());
-}
 
 // Récupérer et valider les données
 $username = isset($_POST["username"]) ? trim($_POST["username"]) : '';
@@ -30,7 +23,7 @@ if (empty($username) || empty($password)) {
 }
 
 // Vérifier si l'utilisateur existe déjà
-$check_query = "SELECT username FROM users WHERE username = ?";
+$check_query = "SELECT name FROM users WHERE name = ?";
 $check_stmt = mysqli_prepare($loginToDb, $check_query);
 
 if ($check_stmt) {
