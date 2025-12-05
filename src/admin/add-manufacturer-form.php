@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+require '../includes/init.php';
+ensureUserAuthorized("adminweb");
+
+
 if (isset($_SESSION['username']) && $_SESSION['username'] === "adminweb"){
 
     echo "

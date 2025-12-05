@@ -1,27 +1,15 @@
 <?php
 session_start();
 
-// Vérification de l'autorisation et de la soumission du formulaire
-if (!isset($_SESSION['username']) || $_SESSION['username'] !== "adminweb") {
-    header("Location: ../admin-panel.php?error=unauthorized");
-    exit();
-}
+require '../../includes/init.php';
+ensureUserAuthorized("adminweb");
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: ../admin-panel.php?error=not_a_post_request");
     exit();
 }
 
-$host = 'localhost';
-$user = 'root';
-$db_password = ""; // À changer pour les tests en local
-$db = "infra";
 
-$loginToDb = mysqli_connect($host, $user, $db_password, $db);
-
-if (!$loginToDb) {
-    die("Erreur de connexion à la db: " . mysqli_connect_error());
-}
 
 // CORRECTION CRUCIALE : Utiliser le nom correct du champ du formulaire (ex: os_name)
 $manufacturerName = isset($_POST['manufacturer_name']) ? trim($_POST['manufacturer_name']) : '';

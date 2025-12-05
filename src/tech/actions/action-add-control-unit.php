@@ -1,13 +1,9 @@
 <?php
 session_start();
+require '../../includes/init.php';
+ensureUserAuthorized("tech");
 
-// Vérifier que l'utilisateur est admin
-if (!isset($_SESSION['username']) || $_SESSION['username'] === "adminweb" || $_SESSION['username'] === "sysadmin") {
-    header("Location: ../tech-panel.php?error=unauthorized");
-    exit();
-}
 
-require "../../includes/connexion_bdd.php";
 
 $name = $_POST['name'];
 $serial = $_POST['serial'];

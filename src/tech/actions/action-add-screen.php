@@ -1,7 +1,7 @@
 <?php
 session_start();
-require '../../includes/connexion_bdd.php';
-
+require '../../includes/init.php';
+ensureUserAuthorized("tech");
 // Vérifier que l'utilisateur est admin
 if (!isset($_SESSION['username']) ||
     !in_array($_SESSION['username'], ["adminweb", "sysadmin", "tech", "tech1"])) {

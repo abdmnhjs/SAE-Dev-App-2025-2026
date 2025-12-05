@@ -1,22 +1,12 @@
 <?php
 session_start();
 
-require '../../includes/connexion_bdd.php';
-
+require '../../includes/init.php';
+ensureUserAuthorized("tech");
 // Récupération et nettoyage de l'ID série de l'unité de contrôle depuis l'URL
 $serial = isset($_GET['serial']) ? trim($_GET['serial']) : null;
 
-// Vérification de l'autorisation et du paramètre 'serial'
-$isAuthorized = isset($_SESSION['username']) &&
-    $_SESSION['username'] !== "adminweb" &&
-    $_SESSION['username'] !== "sysadmin" &&
-    !empty($serial);
 
-if (!$isAuthorized) {
-    header("Location: ../tech-panel.php?error=unauthorized_or_missing_serial");
-    mysqli_close($loginToDb);
-    exit();
-}
 
 // --- Validation et Nettoyage des données POST ---
 // Utilisation de filter_input pour une validation et un nettoyage plus sûrs pour les entiers

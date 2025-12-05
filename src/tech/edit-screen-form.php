@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require '../includes/connexion_bdd.php';
-
+require '../includes/init.php';
+ensureUserAuthorized("tech");
 // Vérification de la permission et du paramètre 'serial'
 $isAuthorized = isset($_SESSION['username']) &&
         $_SESSION['username'] !== 'adminweb' &&

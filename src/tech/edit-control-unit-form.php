@@ -2,8 +2,8 @@
 session_start();
 
 // --- Configuration et Connexion à la Base de Données ---
-require '../includes/connexion_bdd.php';
-
+require '../includes/init.php';
+ensureUserAuthorized("tech");
 // Vérifie l'accès et la présence du paramètre 'serial'
 $isAuthorized = isset($_SESSION['username']) &&
         $_SESSION['username'] !== 'adminweb' &&

@@ -2,8 +2,8 @@
 session_start();
 
 // --- Configuration et Connexion à la Base de Données ---
-require '../../includes/connexion_bdd.php';
-
+require '../../includes/init.php';
+ensureUserAuthorized("tech");
 
 // Récupération de l'ID série de l'écran depuis l'URL
 $serial = isset($_GET['serial']) ? trim($_GET['serial']) : null;

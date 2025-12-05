@@ -1,13 +1,7 @@
 <?php
 session_start();
-require "../../includes/connexion_bdd.php";
-
-
-// Vérifier que l'utilisateur est admin
-if (!isset($_SESSION['username']) || $_SESSION['username'] !== "adminweb") {
-    header("Location: ../admin-panel.php?error=unauthorized");
-    exit();
-}
+require '../../includes/init.php';
+ensureUserAuthorized("adminweb");
 
 
 
