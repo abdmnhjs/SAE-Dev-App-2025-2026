@@ -7,16 +7,7 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] === "adminweb" || $_S
     exit();
 }
 
-$host = 'localhost';
-$user = 'root';
-$db_password = ""; // penser à le changer si vous faites des tests en locaux
-$db = "infra";
-
-$loginToDb = mysqli_connect($host, $user, $db_password, $db);
-
-if (!$loginToDb) {
-    die("Erreur de connexion à la db: " . mysqli_connect_error());
-}
+require "../../includes/connexion_bdd.php";
 
 $name = $_POST['name'];
 $serial = $_POST['serial'];
@@ -35,9 +26,9 @@ $macaddr = $_POST['macaddr'];
 $purchaseDate = $_POST['purchaseDate'];
 $warrantyEnd = $_POST['warrantyEnd'];
 
-$query = "INSERT INTO control_unit (name, serial, manufacturer, 
+$query = "INSERT INTO control_unit (name, serial, id_manufacturer, 
                           model, type, cpu, ram_mb, 
-                          disk_gb, os, domain, 
+                          disk_gb, id_os, domain, 
                           location, building, room, 
                           macaddr, purchase_date, warranty_end)
                           

@@ -1,22 +1,15 @@
 <?php
 session_start();
+require '../../includes/connexion_bdd.php';
 
 // Vérifier que l'utilisateur est admin
-if (!isset($_SESSION['username']) || $_SESSION['username'] === "adminweb" || $_SESSION['username'] === "sysadmin") {
+if (!isset($_SESSION['username']) ||
+    !in_array($_SESSION['username'], ["adminweb", "sysadmin", "tech", "tech1"])) {
     header("Location: ../tech-panel.php?error=unauthorized");
     exit();
 }
 
-$host = 'localhost';
-$user = 'root';
-$db_password = ""; // penser à le changer si vous faites des tests en locaux
-$db = "infra";
 
-$loginToDb = mysqli_connect($host, $user, $db_password, $db);
-
-if (!$loginToDb) {
-    die("Erreur de connexion à la db: " . mysqli_connect_error());
-}
 
 $serial = $_POST['serial'];
 $manufacturer = $_POST['manufacturer'];
@@ -26,7 +19,7 @@ $resolution = $_POST['resolution'];
 $connector = $_POST['connector'];
 $attachedTo = $_POST['attachedTo'];
 
-$query = "INSERT INTO screen (serial, manufacturer, model, 
+$query = "INSERT INTO screen (serial, id_manufacturer, model, 
                           size_inch, resolution, connector, 
                           attached_to)
                           
