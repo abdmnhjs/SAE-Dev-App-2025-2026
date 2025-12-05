@@ -2,16 +2,7 @@
 session_start();
 
 // --- Configuration et Connexion à la Base de Données ---
-$host = 'localhost';
-$user = 'root';
-$db_password = ""; // À changer pour les tests en local
-$db = "infra";
-
-$loginToDb = mysqli_connect($host, $user, $db_password, $db);
-
-if (!$loginToDb) {
-    die("Erreur de connexion à la db: " . mysqli_connect_error());
-}
+require '../includes/connexion_bdd.php';
 
 // Vérifie l'accès et la présence du paramètre 'serial'
 $isAuthorized = isset($_SESSION['username']) &&

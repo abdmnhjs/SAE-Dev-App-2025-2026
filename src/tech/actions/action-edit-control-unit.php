@@ -1,17 +1,7 @@
 <?php
 session_start();
 
-// --- Configuration et Connexion à la Base de Données ---
-$host = 'localhost';
-$user = 'root';
-$db_password = ""; // À changer pour les tests en local
-$db = "infra";
-
-$loginToDb = mysqli_connect($host, $user, $db_password, $db);
-
-if (!$loginToDb) {
-    die("Erreur de connexion à la db: " . mysqli_connect_error());
-}
+require '../../includes/connexion_bdd.php';
 
 // Récupération et nettoyage de l'ID série de l'unité de contrôle depuis l'URL
 $serial = isset($_GET['serial']) ? trim($_GET['serial']) : null;

@@ -61,7 +61,12 @@ if (isset($_GET['section']) && $_GET['section'] == "screens") {
 
         echo "<tr>";
         foreach ($row as $key => $value) {
-            echo "<td>" . htmlspecialchars($value) . "</td>";
+            if ($key == "id_manufacturer") {
+                echo "<td>" . htmlspecialchars($manufacturerData["name"]) . "</td>";
+            } else {
+                echo "<td>" . htmlspecialchars($value) . "</td>";
+            }
+
         }
         echo "<td><a href='edit-screen-form.php?serial=" . htmlspecialchars($row['serial']) . "'>Modifier</a><br>";
         echo "<a href='#'>Supprimer</a></td>";
@@ -102,11 +107,18 @@ if (isset($_GET['section']) && $_GET['section'] == "screens") {
         $osNameResult = mysqli_query($loginToDb, $osNameQuery);
         $osData = mysqli_fetch_assoc($osNameResult);
 
-                echo "<tr>";
+        echo "<tr>";
+
         foreach ($row as $key => $value) {
-            echo "<td>" . htmlspecialchars($value) . "</td>";
+            if ($key == "id_manufacturer") {
+                echo "<td>" . htmlspecialchars($manufacturerData["name"]) . "</td>";
+            } elseif ($key == "id_os") {
+                echo "<td>" . htmlspecialchars($osData["name"]) . "</td>";
+            } else {
+                echo "<td>" . htmlspecialchars($value) . "</td>";
+            }
         }
-        echo "<td><a href='edit-screen-form.php?serial=" . htmlspecialchars($row['serial']) . "'>Modifier</a><br>";
+        echo "<td><a href='edit-control-unit-form.php?serial=". htmlspecialchars($row['serial']) ."'>Modifier</a><br>";
         echo "<a href='#'>Supprimer</a></td>";
         echo "</tr>";
     }
