@@ -99,15 +99,3 @@ INSERT INTO manufacturer_list (name) VALUES
                                          ('Apple'),
                                          ('Samsung'),
                                          ('LG');
-
--- Exemples de données pour control_unit
-INSERT INTO control_unit (serial, name, id_manufacturer, model, type, cpu, ram_mb, disk_gb, id_os, domain, location, building, room, macaddr, purchase_date, warranty_end)
-VALUES
-    ('SN001', 'PC-Admin-01', 1, 'OptiPlex 7090', 'Desktop', 'Intel i7-11700', 16384, 512, 1, 'CORP.LOCAL', 'Headquarters', 'Building A', 'A-101', '00:1A:2B:3C:4D:5E', '2023-01-15', '2026-01-15'),
-    ('SN002', 'SRV-DB-01', 1, 'PowerEdge R740', 'Server', 'Intel Xeon Gold 6230', 65536, 2048, 4, 'CORP.LOCAL', 'Datacenter', 'Building B', 'DC-01', '00:1A:2B:3C:4D:5F', '2022-06-10', '2025-06-10');
-
--- Exemples de données pour screen
-INSERT INTO screen (serial, id_manufacturer, model, size_inch, resolution, connector, attached_to)
-VALUES
-    ('MON001', 1, 'P2422H', 24.0, '1920x1080', 'DisplayPort', 'PC-Admin-01'),
-    ('MON002', 5, 'S27A600', 27.0, '2560x1440', 'HDMI', 'SRV-DB-01');
