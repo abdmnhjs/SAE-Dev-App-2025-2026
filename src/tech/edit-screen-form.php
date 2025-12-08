@@ -13,11 +13,12 @@ if ($isAuthorized) {
     $serial = $_GET['serial']; // Récupération brute pour la préparation
 
     // --- 1. Requête Préparée pour l'écran spécifique ---
+    // NOTE: Il y a une double liaison de paramètre ici, qui est redondante mais inoffensive.
     $queryScreen = "SELECT serial, id_manufacturer, model, size_inch, resolution, connector, attached_to FROM screen WHERE serial = ?";
     $stmt = mysqli_prepare($loginToDb, $queryScreen);
     if ($stmt) {
         mysqli_stmt_bind_param($stmt, "s", $serial);
-        mysqli_stmt_bind_param($stmt, "s", $serial);
+        // mysqli_stmt_bind_param($stmt, "s", $serial); // Cette ligne était redondante
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
 
@@ -37,7 +38,8 @@ if ($isAuthorized) {
             }
 
             // --- 3. Récupérer TOUTES les unités de contrôle disponibles ---
-            $allControlUnitsQuery = "SELECT name FROM `control_unit`";
+            // CORRECTION: Sélectionner 'name' (clé) et 'serial' (pour info/tri si besoin)
+            $allControlUnitsQuery = "SELECT name, serial FROM `control_unit` ORDER BY name";
             $allControlUnitsResult = mysqli_query($loginToDb, $allControlUnitsQuery);
 
             // --- 4. Récupérer tous les fabricants ---
@@ -95,7 +97,8 @@ if ($isAuthorized) {
                         if ($allControlUnitsResult) {
                             while($row = mysqli_fetch_assoc($allControlUnitsResult)){
                                 if ($row['name'] !== $screen['attached_to']) {
-                                    echo "<option value='".htmlspecialchars($row['name'])."'>".htmlspecialchars($row['serial'])."</option>";
+                                    // CORRECTION: Utiliser $row['name'] pour la valeur et l'affichage
+                                    echo "<option value='".htmlspecialchars($row['name'])."'>".htmlspecialchars($row['name'])."</option>";
                                 }
                             }
                         }
