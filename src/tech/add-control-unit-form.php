@@ -131,6 +131,11 @@ if (!isset($_SESSION['username']) ||
 
         </table>
     </form>
+    <form method="post" action="actions/action-add-control-unit-csv.php" enctype="multipart/form-data">
+        <label>Fichier csv</label>
+        <input type="file" accept="text/csv" name="control-units-csv" />
+        <button type="submit">Ajouter des unités de contrôle via un fichier csv</button>
+    </form>
 
 </div>
 </body>

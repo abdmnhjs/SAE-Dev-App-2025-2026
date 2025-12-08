@@ -61,6 +61,11 @@ if (!isset($_SESSION['username']) ||
 
         <button type='submit'>Ajouter l'écran</button>
     </form>
+    <form method="post" action="actions/action-add-screen-csv.php" enctype="multipart/form-data">
+        <label>Fichier csv</label>
+        <input type="file" accept="text/csv" name="screen-csv" />
+        <button type="submit">Ajouter des écrans via un fichier csv</button>
+    </form>
 </div>
 </body>
 </html>

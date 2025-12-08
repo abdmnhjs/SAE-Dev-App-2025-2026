@@ -103,6 +103,8 @@ if ($isAuthorized) {
                     </select>
                     <button type='submit'>Modifier les informations du moniteur</button>
                 </form>
+
+
             </div>
 
             <?php
