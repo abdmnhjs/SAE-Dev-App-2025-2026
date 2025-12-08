@@ -22,8 +22,8 @@ CREATE OR REPLACE TABLE manufacturer_list (
 
 -- Table des unités de contrôle (ordinateurs/serveurs)
 CREATE OR REPLACE TABLE control_unit (
-    serial VARCHAR(100) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    serial VARCHAR(100),
+    name VARCHAR(255) NOT NULL PRIMARY KEY,
     id_manufacturer INTEGER,
     model VARCHAR(100),
     type VARCHAR(50),
@@ -72,7 +72,7 @@ CREATE OR REPLACE TABLE screen (
 
     CONSTRAINT fk_screen_attached
         FOREIGN KEY (attached_to)
-        REFERENCES control_unit(serial)
+        REFERENCES control_unit(name)
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
@@ -109,5 +109,5 @@ VALUES
 -- Exemples de données pour screen
 INSERT INTO screen (serial, id_manufacturer, model, size_inch, resolution, connector, attached_to)
 VALUES
-    ('MON001', 1, 'P2422H', 24.0, '1920x1080', 'DisplayPort', 'SN001'),
-    ('MON002', 5, 'S27A600', 27.0, '2560x1440', 'HDMI', 'SN002');
+    ('MON001', 1, 'P2422H', 24.0, '1920x1080', 'DisplayPort', 'PC-Admin-01'),
+    ('MON002', 5, 'S27A600', 27.0, '2560x1440', 'HDMI', 'SRV-DB-01');

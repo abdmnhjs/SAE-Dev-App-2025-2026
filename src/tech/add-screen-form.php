@@ -46,15 +46,15 @@ if (!isset($_SESSION['username']) ||
         <input type='text' name='connector' placeholder='HDMI, DisplayPort, VGA...' required>
 
         <?php
-        $sql = "SELECT serial FROM control_unit ORDER BY serial ASC";
+        $sql = "SELECT name FROM control_unit ORDER BY name ASC";
         $result = mysqli_query($loginToDb, $sql);
         ?>
         <label>Attaché à l'unité</label>
         <select name="attachedTo">
             <option value="">-- Aucun --</option>
             <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                <option value="<?= $row['serial'] ?>">
-                    <?= htmlspecialchars($row['serial']) ?>
+                <option value="<?= $row['name'] ?>">
+                    <?= htmlspecialchars($row['name']) ?>
                 </option>
             <?php endwhile; ?>
         </select>
@@ -63,7 +63,7 @@ if (!isset($_SESSION['username']) ||
     </form>
     <form method="post" action="actions/action-add-screen-csv.php" enctype="multipart/form-data">
         <label>Fichier csv</label>
-        <input type="file" accept="text/csv" name="screen-csv" />
+        <input type="file" accept="text/csv" name="screens-csv" />
         <button type="submit">Ajouter des écrans via un fichier csv</button>
     </form>
 </div>

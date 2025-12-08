@@ -37,7 +37,7 @@ if ($isAuthorized) {
             }
 
             // --- 3. Récupérer TOUTES les unités de contrôle disponibles ---
-            $allControlUnitsQuery = "SELECT serial FROM `control_unit`";
+            $allControlUnitsQuery = "SELECT name FROM `control_unit`";
             $allControlUnitsResult = mysqli_query($loginToDb, $allControlUnitsQuery);
 
             // --- 4. Récupérer tous les fabricants ---
@@ -94,8 +94,8 @@ if ($isAuthorized) {
                         // Liste des unités de contrôle
                         if ($allControlUnitsResult) {
                             while($row = mysqli_fetch_assoc($allControlUnitsResult)){
-                                if ($row['serial'] !== $screen['attached_to']) {
-                                    echo "<option value='".htmlspecialchars($row['serial'])."'>".htmlspecialchars($row['serial'])."</option>";
+                                if ($row['name'] !== $screen['attached_to']) {
+                                    echo "<option value='".htmlspecialchars($row['name'])."'>".htmlspecialchars($row['serial'])."</option>";
                                 }
                             }
                         }
