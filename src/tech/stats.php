@@ -75,7 +75,7 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
     </form>
 
     <form method="post" action="actions/stats/standard-deviation.php">
-        <label>Ecart type de la date d'achat des unités de contrôle</label>
+        <label>Ecart type de la ram des unités de contrôle</label>
         <button type="submit">Calculer l'écart type</button>
     </form>
 
@@ -95,5 +95,13 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
 
     print_r($_SESSION['mean_result']);
 
+    ?>
+
+    <?php
+    if(isset($_GET["standard-deviation"])){
+        $standardDeviationResult = $_GET["standard-deviation"];
+        echo "<p>L'écart-type de la ram des unités de contrôle vaut <span style='font-weight: bold'>".$standardDeviationResult."</span></p>";
+
+    }
     ?>
 </div>
