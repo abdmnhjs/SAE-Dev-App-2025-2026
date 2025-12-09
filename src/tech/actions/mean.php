@@ -6,15 +6,15 @@ $type = $_POST['type'] ?? null;
 
 if ($type === "os") {
     $osId = intval($_POST['os_id']);
-    $query = "SELECT AVG(rating) AS mean FROM computers WHERE os_id = $osId";
+    $query = "SELECT * FROM control_unit WHERE id_os = $osId";
 }
 elseif ($type === "manufacturer") {
     $manuId = intval($_POST['manufacturer_id']);
-    $query = "SELECT AVG(size) AS mean FROM monitors WHERE manufacturer_id = $manuId";
+    $query = "SELECT AVG(size_inch) AS mean FROM screen WHERE id_manufacturer = $manuId";
 }
 else {
     $_SESSION['mean_result'] = "Erreur : type invalide";
-    header("Location: ../../stats_mean.php");
+    header("Location: ../../tech/stats.php");
     exit;
 }
 
@@ -29,5 +29,5 @@ if ($mean === null) {
     $_SESSION['mean_result'] = "Moyenne : " . round($mean, 2);
 }
 
-header("Location: ../../stats_mean.php");
+header("Location: ../../tech/stats.php");
 exit;

@@ -13,13 +13,34 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
 
 
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>Tech Panel</title>
+    <link rel="stylesheet" href="../css/tech/tech-panel.css">
+</head>
+<body>
+<div class='sidebar'>
+    <div class='sidebar-sections'>
+            <a class='sidebar-section' href='../logout.php' class='sections'>Se déconnecter</a>
+
+        <a class='sidebar-section' href='tech-panel.php?section=screens'>Moniteurs</a>
+        <a class='sidebar-section' href='tech-panel.php?section=control-units'>Unités de contrôle</a>
+            <a class='sidebar-section' href='add-screen-form.php'>Ajouter un écran</a>
+    <a class='sidebar-section' href='add-control-unit-form.php'>Ajouter une unité de controle</a>
+        <a class="sidebar-section" href="stats.php">Effectuer des calculs de statistiques</a>
+        <a class="sidebar-section" href="probas.php">Effectuer des calculs de probabilités</a>
+
+    </div>
+</div>
 
 <div>
-    <form method="post" action="actions/stats/mean.php">
+    <form method="post" action="actions/mean.php">
         <label for="os">Moyenne des ordinateurs possédant ce système d'exploitation : </label>
-        <select name="os" id="os" required>
+        <select name="os_id" id="os" required>
             <?php
-            // Afficher tous les OS
+            // Afficher tous les manufactureurs
             if ($allOsResult) {
                 while($row = mysqli_fetch_assoc($allOsResult)) {
                     echo "<option value='" . htmlspecialchars($row['id']) . "' >"
@@ -28,11 +49,12 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
             }
             ?>
         </select>
-        <button type="submit">Calculer la moyenne</button>
+        <input type="hidden" name="type" value="os">
+        <button type="submit" name="os">Calculer la moyenne</button>
     </form>
-    <form method="post" action="actions/stats/mean.php">
-        <label for="os">Moyenne des moniteurs possédant ce fabricant : </label>
-        <select name="os" id="os" required>
+    <form method="post" action="actions/mean.php">
+        <label for="manufacturer">Moyenne des moniteurs possédant ce fabricant : </label>
+        <select name="manufacturer_id" id="manufacturer" required>
             <?php
             // Afficher tous les OS
             if ($allManufacturerResult) {
@@ -43,7 +65,13 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
             }
             ?>
         </select>
+        <input type="hidden" name="type" value="manufacturer">
         <button type="submit">Calculer la moyenne</button>
     </form>
 
+    <?php
+
+    print_r($_SESSION['mean_result']);
+
+    ?>
 </div>
