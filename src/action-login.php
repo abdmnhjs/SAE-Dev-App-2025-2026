@@ -3,6 +3,11 @@ session_start();
 
 require "includes/connexion_bdd.php";
 
+//pour logs
+if (!isset($_SESSION['session_start_time'])) {
+    $_SESSION['session_start_time'] = time();
+}
+
 $username = $_POST["username"];
 $password = $_POST["password"];
 

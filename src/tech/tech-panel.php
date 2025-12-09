@@ -28,8 +28,8 @@ $screens = mysqli_query($loginToDb, $queryScreen);
         <a class='sidebar-section' href='tech-panel.php?section=control-units'>Unités de contrôle</a>
             <a class='sidebar-section' href='add-screen-form.php'>Ajouter un écran</a>
     <a class='sidebar-section' href='add-control-unit-form.php'>Ajouter une unité de controle</a>
-        <a class="sidebar-section" href="stats.php">Effectuer des calculs de statistiques</a>
-        <a class="sidebar-section" href="probas.php">Effectuer des calculs de probabilités</a>
+        <a class="sidebar-section" href="stats.php">Statistiques</a>
+        <a class="sidebar-section" href="probas.php">Probabilités</a>
 
     </div>
 </div>
