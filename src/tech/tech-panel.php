@@ -17,7 +17,7 @@ $screens = mysqli_query($loginToDb, $queryScreen);
 <head>
     <meta charset='UTF-8'>
     <title>Tech Panel</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/tech/tech-panel.css">
 </head>
 <body>
 <div class='sidebar'>

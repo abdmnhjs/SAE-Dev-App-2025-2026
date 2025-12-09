@@ -2,19 +2,26 @@
 session_start();
 require '../includes/init.php';
 ensureUserAuthorized("tech");
-if (!isset($_SESSION['username']) ||
-    !in_array($_SESSION['username'], ["adminweb", "sysadmin", "tech", "tech1"])) {
-    header('Location: ../tech-panel.php?error=403');
-}
 ?>
-
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset='UTF-8'>
+    <title>Tech Panel</title>
+    <link rel="stylesheet" href="../css/tech/tech-panel.css">
 </head>
 <body>
+<div class='sidebar'>
+    <div class='sidebar-sections'>
+            <a class='sidebar-section' href='../logout.php' class='sections'>Se déconnecter</a>
+
+        <a class='sidebar-section' href='tech-panel.php?section=screens'>Moniteurs</a>
+        <a class='sidebar-section' href='tech-panel.php?section=control-units'>Unités de contrôle</a>
+            <a class='sidebar-section' href='add-screen-form.php'>Ajouter un écran</a>
+    <a class='sidebar-section' href='add-control-unit-form.php'>Ajouter une unité de controle</a>
+
+    </div>
+</div>
 <div>
     <form method="post" action="actions/action-add-control-unit.php">
         <table class="form-table">
@@ -125,15 +132,17 @@ if (!isset($_SESSION['username']) ||
 
             <tr>
                 <td colspan="2" style="text-align:center;">
-                    <button type="submit" name="submit">Ajouter l'unité de contrôle</button>
+                    <button type="submit" name="submit" class="fullbtn">Ajouter l'unité de contrôle</button>
                 </td>
             </tr>
 
         </table>
     </form>
     <form method="post" action="actions/action-add-control-unit-csv.php" enctype="multipart/form-data">
-        <label>Fichier csv</label>
+
+        <label for="control-units-csv" class="filebtn">Import CSV</label>
         <input type="file" accept="text/csv" name="control-units-csv" />
+
         <button type="submit">Ajouter des unités de contrôle via un fichier csv</button>
     </form>
 
