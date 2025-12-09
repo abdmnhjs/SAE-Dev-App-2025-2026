@@ -36,11 +36,11 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
 </div>
 
 <div>
-    <form method="post" action="actions/mean.php">
+    <form method="post" action="actions/stats/mean.php">
         <label for="os">Moyenne des ordinateurs possédant ce système d'exploitation : </label>
-        <select name="os_id" id="os" required>
+        <select name="os" id="os" required>
             <?php
-            // Afficher tous les manufactureurs
+            // Afficher tous les OS
             if ($allOsResult) {
                 while($row = mysqli_fetch_assoc($allOsResult)) {
                     echo "<option value='" . htmlspecialchars($row['id']) . "' >"
@@ -49,13 +49,12 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
             }
             ?>
         </select>
-        <input type="hidden" name="type" value="os">
-        <button type="submit" name="os">Calculer la moyenne</button>
+        <button type="submit">Calculer la moyenne</button>
     </form>
 
-    <form method="post" action="actions/mean.php">
-        <label for="manufacturer">Moyenne des moniteurs possédant ce fabricant : </label>
-        <select name="manufacturer_id" id="manufacturer" required>
+    <form method="post" action="actions/stats/mean.php">
+        <label for="os">Moyenne des moniteurs possédant ce fabricant : </label>
+        <select name="os" id="os" required>
             <?php
             // Afficher tous les OS
             if ($allManufacturerResult) {
@@ -84,6 +83,14 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
         <label>Médiane du temps de connexion sur la plateforme</label>
         <button type="submit">Calculer la médiane</button>
     </form>
+
+    <?php
+    if(isset($_GET["variance"])){
+        $varianceResult = $_GET["variance"];
+
+        echo "<p>La variance de la taille de stockage entre les unités de contrôle vaut <span style='font-weight: bold'>".$varianceResult."</span></p>";
+    }
+    ?>
     <?php
 
     print_r($_SESSION['mean_result']);
