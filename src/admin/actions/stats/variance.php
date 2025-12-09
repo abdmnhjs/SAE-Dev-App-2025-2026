@@ -1,7 +1,7 @@
 <?php
 session_start();
-require '../../includes/init.php';
-require '../../probas-stats/stats.php';
+require '../../../includes/init.php';
+require '../../../probas-stats/stats.php';
 
 
 $query = "SELECT disk_gb FROM control_unit";
@@ -14,7 +14,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 $varianceResult = variance($diskValues);
 
-if ($varianceResult) {
-    header("Location: ../../probas.php?variance=" . $varianceResult);
+if ($varianceResult !== false && $varianceResult !== null) {
+    header("Location: ../../stats.php?variance=" . $varianceResult);
     exit();
 }

@@ -35,7 +35,7 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
 </div>
 
 <div>
-    <form method="post" action="actions/stats/mean.php">
+    <form method="post" action="actions/mean.php">
         <label for="os">Moyenne des ordinateurs possédant ce système d'exploitation : </label>
         <select name="os_id" id="os" required>
             <?php
@@ -69,24 +69,40 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
         <button type="submit">Calculer la moyenne</button>
     </form>
 
-    <form method="post" action="actions/stats/mean.php">
+    <form method="post" action="actions/stats/variance.php">
         <label>Variance de la taille de stockage entre les unités de contrôle</label>
         <button type="submit">Calculer la variance</button>
     </form>
 
-    <form method="post" action="actions/stats/mean.php">
-        <label>Ecart type de la date d'achat des unités de contrôle</label>
+    <form method="post" action="actions/stats/standard-deviation.php">
+        <label>Ecart type de la ram des unités de contrôle</label>
         <button type="submit">Calculer l'écart type</button>
     </form>
 
-    <form method="post" action="actions/stats/mean.php">
+    <form method="post" action="actions/stats/medial.php">
         <label>Médiane du temps de connexion sur la plateforme</label>
         <button type="submit">Calculer la médiane</button>
     </form>
+
+    <?php
+    if(isset($_GET["variance"])){
+        $varianceResult = $_GET["variance"];
+
+        echo "<p>La variance de la taille de stockage entre les unités de contrôle vaut <span style='font-weight: bold'>".$varianceResult."</span></p>";
+    }
+    ?>
     <?php
 
     print_r($_SESSION['mean_result'] ?? '');
 
+    ?>
+
+    <?php
+    if(isset($_GET["standard-deviation"])){
+        $standardDeviationResult = $_GET["standard-deviation"];
+        echo "<p>L'écart-type de la ram des unités de contrôle vaut <span style='font-weight: bold'>".$standardDeviationResult."</span></p>";
+
+    }
     ?>
 </div>
 </html>
