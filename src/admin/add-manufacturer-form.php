@@ -3,8 +3,30 @@ session_start();
 
 require '../includes/init.php';
 ensureUserAuthorized("adminweb");
+?>
 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>Tech Panel</title>
+    <link rel="stylesheet" href="../css/adminweb/adminweb.css">
+</head>
+<body>
+<div class='sidebar'>
+    <div class='sidebar-sections'>
+        <a class='sidebar-section' href='../logout.php' class='sections'>Se déconnecter</a>
+        <a class='sidebar-section' href='create-tech-form.php'>Créer un technicien</a>
+        <a class='sidebar-section' href='add-os-form.php'>Ajouter un système d'exploitation</a>
+        <a class='sidebar-section' href='add-manufacturer-form.php'>Ajouter un fabriquant</a>
+        <a class="sidebar-section" href="stats.php">Statistiques</a>
+        <a class="sidebar-section" href="probas.php">Probabilités</a>
+        <a class="sidebar-section" href="admin_panel-logs.php">Logs</a>
 
+    </div>
+</div>
+
+<?php
 if (isset($_SESSION['username']) && $_SESSION['username'] === "adminweb"){
 
     echo "
@@ -18,3 +40,4 @@ if (isset($_SESSION['username']) && $_SESSION['username'] === "adminweb"){
     ";
 
 } ?>
+</html>

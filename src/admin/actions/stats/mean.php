@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../../includes/init.php';
+require '../../../includes/init.php';
 
 $type = $_POST['type'] ?? null;
 
@@ -14,7 +14,7 @@ elseif ($type === "manufacturer") {
 }
 else {
     $_SESSION['mean_result'] = "Erreur : type invalide";
-    header("Location: ../../tech/stats.php");
+    header("Location: ../../stats.php");
     exit;
 }
 
@@ -29,5 +29,5 @@ if ($mean === null) {
     $_SESSION['mean_result'] = "Moyenne : " . round($mean, 2);
 }
 
-header("Location: ../../tech/stats.php");
+header("Location: ../../stats.php");
 exit;

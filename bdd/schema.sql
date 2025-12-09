@@ -53,6 +53,13 @@ CREATE OR REPLACE TABLE control_unit (
         ON UPDATE CASCADE
 );
 
+CREATE OR REPLACE TABLE logs (
+    username VARCHAR(255) NOT NULL PRIMARY KEY,
+    ip_address VARCHAR(45) NOT NULL,
+    duration_seconds INT UNSIGNED NOT NULL,
+    log_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Table des écrans
 CREATE OR REPLACE TABLE screen (
     serial VARCHAR(100) PRIMARY KEY,

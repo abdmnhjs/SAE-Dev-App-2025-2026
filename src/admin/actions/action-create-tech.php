@@ -12,7 +12,7 @@ $password = isset($_POST["password"]) ? trim($_POST["password"]) : '';
 // Validation des champs
 if (empty($username) || empty($password)) {
     mysqli_close($loginToDb);
-    header("Location: ../admin-panel.php?error=empty_fields");
+    header("Location: ../admin_panel-logs.php?error=empty_fields");
     exit();
 }
 
@@ -28,7 +28,7 @@ if ($check_stmt) {
     if (mysqli_stmt_num_rows($check_stmt) > 0) {
         mysqli_stmt_close($check_stmt);
         mysqli_close($loginToDb);
-        header("Location: ../admin-panel.php?error=user_exists");
+        header("Location: ../admin_panel-logs.php?error=user_exists");
         exit();
     }
     mysqli_stmt_close($check_stmt);
@@ -44,21 +44,21 @@ if ($stmt) {
     if (mysqli_stmt_execute($stmt)) {
         mysqli_stmt_close($stmt);
         mysqli_close($loginToDb);
-        header("Location: ../admin-panel.php?success=1");
+        header("Location: ../admin_panel-logs.php?success=1");
         exit();
     } else {
         $error = mysqli_stmt_error($stmt);
         mysqli_stmt_close($stmt);
         mysqli_close($loginToDb);
         error_log("Erreur SQL: " . $error);
-        header("Location: ../admin-panel.php?error=sql_error&details=" . urlencode($error));
+        header("Location: ../admin_panel-logs.php?error=sql_error&details=" . urlencode($error));
         exit();
     }
 } else {
     $error = mysqli_error($loginToDb);
     mysqli_close($loginToDb);
     error_log("Erreur préparation: " . $error);
-    header("Location: ../admin-panel.php?error=prepare_failed&details=" . urlencode($error));
+    header("Location: ../admin_panel-logs.php?error=prepare_failed&details=" . urlencode($error));
     exit();
 }
 ?>

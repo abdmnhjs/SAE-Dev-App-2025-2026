@@ -3,8 +3,13 @@ session_start();
 
 require '../includes/init.php';
 ensureUserAuthorized("adminweb");
-?>
 
+
+$allControlUnitsQuery = "SELECT name FROM `control_unit` ";
+$allControlUnitsResult = mysqli_query($loginToDb, $allControlUnitsQuery);
+
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,19 +30,21 @@ ensureUserAuthorized("adminweb");
 
     </div>
 </div>
+<div>
 
-<?php
-if (isset($_SESSION['username']) && $_SESSION['username'] === "adminweb"){
-    echo "<div>
-<form method='post' action='actions/action-create-tech.php'>
-<label for='username'>Nom</label>
-<input type='text' name='username' id='username'>
-<label for='password'>Mot de passe</label>
-<input type='password' name='password' id='password'>
-<button type='submit' name='submit'>Créer le technicien</button>
-</form>
+    <form method="post" action="actions/probas/simple-proba.php">
+        <label>Probabilité qu'une unité de contrôle va être dans le rébut</label>
+        <select name="control_unit">
+            <?php
+            if ($allControlUnitsResult) {
+                while($row = mysqli_fetch_assoc($allControlUnitsResult)) {
+                    echo "<option value='" . htmlspecialchars($row['serial']) . "' >"
+                        . htmlspecialchars($row['name']) . "</option>";
+                }
+            }
+            ?>
+        </select>
+        <button type="submit">Calculer la probabilité</button>
+    </form>
 </div>
 </html>
-";
-
-}
