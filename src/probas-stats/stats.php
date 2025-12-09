@@ -35,6 +35,30 @@ function standardDeviation($values) {
     return sqrt($variance);
 }
 
+function medial($values) {
+    // Vérifier que le tableau n'est pas vide
+    if (empty($values)) {
+        return false;
+    }
+
+    // Trier le tableau par ordre croissant
+    sort($values);
+
+    // Compter le nombre d'éléments
+    $count = count($values);
+
+    // Si nombre impair : prendre l'élément du milieu
+    if ($count % 2 == 1) {
+        $middleIndex = floor($count / 2);
+        return (float)$values[$middleIndex];
+    }
+
+    // Si nombre pair : moyenne des deux éléments du milieu
+    $middleIndex1 = ($count / 2) - 1;
+    $middleIndex2 = $count / 2;
+    return (float)(($values[$middleIndex1] + $values[$middleIndex2]) / 2);
+}
+
 function calculateFrequency($values) {
     $total_count = count($values);
     $frequencies = [];
