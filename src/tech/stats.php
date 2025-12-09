@@ -48,6 +48,17 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
     </form>
 
     <form method="post">
-        <label>Variance de la taille </label>
+        <label>Variance de la taille de stockage entre les unités de contrôle</label>
+        <button type="submit">Calculer la variance</button>
+    </form>
+
+    <form method="post">
+        <label>Ecart type de la date d'achat des unités de contrôle</label>
+        <button type="submit">Calculer l'écart type</button>
+    </form>
+
+    <form method="post">
+        <label>Médiane du temps de connexion sur la plateforme</label>
+        <button type="submit">Calculer la médiane</button>
     </form>
 </div>
