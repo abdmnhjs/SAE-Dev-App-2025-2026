@@ -13,7 +13,7 @@ $allControlUnitsResult = mysqli_query($loginToDb, $allControlUnitsQuery);
 
 <div>
 
-    <form method="post">
+    <form method="post" action="actions/probas/simple-proba.php">
         <label>Probabilité qu'une unité de contrôle va être dans le rébut</label>
         <select name="control_unit">
             <?php

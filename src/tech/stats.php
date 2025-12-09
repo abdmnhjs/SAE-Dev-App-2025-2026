@@ -47,17 +47,17 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
         <button type="submit">Calculer la moyenne</button>
     </form>
 
-    <form method="post">
+    <form method="post" action="actions/stats/variance.php">
         <label>Variance de la taille de stockage entre les unités de contrôle</label>
         <button type="submit">Calculer la variance</button>
     </form>
 
-    <form method="post">
+    <form method="post" action="actions/stats/standard-deviation.php">
         <label>Ecart type de la date d'achat des unités de contrôle</label>
         <button type="submit">Calculer l'écart type</button>
     </form>
 
-    <form method="post">
+    <form method="post" action="actions/stats/medial.php">
         <label>Médiane du temps de connexion sur la plateforme</label>
         <button type="submit">Calculer la médiane</button>
     </form>
