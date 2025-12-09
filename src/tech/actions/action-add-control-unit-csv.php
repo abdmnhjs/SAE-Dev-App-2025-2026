@@ -143,6 +143,7 @@ while (($result = fgetcsv($fp, 1024, ",")) !== false) {
 
         if (mysqli_stmt_execute($stmt)) {
             $successCount++;
+            header("Location: ../tech-panel.php?section=control-units");
         } else {
             $errorCount++;
             // Ajout du code d'erreur SQL pour un meilleur débogage

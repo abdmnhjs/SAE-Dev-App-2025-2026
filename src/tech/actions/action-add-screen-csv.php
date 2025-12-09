@@ -136,20 +136,14 @@ if (($fp = fopen($uploadedFilePath, "r")) !== FALSE) {
     mysqli_stmt_close($stmtSelectManuf);
     mysqli_stmt_close($stmtSelectAttached);
     fclose($fp);
+    header("Location: ../tech-panel.php?section=screens");
+    exit; // Toujours mettre exit après une redirection
+
 
 } else {
     $errors[] = "Impossible d'ouvrir le fichier CSV temporaire.";
 }
 
 
-// 5. Redirection Finale Unique
-if (empty($errors)) {
-    // Succès total
-    header("Location: ../tech-panel.php?section=screens&message=import_success");
-} else {
-    // Succès partiel ou échec total, affiche les erreurs
-    $_SESSION['import_errors'] = $errors;
-    header("Location: ../tech-panel.php?error=screen_insert_failed&details=errors_in_session");
-}
-exit; // Toujours mettre exit après une redirection
+
 ?>

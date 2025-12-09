@@ -30,6 +30,7 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
         </select>
         <button type="submit">Calculer la moyenne</button>
     </form>
+
     <form method="post" action="actions/stats/mean.php">
         <label for="os">Moyenne des moniteurs possédant ce fabricant : </label>
         <select name="os" id="os" required>
@@ -46,4 +47,7 @@ $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
         <button type="submit">Calculer la moyenne</button>
     </form>
 
+    <form method="post">
+        <label>Variance de la taille </label>
+    </form>
 </div>
