@@ -42,7 +42,7 @@ $debug = $_ENV['DEBUG'];
 
 
 
-$router = new Router('/rpi12');
+$router = new Router('/');
 
 // enregistrement des différentes routes
 
