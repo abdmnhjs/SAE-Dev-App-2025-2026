@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <base href="/rpi12/">
+    <base href="/">
     <meta charset="UTF-8">
     <title><?= htmlentities($title ?? 'Inventaire') ?></title>
 
