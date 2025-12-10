@@ -121,7 +121,7 @@ class HomeController extends BaseController
             exit();
         }
         //remplace l'url par /rpi12, cela va trigger home(); qui va render la page du menu.
-        header("Location: /rpi12");
+        header("Location: /");
         exit();
     }
 
@@ -147,12 +147,12 @@ class HomeController extends BaseController
         $user->signup($username, $password, 1);
         if ($user) {
             //succès de l'ajout, envois l'user dans connexion pour qu'il ce connecte
-            header("Location: /rpi12/inscription");
+            header("Location: /inscription");
             exit();
         }
 
         //échoué, WIP : AJOUTER L'ERREUR
-        header("Location: /rpi12/inscription?error=invalid");
+        header("Location: /inscription?error=invalid");
         exit();
     }
 }
