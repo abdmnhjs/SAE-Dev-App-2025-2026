@@ -1,0 +1,7 @@
+RewriteEngine on
+#
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [QSA,L]
+#ce fichier permet la redirection automatique vers index.php (le main router). Le site ne fonctionne pas sans cela.
+#seul la connexion fonctionnerait, mais encore on peut pas acceder a rpi12/connexion sans ce fichier.
+#cette chose banni absolument tout, on peut rien acceder presque

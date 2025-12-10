@@ -1,0 +1,12 @@
+# Ignorer le fichier .env
+
+.env
+
+# Ignorer les fichiers temporaires ou de cache
+
+*.log
+*.cache
+*.tmp
+.DS_Store
+.idea/
+.vscode/

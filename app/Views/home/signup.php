@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Inscription</title>
+</head>
+<body>
+<?php include BASE_INCLUDES_PATH . 'barnav.php' ?>
+<main style="margin-top: 70px; display: flex; flex-direction: column; gap: 140px;">
+    <form method="POST" action="/rpi12/handleSignup" class="block">
+        <img src="images/logo.png" alt="logo-img" width="80" height="80" class="center">
+        <h2 class="titre">Bienvenue</h2>
+        <p class="description">Remplissez les champs suivant pour créer un compte Infra'.</p>
+        <div class="connexion">
+
+            <label class="champs">Nom d'utilisateur</label>
+                <input type="text" class="input" name="username" placeholder="Nom d'utilisateur" required>
+
+            <label class="champs">Mot de passe</label>
+                <input type="password" class="input" name="password" placeholder="Mot de passe"  required>
+
+            <label class="champs">Confirmez votre mot de passe</label>
+                <input type="password" class="input">
+
+            <div class="hero-buttons">
+                <button type="submit" class="classic-button" style="color: #121212;">S'inscrire</button>
+            </div>
+        </div>
+    </form>
+</main>
+</body>
+</html>

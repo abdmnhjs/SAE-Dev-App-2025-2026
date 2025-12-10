@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --primary-bg: #121212;
+    --secondary-bg: #282828;
+    --sidebar-width: 250px;
+    --border-color: #444;
+}
+
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--primary-bg);
+    color: white;
+    font-family: 'Geist', sans-serif;
+    display: flex; /* <-- sidebar + content layout */
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: #fff;
+    color: black;
+    padding: 20px 15px;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* prevents shrinking */
+}
+
+.sidebar a {
+    color: black;
+    text-decoration: none;
+}
+
+.sidebar-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-section {
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: 0.3s ease;
+    font-size: 15px;
+}
+
+.sidebar-section:hover {
+    background: var(--primary-bg);
+    color: white;
+    transform: translateX(5px);
+}
+
+.sidebar-section.active {
+    background: #3498db;
+    color: white;
+}
+
+/* Main content */
+.layout-wrapper {
+    flex-grow: 1;
+    padding: 25px;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+}
+
+
+table th {
+    background: #333;
+    font-weight: bold;
+}
+
+table tr:hover {
+    background: #1a1a1a;
+}
+
+
+/* Forms */
+.form-field, .champs {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 8px 12px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.classic-button {
+    background: #fff;
+    color: black;
+}
+
+.classic-button:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.cta-technician {
+    background: var(--secondary-bg);
+}
+
+.cta-technician:hover {
+    background: rgba(40, 40, 40, 0.9);
+}
+
+/* Containers */
+.block {
+    background: var(--secondary-bg);
+    border-radius: 10px;
+    width: 35%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.section, .connexion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.1rem;
+}
+
+.inventory-form {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.technician-features {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+/* Typography */
+.hero-title {
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.titre, .features-title {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.description {
+    opacity: 0.4;
+    text-align: center;
+}
+
+.sections {
+    font-size: 0.9rem;
+}
+
+/* boutons modifier et supprimer des tables d'affichages */
+.button-delete {
+    text-decoration: none;
+    color: red;
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 5px;
+    transition: 0.3s;
+}
+.button-modify {
+    text-decoration: none;
+    color: green;
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 5px;
+    transition: 0.3s;
+}
