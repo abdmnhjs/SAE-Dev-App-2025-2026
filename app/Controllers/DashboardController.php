@@ -19,7 +19,7 @@ class DashboardController extends BaseController
             exit();
         } else {
             //si quelqu'un externe ce connecte, retourne au menu
-            header('Location: /rpi12');
+            header('Location: /');
             exit();
         }
 
@@ -31,19 +31,19 @@ class DashboardController extends BaseController
     public function tech(): void
     {
         Auth::requireRole(Roles::TECH);
-        header('Location: /rpi12/dashboard/tech');
+        header('Location: /dashboard/tech');
         exit;
     }
     public function sysadmin(): void
     {
         Auth::requireRole(Roles::SYSADMIN);
-        header('Location: /rpi12/dashboard/sysadmin');
+        header('Location: /dashboard/sysadmin');
         exit;
     }
     public function admin(): void
     {
         Auth::requireRole(Roles::ADMINWEB);
-        header('Location: /rpi12/dashboard/admin');
+        header('Location: /dashboard/admin');
         exit;
     }
 }

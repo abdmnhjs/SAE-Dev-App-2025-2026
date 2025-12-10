@@ -87,7 +87,7 @@ class HomeController extends BaseController
         $password = $_POST['password'] ?? null; //trouver une facon de respecter le MVC et de proteger le mdp lors du transfère POST
 
         if (!$username || !$password) {
-            header('Location: /rpi12/dashboard?error=unfilled');
+            header('Location: /dashboard?error=unfilled');
             exit();
         }
 
@@ -106,7 +106,7 @@ class HomeController extends BaseController
         $_SESSION['rank'] = $user['rank'];
 
         //va chercher quel type de dashboard a montrer en fonction du rank de l'utilisateur
-        header('Location: /rpi12/dashboard');
+        header('Location: /dashboard');
         exit();
     }
 
