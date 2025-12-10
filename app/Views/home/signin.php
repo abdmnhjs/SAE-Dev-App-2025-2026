@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <base href="/">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/styles.css">
     <title>Accueil</title>
@@ -14,7 +15,7 @@
     <?php if (isset($_GET['error'])): ?>
         <p class="error">Invalid username or password</p>
     <?php endif; ?>
-    <form class="block" method="post" action="/rpi12/handleLogin">
+    <form class="block" method="post" action="handleLogin">
         <img src="images/logo.png" alt="logo-img" width="80" height="80" class="center">
         <h2 class="titre">Bon retour parmi nous</h2>
         <p class="description">Connectez vous à votre compte infra' pour continuer</p>

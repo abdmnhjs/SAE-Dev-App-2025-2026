@@ -20,8 +20,8 @@
             <td><?= htmlspecialchars($row['connector']) ?></td>
             <td><?= htmlspecialchars($row['attached_to']) ?></td>
             <td>
-                <a class="button-modify" href="/rpi12/dashboard/tech?section=edit-screen&serial=<?= htmlspecialchars($row['serial']) ?>">Modifier</a>
-                <a class="button-delete" href="/rpi12/dashboard/tech/ecran/supprimer?serial=<?= htmlspecialchars($row['serial']) ?>">Supprimer</a>
+                <a class="button-modify" href="dashboard/tech?section=edit-screen&serial=<?= htmlspecialchars($row['serial']) ?>">Modifier</a>
+                <a class="button-delete" href="dashboard/tech/ecran/supprimer?serial=<?= htmlspecialchars($row['serial']) ?>">Supprimer</a>
             </td>
         </tr>
     <?php endforeach; ?>

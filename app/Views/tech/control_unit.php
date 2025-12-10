@@ -38,8 +38,8 @@
             <td><?= htmlspecialchars($row['purchase_date']) ?></td>
             <td><?= htmlspecialchars($row['warranty_end']) ?></td>
             <td>
-                <a class="button-modify" href="/rpi12/dashboard/tech?section=edit-control-unit&serial=<?= htmlspecialchars($row['serial']) ?>">Modifier</a>
-                <a class="button-delete" href="/rpi12/dashboard/tech/unite-centrale/supprimer?serial=<?= htmlspecialchars($row['serial']) ?>">Supprimer</a>
+                <a class="button-modify" href="dashboard/tech?section=edit-control-unit&serial=<?= htmlspecialchars($row['serial']) ?>">Modifier</a>
+                <a class="button-delete" href="dashboard/tech/unite-centrale/supprimer?serial=<?= htmlspecialchars($row['serial']) ?>">Supprimer</a>
             </td>
         </tr>
     <?php endforeach; ?>

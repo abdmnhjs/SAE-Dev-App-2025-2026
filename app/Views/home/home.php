@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <base href="/">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/styles.css">
     <title>Accueil</title>
@@ -16,11 +17,11 @@
         <h1 class="hero-title">Votre parc informatique tout en un.</h1>
         <p class="description">Commencez dès maintentant et sans inscription à consulter l'inventaire du parc infortmatique ou <br>commencez à le gérer à portée de mains depuis votre compte technicien.</p>
         <div class="hero-buttons">
-            <a href="/rpi12/inventaire" class="classic-button" style="color: #121212; padding: 10px; border-radius: 5px; text-decoration: none; display: inline-block; text-align: center;">Commencer à découvrir</a>
+            <a href="inventaire" class="classic-button" style="color: #121212; padding: 10px; border-radius: 5px; text-decoration: none; display: inline-block; text-align: center;">Commencer à découvrir</a>
             <?php if (isset($_SESSION)): ?>
-                <a href="/rpi12/dashboard" class="cta-technician" style="color: white; padding: 10px; border-radius: 5px; text-decoration: none; display: inline-block; text-align: center;">Commencer à gérer l'inventaire</a>
+                <a href="dashboard" class="cta-technician" style="color: white; padding: 10px; border-radius: 5px; text-decoration: none; display: inline-block; text-align: center;">Commencer à gérer l'inventaire</a>
             <?php else: ?>
-            <a href="/rpi12/connexion" class="cta-technician" style="color: white; padding: 10px; border-radius: 5px; text-decoration: none; display: inline-block; text-align: center;">Commencer à gérer l'inventaire</a>
+            <a href="connexion" class="cta-technician" style="color: white; padding: 10px; border-radius: 5px; text-decoration: none; display: inline-block; text-align: center;">Commencer à gérer l'inventaire</a>
             <?php endif; ?>
         </div>
         <iframe width="800" height="450"

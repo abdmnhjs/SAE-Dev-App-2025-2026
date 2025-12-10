@@ -1,2 +1,2 @@
 <?php
-echo "403 no access for you buddy :D";
+echo "403 tu n'as pas le droit d'aller la.";

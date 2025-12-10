@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <base href="/">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/styles.css">
     <title>Inscription</title>
@@ -8,7 +9,7 @@
 <body>
 <?php include BASE_INCLUDES_PATH . 'barnav.php' ?>
 <main style="margin-top: 70px; display: flex; flex-direction: column; gap: 140px;">
-    <form method="POST" action="/rpi12/handleSignup" class="block">
+    <form method="POST" action="handleSignup" class="block">
         <img src="images/logo.png" alt="logo-img" width="80" height="80" class="center">
         <h2 class="titre">Bienvenue</h2>
         <p class="description">Remplissez les champs suivant pour créer un compte Infra'.</p>

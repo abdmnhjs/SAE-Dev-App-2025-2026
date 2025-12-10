@@ -1,4 +1,4 @@
-<form method="post" action="/rpi12/dashboard/tech/ecran/ajouter">
+<form method="post" action="dashboard/tech/ecran/ajouter">
 
     <label>Numéro de série</label>
     <input type="text" name="serial" required>

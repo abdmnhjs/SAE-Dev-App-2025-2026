@@ -1,4 +1,4 @@
-<form method="post" action="/rpi12/dashboard/tech/unite-centrale/ajouter">
+<form method="post" action="dashboard/tech/unite-centrale/ajouter">
 
     <label>Nom</label>
     <input type="text" name="name" required>

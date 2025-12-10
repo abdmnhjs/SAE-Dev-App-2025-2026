@@ -1,4 +1,4 @@
-<form method="post" action="/rpi12/dashboard/tech/unite-centrale/modifier">
+<form method="post" action="dashboard/tech/unite-centrale/modifier">
 
     <label>Numéro de série</label>
     <input type="text" name="serial" value="<?= htmlspecialchars($getUnit['serial']) ?>" readonly>

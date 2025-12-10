@@ -1,4 +1,4 @@
-<form method="post" action="/rpi12/dashboard/tech/ecran/modifier">
+<form method="post" action="dashboard/tech/ecran/modifier">
 
     <label>Numéro de série</label>
     <input type="text" name="serial" value="<?= htmlspecialchars($getScreen['serial']) ?>" readonly>

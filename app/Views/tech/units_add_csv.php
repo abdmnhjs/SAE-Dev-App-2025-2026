@@ -1,7 +1,7 @@
 
 <h2>Importer des unités centrales</h2>
 
-<form action="/rpi12/dashboard/tech/unite-centrale/ajouter_csv" method="post" enctype="multipart/form-data">
+<form action="dashboard/tech/unite-centrale/ajouter_csv" method="post" enctype="multipart/form-data">
     <label>Select CSV file:</label>
     <input type="file" name="csv_file" accept=".csv" required>
     <br><br>
