@@ -1,6 +1,6 @@
 <nav>
     <a href="/"><img src="images/logo.png" alt="logo-img" width="80" height="80"></a>
-    <a href="inventaire" class="sections">Inventaire</a>
+    <a href="/inventaire" class="sections">Inventaire</a>
     <?php $username = $_SESSION['name'] ?? null; ?>
 
     <?php if(($_SESSION['rank'] ?? 0) >= Roles::TECH): ?>
