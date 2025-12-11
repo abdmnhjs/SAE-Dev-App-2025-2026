@@ -1,26 +1,27 @@
 CREATE DATABASE IF NOT EXISTS infra;
 USE infra;
 
--- Table des utilisateurs
+-- 1. Table des utilisateurs (inchangée)
 CREATE OR REPLACE TABLE users (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
     mdp VARCHAR(255) NOT NULL
 );
 
--- Table des systèmes d'exploitation
+-- 2. Table des systèmes d'exploitation (inchangée)
 CREATE OR REPLACE TABLE os_list (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(32) NOT NULL UNIQUE
 );
 
--- Table des fabricants
+-- 3. Table des fabricants (inchangée)
 CREATE OR REPLACE TABLE manufacturer_list (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(32) NOT NULL UNIQUE
 );
 
--- Table des unités de contrôle (ordinateurs/serveurs)
+-- 4. Table des unités de contrôle (ordinateurs/serveurs)
+-- AJOUT de la colonne 'is_active' pour gérer l'état actif/inactif
 CREATE OR REPLACE TABLE control_unit (
     serial VARCHAR(100),
     name VARCHAR(255) NOT NULL PRIMARY KEY,
@@ -38,6 +39,7 @@ CREATE OR REPLACE TABLE control_unit (
     macaddr VARCHAR(17),
     purchase_date DATE,
     warranty_end DATE,
+    is_active BOOLEAN DEFAULT TRUE, -- NOUVEAU: TRUE pour actif, FALSE pour inactif
 
     -- Clés étrangères
     CONSTRAINT fk_control_unit_manufacturer
@@ -53,6 +55,10 @@ CREATE OR REPLACE TABLE control_unit (
         ON UPDATE CASCADE
 );
 
+-- SUPPRESSION des tables active_control_unit et inactive_control_unit.
+-- L'état est maintenant géré par la colonne 'is_active' de control_unit.
+
+-- 5. Table des logs (inchangée)
 CREATE OR REPLACE TABLE logs (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
@@ -61,7 +67,8 @@ CREATE OR REPLACE TABLE logs (
     log_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table des écrans
+-- 6. Table des écrans
+-- AJOUT de la colonne 'is_active' pour gérer l'état actif/inactif
 CREATE OR REPLACE TABLE screen (
     serial VARCHAR(100) PRIMARY KEY,
     id_manufacturer INTEGER,
@@ -70,6 +77,7 @@ CREATE OR REPLACE TABLE screen (
     resolution VARCHAR(20),
     connector VARCHAR(50),
     attached_to VARCHAR(100),
+    is_active BOOLEAN DEFAULT TRUE, -- NOUVEAU: TRUE pour actif, FALSE pour inactif
 
     -- Clés étrangères
     CONSTRAINT fk_screen_manufacturer
