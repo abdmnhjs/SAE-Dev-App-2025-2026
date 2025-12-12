@@ -10,8 +10,6 @@
     <?php
     session_start();
 
-
-
     if(isset($_SESSION['username'])) {
         $username= $_SESSION['username'];
         echo "<p class='sections'>Bonjour " . $_SESSION['username'] . "</p>";

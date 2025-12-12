@@ -25,7 +25,7 @@ if($stmt){
         mysqli_stmt_close($stmt);
         mysqli_close($loginToDb);
         if($username === "adminweb"){
-            header('Location: admin/admin_panel-logs.php?section=os');
+            header('Location: admin/create-tech-form.php');
         } else {
             header('Location: tech/tech-panel.php?section=screens');
         }

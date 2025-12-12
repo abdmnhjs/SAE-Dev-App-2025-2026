@@ -22,7 +22,6 @@ ensureUserAuthorized("adminweb");
         <a class='sidebar-section' href='add-os-form.php'>Ajouter un système d'exploitation</a>
         <a class='sidebar-section' href='add-manufacturer-form.php'>Ajouter un fabriquant</a>
         <a class="sidebar-section" href="../stats.php">Statistiques</a>
-        <a class="sidebar-section" href="probas.php">Probabilités</a>
         <a class="sidebar-section" href="admin_panel-logs.php">Logs</a>
 
     </div>
