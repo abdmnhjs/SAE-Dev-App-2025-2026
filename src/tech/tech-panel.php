@@ -24,7 +24,7 @@ $screens = mysqli_query($loginToDb, $queryScreen);
     <div class='sidebar-sections'>
             <a class='sidebar-section' href='../logout.php' class='sections'>Se déconnecter</a>
 
-        <a class='sidebar-section' href='tech-panel.php?section=screens'>Moniteurs</a>
+        <a class='sidebar-section' href='tech-panel.php?section=screens'>écrans</a>
         <a class='sidebar-section' href='tech-panel.php?section=control-units'>Unités de contrôle</a>
             <a class='sidebar-section' href='add-screen-form.php'>Ajouter un écran</a>
     <a class='sidebar-section' href='add-control-unit-form.php'>Ajouter une unité de controle</a>
