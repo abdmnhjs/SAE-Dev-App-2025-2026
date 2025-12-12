@@ -27,7 +27,11 @@
             <div class="hero-buttons">
                 <button type="submit" class="classic-button" style="color: #121212;">Se connecter</button>
             </div>
+            <?php if (isset($anwser)) : ?>
+            <p style="color: red;"><?= $anwser ?></p>
+            <?php endif ?>
         </div>
+
     </form>
 </main>
 

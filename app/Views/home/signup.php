@@ -22,11 +22,14 @@
                 <input type="password" class="input" name="password" placeholder="Mot de passe"  required>
 
             <label class="champs">Confirmez votre mot de passe</label>
-                <input type="password" class="input">
+                <input type="password" class="input" name="password_confirm">
 
             <div class="hero-buttons">
                 <button type="submit" class="classic-button" style="color: #121212;">S'inscrire</button>
             </div>
+            <?php if(isset($anwser)) : ?>
+            <p style="color: red"><?= $anwser ?></p>
+            <?php endif ?>
         </div>
     </form>
 </main>

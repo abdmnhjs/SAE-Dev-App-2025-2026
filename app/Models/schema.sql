@@ -5,7 +5,7 @@ USE infra;
 
 -- Table des utilisateurs
 CREATE OR REPLACE TABLE `users` (
-  `id` char(36) NOT NULL DEFAULT uuid(),
+  `id` char(36) NOT NULL DEFAULT uuid() PRIMARY KEY,
   `name` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `rank` tinyint(4) NOT NULL DEFAULT 0

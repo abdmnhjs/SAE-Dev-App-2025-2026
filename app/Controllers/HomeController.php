@@ -60,8 +60,6 @@ class HomeController extends BaseController
         $getUnattachedScreensList = self::$screenModel->getUnattachedScreensList();
 
 
-
-
         $data = compact('get_manufacturer_distribution', 'get_connector_distribution',
             'get_resolution_distribution', 'get_unattached_screens', 'get_screens_per_unit', 'get_size_distribution',
             'getUnattachedScreensList');
@@ -103,7 +101,7 @@ class HomeController extends BaseController
         $data = compact('get_manufacturer_distribution', 'get_os_distribution',
             'get_disk_statistics', 'get_ram_statistics', 'get_location_distribution', 'get_average_age',
             'get_type_distribution', 'get_warranty_status', 'get_disk_variance', 'get_ram_gap', 'get_disk_mean',
-        'get_ram_mean');
+            'get_ram_mean');
         return $this->render('home/unit-stats', $data);
     }
 
@@ -111,26 +109,23 @@ class HomeController extends BaseController
     public function signin(): Renderer
     {
         Auth::requireRole(Roles::GUEST);
+
         return $this->render('home/signin');
     }
 
-    public function signup(): Renderer
-    {
-        Auth::requireRole(Roles::GUEST);
-        return $this->render('home/signup');
-    }
-
-
-    public function handleLogin(): void
+    public function handleLogin(): Renderer
     {
         // Get POST data
         $username = $_POST['username'] ?? null;
         $password = $_POST['password'] ?? null; //trouver une facon de respecter le MVC et de proteger le mdp lors du transfère POST
 
+
         if (!$username || !$password) {
-            header('Location: /dashboard?error=unfilled');
-            exit();
+            $anwser = "Vous n'avez pas rempli tout les champs.";
+            $data = compact('anwser');
+            return $this->render('home/signin', $data);
         }
+
 
         $database = new Database();
         $userModel = new User($database->getConnection());
@@ -138,9 +133,9 @@ class HomeController extends BaseController
         $user = $userModel->login($username, $password);
 
         if (!$user) {
-            $errorController = new ErrorController();
-            $errorController->notFound(); // penser a créer des erreurs
-            exit();
+            $anwser = "Nom d'utilisateur ou Mot de passe incorrecte.";
+            $data = compact('anwser');
+            return $this->render('home/signin', $data);
         }
         $_SESSION['id'] = $user['id'];
         $_SESSION['name'] = $user['name'];
@@ -161,16 +156,27 @@ class HomeController extends BaseController
             $this->render("home/connexion?error=invalid");
             exit();
         }
-        //remplace l'url par /rpi12, cela va trigger home(); qui va render la page du menu.
+        //remplace l'url par /, cela va trigger home(); qui va render la page du menu.
         header("Location: /");
         exit();
     }
 
-    public function handleSignup(): void
+    public function handleSignup(): Renderer
     {
         $username = $_POST['username'] ?? null;
         $password = $_POST['password'] ?? null;
+        $password_confirm = $_POST['password_confirm'] ?? null;
         $database = new Database();
+        if (!$password || !$username || !$password_confirm){
+            $anwser = "Veuillez remplir tous les champs.";
+            $data = compact('anwser');
+            return $this->render('home/signup', $data);
+        }
+        if ($password_confirm != $password) {
+            $anwser = "Vos mots de passe ne correspond pas.";
+            $data = compact('anwser');
+            return $this->render('home/signup', $data);
+        }
 
         //signup pour des utilisateurs, WIP : faire un signup dans adminweb pour créer des techniciens
         $user = (new User($database->getConnection()));
@@ -180,20 +186,27 @@ class HomeController extends BaseController
 
         //anti duplication de users
         if ($DuplicateCheck) {
-            $errorController = new ErrorController();
-            $errorController->notFound(); // penser a un moyen de renvoyer a signup avec des erreurs
-            exit();
+            $anwser = "Le nom d'utilisateur '" . $username . "' est déjà utiliser.";
+            $data = compact('anwser');
+            return $this->render('home/signup', $data);
         }
 
         $user->signup($username, $password, 1);
         if ($user) {
             //succès de l'ajout, envois l'user dans connexion pour qu'il ce connecte
-            header("Location: /inscription");
-            exit();
+            $anwser = "utilisateur créer avec succès.";
+            $data = compact('anwser');
+            return $this->render('home/signup', $data);
         }
 
-        //échoué, WIP : AJOUTER L'ERREUR
-        header("Location: /inscription?error=invalid");
-        exit();
+        $anwser = "erreur dans la création de l'utilisateur, veuillez recommencer.";
+        $data = compact('anwser');
+        return $this->render('home/signup', $data);
+    }
+
+    public function signup(): Renderer
+    {
+        Auth::requireRole(Roles::GUEST);
+        return $this->render('home/signup');
     }
 }
