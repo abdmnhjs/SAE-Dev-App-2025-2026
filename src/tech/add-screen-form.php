@@ -19,6 +19,8 @@ ensureUserAuthorized("tech");
         <a class='sidebar-section' href='tech-panel.php?section=control-units'>Unités de contrôle</a>
             <a class='sidebar-section' href='add-screen-form.php'>Ajouter un écran</a>
     <a class='sidebar-section' href='add-control-unit-form.php'>Ajouter une unité de controle</a>
+        <a class='sidebar-section' href='../stats.php'>Statistiques</a>
+
 
     </div>
 </div>
