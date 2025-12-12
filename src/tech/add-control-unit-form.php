@@ -146,6 +146,13 @@ ensureUserAuthorized("tech");
         <button type="submit">Ajouter des unités de contrôle via un fichier csv</button>
     </form>
 
+
+    <p>
+        Le fichier CSV doit comporter une ligne d'en-tête avec les colonnes suivantes : <br>
+        <code>NAME, SERIAL, MANUFACTURER, MODEL, TYPE, CPU, RAM_MB, DISK_GB, OS, DOMAIN,
+            LOCATION, BUILDING, ROOM, MACADDR, PURCHASE_DATE, WARRANTY_END</code>
+    </p>
+
 </div>
 </body>
 </html>

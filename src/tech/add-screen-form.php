@@ -98,6 +98,11 @@ ensureUserAuthorized("tech");
         <input type="file" accept="text/csv" name="screens-csv" id="screen-csv"/>
         <button type="submit">Ajouter des écrans via un fichier csv</button>
     </form>
+
+    <p>
+        Le fichier CSV doit comporter une ligne d'en-tête avec les colonnes suivantes : <br>
+        <code>SERIAL,MANUFACTURER,MODEL,SIZE_INCH,RESOLUTION,CONNECTOR,ATTACHED_TO</code>
+    </p>
 </div>
 </body>
 </html>
