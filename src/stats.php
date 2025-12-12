@@ -1,9 +1,7 @@
 <?php
-session_start();
 
-require '../includes/init.php';
-require '../probas-stats/stats.php';
-ensureUserAuthorized("tech");
+require './probas-stats/stats.php';
+require 'includes/connexion_bdd.php';
 
 // --- 1. Récupération des données pour les listes déroulantes ---
 $allOsQuery = "SELECT id, name FROM `os_list` ORDER BY name";
@@ -117,7 +115,7 @@ if ($resultChartMan) {
 <head>
     <meta charset='UTF-8'>
     <title>Tech Panel</title>
-    <link rel="stylesheet" href="../css/tech/tech-panel.css">
+    <link rel="stylesheet" href="css/tech/tech-panel.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -143,21 +141,45 @@ if ($resultChartMan) {
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         h4 { text-align: center; color: #333; }
+
+        nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .sections {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 
-<div class='sidebar'>
-    <div class='sidebar-sections'>
-        <a class='sidebar-section' href='../logout.php'>Se déconnecter</a>
-        <a class='sidebar-section' href='create-tech-form.php'>Créer un technicien</a>
-        <a class='sidebar-section' href='add-os-form.php'>Ajouter un système d'exploitation</a>
-        <a class='sidebar-section' href='add-manufacturer-form.php'>Ajouter un fabricant</a>
-        <a class="sidebar-section" href="stats.php">Statistiques</a>
-        <a class="sidebar-section" href="probas.php">Probabilités</a>
-        <a class="sidebar-section" href="admin_panel-logs.php">Logs</a>
-    </div>
-</div>
+<nav>
+    <a href="index.php"><img src="images/logo.png" alt="logo-img" width="80" height="80"></a>
+    <a href="stats.php" class="sections">Statistiques</a>
+    <a href="connexion.php" class="sections">Se connecter</a>
+    <a href="inscription.php" class="sections">S'inscrire</a>
+
+
+
+    <?php
+    session_start();
+
+
+
+    if(isset($_SESSION['username'])) {
+        $username= $_SESSION['username'];
+        echo "<p class='sections'>Bonjour " . $_SESSION['username'] . "</p>";
+        echo "<a href='logout.php' class='sections'>Se déconnecter</a>";
+    } else {
+        echo "<p class='sections'>Vous n'êtes pas connecté.</p>";
+    }
+    ?>
+</nav>
 
 <div class="main-content">
 

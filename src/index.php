@@ -9,9 +9,10 @@
 
 <nav>
     <a href="index.php"><img src="images/logo.png" alt="logo-img" width="80" height="80"></a>
-    <a href="inventaire.php" class="sections">Inventaire</a>
+    <a href="stats.php" class="sections">Statistiques</a>
     <a href="connexion.php" class="sections">Se connecter</a>
     <a href="inscription.php" class="sections">S'inscrire</a>
+
 
 
 <?php
