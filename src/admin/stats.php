@@ -12,14 +12,13 @@ $allOsResult = mysqli_query($loginToDb, $allOsQuery);
 $allManufacturerQuery = "SELECT id, name FROM `manufacturer_list` ORDER BY name";
 $allManufacturerResult = mysqli_query($loginToDb, $allManufacturerQuery);
 
-// --- 2. Calculs statistiques globaux (exécutés au chargement) ---
+// --- 2. Calculs statistiques globaux ---
 
 // A. Médiane (Durée)
 $queryDuration = "SELECT duration_seconds FROM logs";
 $resultDuration = mysqli_query($loginToDb, $queryDuration);
 $durationValues = [];
 while ($row = mysqli_fetch_assoc($resultDuration)) {
-    // Conversion en minutes
     $durationValues[] = (int)$row['duration_seconds'] / 60;
 }
 $medialResult = (count($durationValues) > 0) ? medial($durationValues) : 0;
@@ -42,10 +41,7 @@ while ($row = mysqli_fetch_assoc($resultDisk)) {
 }
 $varianceResult = (count($diskValues) > 0) ? variance($diskValues) : 0;
 
-// --- NOUVEAUX CALCULS AJOUTÉS ---
-
-// D. Taux de machines hors garantie (Vétusté)
-// On compte le total et celles dont la date de garantie est dépassée, uniquement sur le matériel actif
+// D. Taux de machines hors garantie
 $queryWarranty = "SELECT 
                     COUNT(*) as total,
                     SUM(CASE WHEN warranty_end < CURDATE() THEN 1 ELSE 0 END) as expired
@@ -59,28 +55,60 @@ if ($rowWarranty && $rowWarranty['total'] > 0) {
     $percentExpired = ($rowWarranty['expired'] / $rowWarranty['total']) * 100;
 }
 
-// E. Taille moyenne des écrans (Moniteurs actifs)
+// E. Taille moyenne des écrans
 $queryScreenSize = "SELECT AVG(size_inch) as avg_size FROM screen WHERE is_active = 1";
 $resultScreenSize = mysqli_query($loginToDb, $queryScreenSize);
 $rowScreenSize = mysqli_fetch_assoc($resultScreenSize);
 $avgScreenSize = ($rowScreenSize && $rowScreenSize['avg_size']) ? $rowScreenSize['avg_size'] : 0;
 
-// F. Résolution la plus fréquente (Mode statistique)
+// F. Mode (Résolution)
 $queryRes = "SELECT resolution FROM screen WHERE is_active = 1";
 $resultRes = mysqli_query($loginToDb, $queryRes);
 $resolutions = [];
 while ($row = mysqli_fetch_assoc($resultRes)) {
     $resolutions[] = $row['resolution'];
 }
-
 $mostCommonResolution = "Aucune donnée";
 if (count($resolutions) > 0) {
-    // Compte les occurrences de chaque résolution
     $valuesCount = array_count_values($resolutions);
-    // Trie pour avoir la plus fréquente en premier
     arsort($valuesCount);
-    // Récupère la clé (la résolution) du premier élément
     $mostCommonResolution = array_key_first($valuesCount);
+}
+
+// --- 3. PRÉPARATION DES DONNÉES POUR CHART.JS ---
+
+// G. Répartition par OS (pour le Graphique 1)
+// CORRECTION ICI : COUNT(c.name) au lieu de COUNT(c.id)
+$queryChartOs = "SELECT l.name, COUNT(c.name) as count 
+                 FROM control_unit c 
+                 JOIN os_list l ON c.id_os = l.id 
+                 GROUP BY l.name";
+$resultChartOs = mysqli_query($loginToDb, $queryChartOs);
+
+$osLabels = [];
+$osData = [];
+if ($resultChartOs) {
+    while($row = mysqli_fetch_assoc($resultChartOs)){
+        $osLabels[] = $row['name'];
+        $osData[] = $row['count'];
+    }
+}
+
+// H. Répartition par Fabricant d'écrans (pour le Graphique 2)
+$queryChartMan = "SELECT m.name, COUNT(s.serial) as count 
+                  FROM screen s 
+                  JOIN manufacturer_list m ON s.id_manufacturer = m.id 
+                  WHERE s.is_active = 1
+                  GROUP BY m.name";
+$resultChartMan = mysqli_query($loginToDb, $queryChartMan);
+
+$manLabels = [];
+$manData = [];
+if ($resultChartMan) {
+    while($row = mysqli_fetch_assoc($resultChartMan)){
+        $manLabels[] = $row['name'];
+        $manData[] = $row['count'];
+    }
 }
 
 ?>
@@ -90,11 +118,31 @@ if (count($resolutions) > 0) {
     <meta charset='UTF-8'>
     <title>Tech Panel</title>
     <link rel="stylesheet" href="../css/tech/tech-panel.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
-        /* Petit ajout CSS pour le tableau si nécessaire */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 40px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
+
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        .chart-box {
+            width: 45%;
+            min-width: 300px;
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h4 { text-align: center; color: #333; }
     </style>
 </head>
 <body>
@@ -113,55 +161,22 @@ if (count($resolutions) > 0) {
 
 <div class="main-content">
 
-    <form method="post" action="actions/stats/percent.php">
-        <label for="os_id">Part des unités de contrôle possédant ce système d'exploitation : </label>
-        <select name="os_id" id="os_id" required>
-            <?php
-            if ($allOsResult) {
-                while($row = mysqli_fetch_assoc($allOsResult)) {
-                    echo "<option value='" . htmlspecialchars($row['id']) . "'>"
-                            . htmlspecialchars($row['name']) . "</option>";
-                }
-            }
-            ?>
-        </select>
-        <button type="submit">Calculer le pourcentage</button>
-    </form>
+    <h2>Tableau de bord statistique</h2>
 
-    <?php if(isset($_GET["percent-os"], $_GET['os-name'])){
-        $percentResult = htmlspecialchars($_GET["percent-os"]);
-        $osName = htmlspecialchars($_GET["os-name"]);
-        echo "<p><span style='font-weight: bold'>".$percentResult."%</span> des unités de contrôle sont sous ".$osName."</p>";
-    } ?>
-
-    <form method="post" action="actions/stats/percent.php">
-        <label for="manufacturer_id">Part des moniteurs possédant ce fabricant : </label>
-        <select name="manufacturer_id" id="manufacturer_id" required>
-            <?php
-            if ($allManufacturerResult) {
-                // Remise à zéro du pointeur de résultat pour réutiliser la requête si besoin
-                mysqli_data_seek($allManufacturerResult, 0);
-                while($row = mysqli_fetch_assoc($allManufacturerResult)) {
-                    echo "<option value='" . htmlspecialchars($row['id']) . "'>"
-                            . htmlspecialchars($row['name']) . "</option>";
-                }
-            }
-            ?>
-        </select>
-        <input type="hidden" name="type" value="manufacturer">
-        <button type="submit">Calculer le pourcentage</button>
-    </form>
-
-    <?php  if(isset($_GET["percent-manufacturer"], $_GET['manufacturer-name'])){
-        $percentResult = htmlspecialchars($_GET["percent-manufacturer"]);
-        $manufacturerName = htmlspecialchars($_GET["manufacturer-name"]);
-        echo "<p><span style='font-weight: bold'>".$percentResult."%</span> des moniteurs sont fabriqués par ".$manufacturerName."</p>";
-    } ?>
+    <div class="charts-container">
+        <div class="chart-box">
+            <h4>Répartition des OS (Unités Centrales)</h4>
+            <canvas id="osChart"></canvas>
+        </div>
+        <div class="chart-box">
+            <h4>Parts de marché Écrans (Fabricants)</h4>
+            <canvas id="manufacturerChart"></canvas>
+        </div>
+    </div>
 
     <hr>
 
-    <h3>Tableau de bord statistique</h3>
-
+    <h3>Indicateurs Mathématiques</h3>
     <table>
         <tr>
             <th>Indicateur</th>
@@ -181,8 +196,6 @@ if (count($resolutions) > 0) {
             <td><?php echo round($varianceResult, 2); ?> Go</td>
         </tr>
 
-
-
         <tr>
             <td>Part du parc informatique hors garantie</td>
             <td style="<?php echo ($percentExpired > 50) ? 'color:red; font-weight:bold;' : 'color:green; font-weight:bold;'; ?>">
@@ -199,6 +212,62 @@ if (count($resolutions) > 0) {
         </tr>
     </table>
 
+    <hr>
+
 </div>
+
+<script>
+    const osLabels = <?php echo json_encode($osLabels); ?>;
+    const osData = <?php echo json_encode($osData); ?>;
+
+    const manLabels = <?php echo json_encode($manLabels); ?>;
+    const manData = <?php echo json_encode($manData); ?>;
+
+    const chartColors = [
+        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40',
+        '#e74c3c', '#3498db', '#f1c40f', '#2ecc71', '#9b59b6', '#e67e22'
+    ];
+
+    const ctxOs = document.getElementById('osChart').getContext('2d');
+    if(osLabels.length > 0) {
+        new Chart(ctxOs, {
+            type: 'doughnut',
+            data: {
+                labels: osLabels,
+                datasets: [{
+                    label: 'Nombre d\'unités',
+                    data: osData,
+                    backgroundColor: chartColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+    }
+
+    const ctxMan = document.getElementById('manufacturerChart').getContext('2d');
+    if(manLabels.length > 0) {
+        new Chart(ctxMan, {
+            type: 'pie',
+            data: {
+                labels: manLabels,
+                datasets: [{
+                    label: 'Nombre d\'écrans',
+                    data: manData,
+                    backgroundColor: chartColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+    }
+</script>
+
 </body>
 </html>
