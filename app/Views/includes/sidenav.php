@@ -19,22 +19,22 @@
         <?php endif; ?>
 
         <!-- OPTIONS DU TECHNICIEN -->
-        <?php if (($_SESSION['rank'] ?? 0) == Roles::TECH): ?>
+        <?php if (($_SESSION['rank'] ?? 0) >= Roles::TECH): ?>
             <a class='sidebar-section' href='dashboard/tech?section=screens'>Moniteurs</a>
             <a class='sidebar-section' href='dashboard/tech?section=control-units'>Unités centrales</a>
             <a class='sidebar-section' href='dashboard/tech?section=add-screen'>Ajouter un écran</a>
             <a class='sidebar-section' href='dashboard/tech?section=add-control-unit'>Ajouter une unité centrale</a>
-                    <a class='sidebar-section' href='dashboard/tech?section=add-screens'>Ajouter des écrans</a>
+            <a class='sidebar-section' href='dashboard/tech?section=add-screens'>Ajouter des écrans</a>
             <a class='sidebar-section' href='dashboard/tech?section=add-control-units'>Ajouter des unités centrales</a>
         <?php endif; ?>
 
         <!-- OPTIONS DU ADMINWEB -->
-        <?php if (($_SESSION['rank'] ?? 0) == Roles::ADMINWEB): ?>
+        <?php if (($_SESSION['rank'] ?? 0) >= Roles::ADMINWEB): ?>
             <a class='sidebar-section' href='dashboard/admin/techniciens'>Techniciens</a>
         <?php endif; ?>
 
         <!-- OPTIONS DU SYSADMIN -->
-        <?php if (($_SESSION['rank'] ?? 0) == Roles::SYSADMIN): ?>
+        <?php if (($_SESSION['rank'] ?? 0) >= Roles::SYSADMIN): ?>
             <a class='sidebar-section' href='dashboard/tech?section=screens'>Moniteurs</a>
             <a class='sidebar-section' href='dashboard/tech?section=control-units'>Unités centrales</a>
             <a class='sidebar-section' href='dashboard/tech/ecran/ajouter'>Ajouter un écran</a>

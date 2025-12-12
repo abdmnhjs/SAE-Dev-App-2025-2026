@@ -230,6 +230,14 @@ WHERE serial = :serial;";
         $stmt = $this->db->query($query);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+        public function getUnattachedScreensList(): array
+    {
+        $query = "SELECT * FROM screen
+              WHERE attached_to IS NULL OR attached_to = ''";
+
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 // Nombre d'écrans par unité centrale
     public function getScreensPerUnit(): array

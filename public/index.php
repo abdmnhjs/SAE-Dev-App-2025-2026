@@ -52,6 +52,8 @@ $router = new Router('/');
 $router->register('/', ['HomeController', 'home']); // Shows different page based on role
 $router->register('/inventaire', ['HomeController', 'inventory']);
 
+$router->register('/statistiques', ['HomeController', 'statistics']);
+
 $router->register('/ecrans', ['HomeController', 'screens_stats']);
 $router->register('/unites-centrales', ['HomeController', 'units_stats']);
 

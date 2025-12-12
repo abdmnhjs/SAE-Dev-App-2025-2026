@@ -4,7 +4,7 @@
     <base href="/">
     <meta charset="UTF-8">
     <title><?= htmlentities($title ?? 'statistique des unités centrales') ?></title>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <link rel="stylesheet" href="css/units-stats.css">
 </head>
@@ -168,6 +168,53 @@
                 <p class="no-data">Aucune donnée disponible</p>
             <?php endif; ?>
         </div>
+        <div class="stat-card">
+            <h2>🔀 Variance des disques durs </h2>
+            <?php if (!empty($get_disk_variance)): ?>
+                <table>
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><strong> Moyenne </strong></td>
+                        <td><?= round($get_disk_mean) ?> GB</td>
+                    </tr>
+                    <tr>
+                        <td><strong> Variance </strong></td>
+                        <td><?= round($get_disk_variance) ?> GB</td>
+                    </tr>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p class="no-data">Aucune donnée disponible</p>
+            <?php endif; ?>
+        </div>
+        <div class="stat-card">
+            <h2>🔀 Écart-type des RAM </h2>
+            <?php if (!empty($get_ram_gap)): ?>
+                <table>
+                    <thead>
+
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td><strong>Moyenne</strong></td>
+                        <td><?= round($get_ram_mean, 0) ?> MB</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Écart-type</strong></td>
+                        <td><?= round($get_ram_gap, 0) ?> MB</td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p class="no-data">Aucune donnée disponible</p>
+            <?php endif; ?>
+        </div>
 
     </div>
 
@@ -265,7 +312,204 @@
             <p class="no-data">Aucune donnée disponible</p>
         <?php endif; ?>
     </div>
+    <div class="stat-card" style="margin-bottom: 20px; align-items: center">
+        <h2>🧠 Distribution de la RAM</h2>
+        <div class="chart-container">
+            <canvas id="ramChart"></canvas>
+        </div>
+        <h2>💿 Distribution des Disques Durs</h2>
+        <div class="chart-container">
+            <canvas id="diskChart"></canvas>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
 
+            const ramData = {
+                labels: [
+                    <?php
+                    if (!empty($get_ram_statistics)) {
+                        $labels = array_map(function ($row) {
+                            return "'" . htmlspecialchars($row['ram_range']) . "'";
+                        }, $get_ram_statistics);
+                        echo implode(', ', $labels);
+                    }
+                    ?>
+                ],
+                datasets: [{
+                    label: 'Nombre d\'unités',
+                    data: [
+                        <?php
+                        if (!empty($get_ram_statistics)) {
+                            $counts = array_map(function ($row) {
+                                return $row['count'];
+                            }, $get_ram_statistics);
+                            echo implode(', ', $counts);
+                        }
+                        ?>
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            };
+
+            const ramConfig = {
+                type: 'bar',
+                data: ramData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Répartition de la mémoire RAM',
+                            font: {size: 16}
+                        },
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed.y / total) * 100).toFixed(1);
+                                    return context.parsed.y + ' unités (' + percentage + '%)';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            },
+                            title: {
+                                display: true,
+                                text: 'Nombre d\'unités'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Plage de RAM (GB)'
+                            }
+                        }
+                    }
+                }
+            };
+            //disques
+            const diskData = {
+                labels: [
+                    <?php
+                    if (!empty($get_disk_statistics)) {
+                        $labels = array_map(function ($row) {
+                            return "'" . htmlspecialchars($row['disk_range']) . "'";
+                        }, $get_disk_statistics);
+                        echo implode(', ', $labels);
+                    }
+                    ?>
+                ],
+                datasets: [{
+                    label: 'Nombre d\'unités',
+                    data: [
+                        <?php
+                        if (!empty($get_disk_statistics)) {
+                            $counts = array_map(function ($row) {
+                                return $row['count'];
+                            }, $get_disk_statistics);
+                            echo implode(', ', $counts);
+                        }
+                        ?>
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(255, 205, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(54, 162, 235, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 205, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            };
+
+            const diskConfig = {
+                type: 'bar',
+                data: diskData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Répartition des capacités de stockage',
+                            font: {size: 16}
+                        },
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed.y / total) * 100).toFixed(1);
+                                    return context.parsed.y + ' unités (' + percentage + '%)';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            },
+                            title: {
+                                display: true,
+                                text: 'Nombre d\'unités'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Capacité de stockage (GB)'
+                            }
+                        }
+                    }
+                }
+            };
+
+
+            const ramCtx = document.getElementById('ramChart');
+            const diskCtx = document.getElementById('diskChart');
+
+            if (ramCtx) {
+                new Chart(ramCtx, ramConfig);
+            }
+
+            if (diskCtx) {
+                new Chart(diskCtx, diskConfig);
+            }
+        });
+    </script>
 </div>
 </body>
 </html>

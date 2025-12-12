@@ -9,7 +9,7 @@ class Database
         $host = $_ENV['DB_HOST'];
         $dbname = $_ENV['DB_NAME'];
         $user = $_ENV['DB_USER'];
-        $password = $_ENV['DB_PASS'];
+        $password = $_ENV['DB_PASS'] ?? "";
         $data_source_name = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
 
         try {

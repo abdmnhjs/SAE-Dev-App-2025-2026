@@ -71,9 +71,11 @@ body {
 
 /* Tables */
 table {
-    width: 100%;
+    width: auto;
     border-collapse: collapse;
     margin-top: 20px;
+    table-layout: fixed; /* Add this - forces equal column widths */
+    max-width: 100%;
 }
 
 table th, table td {

@@ -34,7 +34,7 @@
                         <tr>
                             <td><strong><?= htmlspecialchars($row['id_manufacturer']) ?></strong></td>
                             <td><span class="badge badge-primary"><?= $row['count'] ?></span></td>
-                            <td><?= $row['avg_size'] ?>"</td>
+                            <td><strong><?= $row['avg_size'] ?>"<strong></td>
                             <td>
                                 <div class="progress-bar">
                                     <div class="progress-fill" style="width: <?= $row['percentage'] ?>%"></div>
@@ -162,9 +162,22 @@
                         </div>
                     </div>
                 </div>
-                <p style="margin-top: 15px; color: #666; font-size: 0.95em;">
-                    Ces écrans sont disponibles pour être assignés à de nouvelles unités centrales.
-                </p>
+                <div>
+                    <table>
+
+                        <?php foreach ($getUnattachedScreensList as $row): ?>
+                            <tr>
+                                <td><strong><?= htmlspecialchars($row['serial']) ?></strong></td>
+                                <td>
+                                    <a class="badge badge-primary" style="text-decoration: none; :hover {opacity: 0.7}" href="dashboard/tech?section=edit-screen&serial=<?= htmlspecialchars($row['serial']) ?>">Modifier</a>
+
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+
+                    </table>
+                </div>
+
             <?php else: ?>
                 <div class="no-data">Aucune donnée disponible</div>
             <?php endif; ?>
@@ -174,6 +187,21 @@
         <div class="card">
             <h2>🖥️ Écrans par Unité Centrale</h2>
             <?php if (!empty($get_screens_per_unit)): ?>
+
+                <?php
+                $multi_screen = array_filter($get_screens_per_unit, function ($row) {
+                    return $row['screen_count'] > 1;
+                });
+                if (!empty($multi_screen)):
+                    ?>
+                    <div class="stat-highlight" style="margin-top: 15px; border-left-color: #f39c12;">
+                        <p>
+                            <strong>ℹ️ Information :</strong>
+                            <?= count($multi_screen) ?> unité(s) centrale(s)
+                            possède(nt) plusieurs écrans
+                        </p>
+                    </div>
+                <?php endif; ?>
                 <table>
                     <thead>
                     <tr>
@@ -195,20 +223,6 @@
                     </tbody>
                 </table>
 
-                <?php
-                $multi_screen = array_filter($get_screens_per_unit, function ($row) {
-                    return $row['screen_count'] > 1;
-                });
-                if (!empty($multi_screen)):
-                    ?>
-                    <div class="stat-highlight" style="margin-top: 15px; border-left-color: #f39c12;">
-                        <p>
-                            <strong>ℹ️ Information :</strong>
-                            <?= count($multi_screen) ?> unité(s) centrale(s)
-                            possède(nt) plusieurs écrans
-                        </p>
-                    </div>
-                <?php endif; ?>
             <?php else: ?>
                 <div class="no-data">Aucune unité centrale n'a d'écran attaché</div>
             <?php endif; ?>

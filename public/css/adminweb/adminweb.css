@@ -31,7 +31,7 @@ body {
     padding: 20px 15px;
     overflow-y: auto;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    flex-shrink: 0; /* prevents shrinking */
+    flex-shrink: 0;
 }
 
 .sidebar a {

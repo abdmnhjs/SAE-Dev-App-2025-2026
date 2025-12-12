@@ -39,12 +39,13 @@ class User
     {
 
 
-        $login = $_SESSION['name'];
+        $login = $_SESSION['name'] ?? ""; // ignorer si le login est pas trouver ?
+        
         $ip_address = $_SERVER['REMOTE_ADDR'];
         $duration = time() - $_SESSION['session_start_time'];
 
         // PDO prepared statement
-        $query = "INSERT INTO logs (login, ip_address, duration_seconds) 
+        $query = "INSERT IGNORE INTO logs (login, ip_address, duration_seconds) 
               VALUES (:login, :ip_address, :duration)";
 
         $stmt = $this->db->prepare($query);

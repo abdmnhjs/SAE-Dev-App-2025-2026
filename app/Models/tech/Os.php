@@ -15,7 +15,7 @@ class Os
         if ($id === null) {
             return [
                 'id' => null,
-                'name' => 'Unknown OS'
+                'name' => 'OS inconnu'
             ];
         }
 

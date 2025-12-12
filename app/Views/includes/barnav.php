@@ -5,6 +5,7 @@
 
     <?php if(($_SESSION['rank'] ?? 0) >= Roles::TECH): ?>
         <a href="dashboard" class="sections">dashboard</a>
+        <a href="statistiques" class="sections">statistiques</a>
     <?php endif; ?>
 
     <?php if($username ?? false): ?>
