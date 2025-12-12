@@ -94,7 +94,7 @@ ensureUserAuthorized("tech");
 </form>
 
     <form method="post" action="actions/action-add-screen-csv.php" enctype="multipart/form-data">
-        <label for="screen-csv" id="label-screen-csv">Fichier csv</label>
+        <label for="screen-csv" id="label-screen-csv">Fichier csv (Nous vous recommandons que vos écrans soient attachés à des unités de contrôle existantes)</label>
         <input type="file" accept="text/csv" name="screens-csv" id="screen-csv"/>
         <button type="submit">Ajouter des écrans via un fichier csv</button>
     </form>
