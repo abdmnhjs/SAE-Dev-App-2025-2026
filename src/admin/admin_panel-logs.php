@@ -14,7 +14,7 @@ if($_SESSION["role"] !== "adminweb"){
 <head>
     <meta charset='UTF-8'>
     <title>Tech Panel</title>
-    <link rel="stylesheet" href="../css/adminweb/adminweb.css">
+    <link rel="stylesheet" href="../css/adminweb.css">
 </head>
 <body>
 <div class='sidebar'>
