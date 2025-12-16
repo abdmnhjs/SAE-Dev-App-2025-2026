@@ -40,7 +40,11 @@ if($stmt){
             header('Location: admin/create-tech-form.php');
         } else if ($role === "tech") {
             header('Location: tech/tech-panel.php?section=screens');
-        } else {
+        }
+        else if ($role === "sysadmin") {
+            header('Location: sysadmin/logs.php');
+        }
+        else {
             // Cas de sécurité : si le rôle n'est ni admin ni tech
             header("Location: connexion.php?error=role_inconnu");
         }
