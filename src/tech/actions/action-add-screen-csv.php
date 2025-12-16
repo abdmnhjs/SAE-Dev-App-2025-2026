@@ -133,6 +133,23 @@ if (($fp = fopen($uploadedFilePath, "r")) !== FALSE) {
         }
     }
 
+    // --- GESTION DES LOGS (Centralisée) ---
+    // On prépare la description et l'IP
+
+    $usernameTech = $_SESSION['username'];
+    $logDescription = $usernameTech . " a ajouté des écrans via un fichier csv ";
+    $ip_address = $_SERVER['REMOTE_ADDR'];
+
+    // On utilise une requête préparée pour les logs aussi (plus propre/sûr)
+    $queryLog = "INSERT INTO logs (username, description, ip_address) VALUES (?, ?, ?)";
+    $stmtLog = mysqli_prepare($loginToDb, $queryLog);
+
+    if ($stmtLog) {
+        mysqli_stmt_bind_param($stmtLog, "sss", $username, $logDescription, $ip_address);
+        mysqli_stmt_execute($stmtLog);
+        mysqli_stmt_close($stmtLog);
+    }
+
     // 4. Fermeture des ressources
     mysqli_stmt_close($stmtInsert);
     mysqli_stmt_close($stmtSelectManuf);
