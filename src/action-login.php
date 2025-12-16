@@ -3,7 +3,6 @@ session_start();
 
 require "includes/connexion_bdd.php";
 
-// 1. Initialisation du timer pour les logs (C'est très bien)
 if (!isset($_SESSION['session_start_time'])) {
     $_SESSION['session_start_time'] = time();
 }
@@ -11,47 +10,60 @@ if (!isset($_SESSION['session_start_time'])) {
 $username = $_POST["username"];
 $password = $_POST["password"];
 
+// Vérification du login
 $queryRole = "SELECT role FROM users WHERE name = ? AND mdp = ?";
 $stmt = mysqli_prepare($loginToDb, $queryRole);
 
-if($stmt){
+if ($stmt) {
     mysqli_stmt_bind_param($stmt, "ss", $username, $password);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
-    // --- CORRECTION ICI ---
-    // On vérifie s'il y a au moins 1 résultat
-    if(mysqli_num_rows($result) > 0){
-
-        // On récupère les données sous forme de tableau associatif
+    if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-
         $role = $row["role"];
 
-        // On stocke le rôle ET le nom d'utilisateur (crucial pour tes logs plus tard !)
+        // Initialisation de la session
         $_SESSION["role"] = $role;
-        $_SESSION["username"] = $username; // AJOUTÉ : sinon tu ne sauras pas qui loguer
+        $_SESSION["username"] = $username;
 
+        // Fermeture du statement de login (mais PAS de la connexion BDD globale)
         mysqli_stmt_close($stmt);
+
+        // --- GESTION DES LOGS (Centralisée) ---
+        // On prépare la description et l'IP
+        $logDescription = $username . " s'est connecté en tant que " . $role;
+        $ip_address = $_SERVER['REMOTE_ADDR'];
+
+        // On utilise une requête préparée pour les logs aussi (plus propre/sûr)
+        $queryLog = "INSERT INTO logs (username, description, ip_address) VALUES (?, ?, ?)";
+        $stmtLog = mysqli_prepare($loginToDb, $queryLog);
+
+        if ($stmtLog) {
+            mysqli_stmt_bind_param($stmtLog, "sss", $username, $logDescription, $ip_address);
+            mysqli_stmt_execute($stmtLog);
+            mysqli_stmt_close($stmtLog);
+        }
+
+        // --- FERMETURE DE LA BDD ---
+        // C'est ICI qu'on ferme la connexion, une fois que tout est fini
         mysqli_close($loginToDb);
 
-        // Redirection selon le rôle
-        if($role === "adminweb"){
+        // --- REDIRECTION ---
+        if ($role === "adminweb") {
             header('Location: admin/create-tech-form.php');
         } else if ($role === "tech") {
             header('Location: tech/tech-panel.php?section=screens');
-        }
-        else if ($role === "sysadmin") {
-            header('Location: sysadmin/logs,n.php');
-        }
-        else {
-            // Cas de sécurité : si le rôle n'est ni admin ni tech
+        } else if ($role === "sysadmin") {
+            header('Location: sysadmin/logs.php');
+        } else {
+            // Rôle inconnu
             header("Location: connexion.php?error=role_inconnu");
         }
         exit();
 
     } else {
-        // Mauvais login ou mot de passe
+        // Mauvais login/mdp
         mysqli_stmt_close($stmt);
         mysqli_close($loginToDb);
         header("Location: connexion.php?error=1");

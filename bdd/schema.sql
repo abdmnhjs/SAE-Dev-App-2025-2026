@@ -65,7 +65,7 @@ CREATE OR REPLACE TABLE logs (
     username VARCHAR(255) NOT NULL,
     description VARCHAR(255) DEFAULT NULL,
     ip_address VARCHAR(45) NOT NULL,
-    duration_seconds INT UNSIGNED NOT NULL,
+    duration_seconds INT UNSIGNED DEFAULT NULL,
     log_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

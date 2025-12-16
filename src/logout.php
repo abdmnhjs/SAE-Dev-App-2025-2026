@@ -10,11 +10,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['session_start_time'])) {
 
     // 2. On prépare la phrase ET on l'échappe pour gérer l'apostrophe de "s'est"
     $raw_desc = $_SESSION['username'] . " s'est déconnecté";
-    $action = mysqli_real_escape_string($loginToDb, $raw_desc);
+    $description = mysqli_real_escape_string($loginToDb, $raw_desc);
 
     // 3. Correction de la requête (virgules ajoutées + nom de colonne corrigé)
     $insert = "INSERT INTO logs (username, description, ip_address, duration_seconds) 
-               VALUES ('$username', '$action', '$ip_address', $duration)";
+               VALUES ('$username', '$description', '$ip_address', $duration)";
 
     mysqli_query($loginToDb, $insert);
 }
