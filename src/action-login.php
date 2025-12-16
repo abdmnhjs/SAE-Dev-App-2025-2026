@@ -42,7 +42,7 @@ if($stmt){
             header('Location: tech/tech-panel.php?section=screens');
         }
         else if ($role === "sysadmin") {
-            header('Location: sysadmin/logs.php');
+            header('Location: sysadmin/logs,n.php');
         }
         else {
             // Cas de sécurité : si le rôle n'est ni admin ni tech
