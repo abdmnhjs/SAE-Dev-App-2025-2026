@@ -44,9 +44,25 @@ if ($stmt) {
     mysqli_stmt_bind_param($stmt, "ss", $username, $password);
 
     if (mysqli_stmt_execute($stmt)) {
+        // --- GESTION DES LOGS (Centralisée) ---
+        // On prépare la description et l'IP
+
+        $usernameAdmin = $_SESSION['username'];
+        $logDescription = $usernameAdmin . " a ajouté le technicien nommé " . $username;
+        $ip_address = $_SERVER['REMOTE_ADDR'];
+
+        // On utilise une requête préparée pour les logs aussi (plus propre/sûr)
+        $queryLog = "INSERT INTO logs (username, description, ip_address) VALUES (?, ?, ?)";
+        $stmtLog = mysqli_prepare($loginToDb, $queryLog);
+
+        if ($stmtLog) {
+            mysqli_stmt_bind_param($stmtLog, "sss", $username, $logDescription, $ip_address);
+            mysqli_stmt_execute($stmtLog);
+            mysqli_stmt_close($stmtLog);
+        }
         mysqli_stmt_close($stmt);
         mysqli_close($loginToDb);
-        header("Location: ../admin_panel-logs.php?success=1");
+        header("Location: ../create-tech-form.php");
         exit();
     } else {
         $error = mysqli_stmt_error($stmt);
