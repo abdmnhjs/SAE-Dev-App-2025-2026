@@ -2,8 +2,10 @@
 session_start();
 
 require '../includes/init.php';
-ensureUserAuthorized("tech");
-// Vérification de la permission et du paramètre 'serial'
+if($_SESSION["role"] !== "tech"){
+    header('location: ../index.php');
+    exit();
+}// Vérification de la permission et du paramètre 'serial'
 $isAuthorized = isset($_SESSION['username']) &&
         $_SESSION['username'] !== 'adminweb' &&
         $_SESSION['username'] !== 'sysadmin' &&

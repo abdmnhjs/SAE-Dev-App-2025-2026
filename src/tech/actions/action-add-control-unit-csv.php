@@ -1,8 +1,11 @@
 <?php
 session_start();
 require '../../includes/init.php';
-ensureUserAuthorized("tech");
 
+if($_SESSION["role"] !== "tech"){
+    header('location: ../index.php');
+    exit();
+}
 if (!isset($_FILES["control-units-csv"])) {
     header("Location: ../tech-panel.php?error=no_file");
     exit;

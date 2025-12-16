@@ -3,7 +3,10 @@ session_start();
 
 
 require '../includes/init.php';
-ensureUserAuthorized("tech");
+if($_SESSION["role"] !== "tech"){
+    header('location: ../index.php');
+    exit();
+}
 $select = mysqli_select_db($loginToDb, $db); //les variables sont dans connexion_bdd.php, ca marche même si l'éditeur indique que les variables n'existe pas.
 
 $queryControlUnit = "SELECT * FROM control_unit";

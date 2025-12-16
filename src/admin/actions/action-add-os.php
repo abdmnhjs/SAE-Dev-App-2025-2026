@@ -2,8 +2,10 @@
 session_start();
 
 require '../../includes/init.php';
-ensureUserAuthorized("adminweb");
-
+if($_SESSION["role"] !== "adminweb"){
+    header('location: ../index.php');
+    exit();
+}
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: ../admin_panel-logs.php?error=not_a_post_request");
     exit();

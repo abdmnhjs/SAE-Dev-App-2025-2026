@@ -2,8 +2,10 @@
 session_start();
 
 require '../../includes/init.php';
-ensureUserAuthorized("tech");
-// Récupération et nettoyage de l'ID série de l'unité de contrôle depuis l'URL
+if($_SESSION["role"] !== "tech"){
+    header('location: ../index.php');
+    exit();
+}// Récupération et nettoyage de l'ID série de l'unité de contrôle depuis l'URL
 $serial = isset($_GET['serial']) ? trim($_GET['serial']) : null;
 
 

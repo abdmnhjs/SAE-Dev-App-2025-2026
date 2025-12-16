@@ -3,8 +3,10 @@ session_start();
 
 // --- Configuration et Connexion à la Base de Données ---
 require '../../includes/init.php';
-ensureUserAuthorized("tech");
-
+if($_SESSION["role"] !== "tech"){
+    header('location: ../index.php');
+    exit();
+}
 // Récupération de l'ID série de l'écran depuis l'URL
 $serial = isset($_GET['serial']) ? trim($_GET['serial']) : null;
 

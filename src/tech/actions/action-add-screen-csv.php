@@ -1,8 +1,10 @@
 <?php
 session_start();
 require '../../includes/init.php';
-ensureUserAuthorized("tech");
-
+if($_SESSION["role"] !== "tech"){
+    header('location: ../index.php');
+    exit();
+}
 // --- CORRECTION MAJEURE DE SÉCURITÉ ET LOGIQUE ---
 
 // 1. Gérer le Fichier Téléchargé de Manière Sûre

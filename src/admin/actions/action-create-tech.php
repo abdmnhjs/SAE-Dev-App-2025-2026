@@ -1,8 +1,10 @@
 <?php
 session_start();
 require '../../includes/init.php';
-ensureUserAuthorized("adminweb");
-
+if($_SESSION["role"] !== "adminweb"){
+    header('location: ../index.php');
+    exit();
+}
 
 
 // Récupérer et valider les données

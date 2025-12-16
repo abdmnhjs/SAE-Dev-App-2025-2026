@@ -1,6 +1,10 @@
 <?php
 session_start();
 require '../../../includes/init.php';
+if($_SESSION["role"] !== "adminweb"){
+    header('location: ../index.php');
+    exit();
+}
 
 if(isset($_POST["os_id"])){
     $selectedOsId = (int)$_POST["os_id"];

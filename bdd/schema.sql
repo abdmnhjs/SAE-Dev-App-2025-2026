@@ -5,7 +5,8 @@ USE infra;
 CREATE OR REPLACE TABLE users (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
-    mdp VARCHAR(255) NOT NULL
+    mdp VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL,
 );
 
 -- 2. Table des systèmes d'exploitation (inchangée)
@@ -62,6 +63,7 @@ CREATE OR REPLACE TABLE control_unit (
 CREATE OR REPLACE TABLE logs (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
+    action VARCHAR(255) DEFAULT NULL,
     ip_address VARCHAR(45) NOT NULL,
     duration_seconds INT UNSIGNED NOT NULL,
     log_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -94,11 +96,11 @@ CREATE OR REPLACE TABLE screen (
 );
 
 -- Insertion des données de test
-INSERT INTO users (name, mdp)
+INSERT INTO users (name, mdp, role)
 VALUES
-    ('sysadmin', 'sysadmin'),
-    ('adminweb', 'adminweb'),
-    ('tech', 'tech');
+    ('sysadmin', 'sysadmin', 'adminweb'),
+    ('adminweb', 'adminweb', 'adminweb'),
+    ('tech1', 'tech1', 'tech');
 
 -- Exemples de données pour les tables de référence
 INSERT INTO os_list (name) VALUES

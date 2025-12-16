@@ -1,8 +1,10 @@
 <?php
 session_start();
 require '../includes/init.php';
-ensureUserAuthorized("tech");
-?>
+if($_SESSION["role"] !== "tech"){
+    header('location: ../index.php');
+    exit();
+}?>
 <!DOCTYPE html>
 <html>
 <head>
