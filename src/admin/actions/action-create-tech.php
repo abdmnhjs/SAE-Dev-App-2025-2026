@@ -10,6 +10,7 @@ if($_SESSION["role"] !== "adminweb"){
 // Récupérer et valider les données
 $username = isset($_POST["username"]) ? trim($_POST["username"]) : '';
 $password = isset($_POST["password"]) ? trim($_POST["password"]) : '';
+$role = "tech";
 
 // Validation des champs
 if (empty($username) || empty($password)) {
@@ -37,11 +38,11 @@ if ($check_stmt) {
 }
 
 // Insérer le nouvel utilisateur
-$query = "INSERT INTO users (name, mdp) VALUES (?, ?)";
+$query = "INSERT INTO users (name, mdp, role) VALUES (?, ?, ?)";
 $stmt = mysqli_prepare($loginToDb, $query);
 
 if ($stmt) {
-    mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+    mysqli_stmt_bind_param($stmt, "sss", $username, $password, $role);
 
     if (mysqli_stmt_execute($stmt)) {
         // --- GESTION DES LOGS (Centralisée) ---
