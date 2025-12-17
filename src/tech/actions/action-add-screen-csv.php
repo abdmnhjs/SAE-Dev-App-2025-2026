@@ -1,168 +1,174 @@
 <?php
 session_start();
+// Activation des rapports d'erreurs stricts pour MySQLi (Try/Catch)
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 require '../../includes/init.php';
+
 if($_SESSION["role"] !== "tech"){
     header('location: ../index.php');
     exit();
 }
-// --- CORRECTION MAJEURE DE SÉCURITÉ ET LOGIQUE ---
 
-// 1. Gérer le Fichier Téléchargé de Manière Sûre
+// 1. Validation du fichier
 if (empty($_FILES["screens-csv"]) || $_FILES["screens-csv"]["error"] !== UPLOAD_ERR_OK) {
     header("Location: ../tech-panel.php?error=no_file_uploaded");
     exit;
 }
 
 $uploadedFilePath = $_FILES["screens-csv"]["tmp_name"];
-$errors = []; // Tableau pour stocker les erreurs par ligne
 
-// 2. Ouvrir le fichier temporaire
-if (($fp = fopen($uploadedFilePath, "r")) !== FALSE) {
+if (!file_exists($uploadedFilePath)) {
+    header("Location: ../tech-panel.php?error=file_not_found");
+    exit;
+}
 
-    // Lire l'en-tête (pour l'ignorer)
-    $header = fgetcsv($fp, 1024, ",");
+$fp = fopen($uploadedFilePath, "r");
+if (!$fp) {
+    header("Location: ../tech-panel.php?error=cannot_open_file");
+    exit;
+}
 
-    // --- PRÉPARATION DES REQUÊTES (UNE SEULE FOIS) ---
+// Ignorer l'en-tête
+$header = fgetcsv($fp, 1024, ",");
 
-    // A. Requête d'Insertion (screen)
-    $insertQuery = "INSERT INTO screen (serial, id_manufacturer, model, 
-                          size_inch, resolution, connector, 
-                          attached_to)                          
-                          VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmtInsert = mysqli_prepare($loginToDb, $insertQuery);
+// Compteurs
+$successCount = 0;
+$errorCount = 0;
+$duplicateCount = 0;
+$errorsDetails = [];
 
-    // B. Requête de Sélection (manufacturer_list)
-    $selectManufQuery = "SELECT id FROM manufacturer_list WHERE name = ?";
-    $stmtSelectManuf = mysqli_prepare($loginToDb, $selectManufQuery);
+// --- PRÉPARATION DES REQUÊTES (Optimisation) ---
 
-    // C. NOUVEAU : Requête de Sélection (control_unit) pour vérifier 'attached_to'
-    // ATTENTION : On vérifie maintenant la colonne 'name'
-    $selectAttachedQuery = "SELECT name FROM control_unit WHERE name = ?";
-    $stmtSelectAttached = mysqli_prepare($loginToDb, $selectAttachedQuery);
+// A. Gestion Fabricant (Récupérer ou Créer)
+$queryManuf = "SELECT id FROM manufacturer_list WHERE name = ?";
+$stmtManuf = mysqli_prepare($loginToDb, $queryManuf);
+$insertManuf = "INSERT INTO manufacturer_list (name) VALUES (?)";
+$stmtInsertManuf = mysqli_prepare($loginToDb, $insertManuf);
+
+// B. Vérification Unité Centrale (Attached_to)
+// On vérifie si le nom de l'ordinateur existe vraiment
+$queryUnit = "SELECT name FROM control_unit WHERE name = ?";
+$stmtUnit = mysqli_prepare($loginToDb, $queryUnit);
+
+// C. Insertion Écran
+$insertQuery = "INSERT INTO screen (serial, id_manufacturer, model, 
+                      size_inch, resolution, connector, 
+                      attached_to)                          
+                      VALUES (?, ?, ?, ?, ?, ?, ?)";
+$stmtInsert = mysqli_prepare($loginToDb, $insertQuery);
 
 
-    // Vérification de la préparation des requêtes
-    if (!$stmtInsert || !$stmtSelectManuf || !$stmtSelectAttached) {
-        // En cas d'échec de préparation, on arrête tout
-        die("Erreur de préparation de la requête: " . mysqli_error($loginToDb));
+// 3. Boucle et Exécution
+while (($result = fgetcsv($fp, 1024, ",")) !== FALSE) {
+
+    // Vérification basique des colonnes (7 colonnes attendues)
+    if (count($result) < 7) {
+        $errorCount++;
+        continue;
     }
 
-    $lineNumber = 1;
+    // Nettoyage des entrées
+    $serial = trim($result[0]);
+    $manufacturerName = trim($result[1]);
+    $model = trim($result[2]);
+    $sizeInch = trim($result[3]);
+    $resolution = trim($result[4]);
+    $connector = trim($result[5]);
+    $attachedToName  = trim($result[6]);
 
-    // 3. Boucle et Exécution
-    while (($result = fgetcsv($fp, 1024, ",")) !== FALSE) {
-        $lineNumber++;
+    // Skip si pas de numéro de série
+    if (empty($serial)) {
+        continue;
+    }
 
-        // S'assurer qu'il y a 7 colonnes
-        if (count(array_filter($result)) < 7) { // Utilisez array_filter pour compter les colonnes non vides
-            $errors[] = "Ligne $lineNumber ignorée: pas assez de colonnes non vides.";
-            continue;
-        }
+    // --- 1. GESTION FABRICANT (Auto-création) ---
+    $manufacturerId = null;
+    mysqli_stmt_bind_param($stmtManuf, "s", $manufacturerName);
+    mysqli_stmt_execute($stmtManuf);
+    $resMan = mysqli_stmt_get_result($stmtManuf);
 
-        $serial = trim($result[0]);
-        $manufacturerName = trim($result[1]); // Nom du fabricant (Ex: "Dell")
-        $model = trim($result[2]);
-        $sizeInch = trim($result[3]);
-        $resolution = trim($result[4]);
-        $connector = trim($result[5]);
-        $attachedToName  = trim($result[6]); // Nom de l'unité de contrôle (Ex: "PC-Admin-01")
-
-        // --- 1. Récupération de l'ID du Fabricant ---
-        $manufacturerId = null;
-
-        mysqli_stmt_bind_param($stmtSelectManuf, "s", $manufacturerName);
-        mysqli_stmt_execute($stmtSelectManuf);
-
-        // Correction de synchronisation
-        mysqli_stmt_store_result($stmtSelectManuf);
-
-        mysqli_stmt_bind_result($stmtSelectManuf, $fetchedId);
-
-        if (mysqli_stmt_fetch($stmtSelectManuf)) {
-            $manufacturerId = $fetchedId;
-        } else {
-            $errors[] = "Échec à la ligne $lineNumber : Fabricant **'".$manufacturerName."'** non trouvé dans la table de référence.";
-            mysqli_stmt_free_result($stmtSelectManuf);
-            continue;
-        }
-        mysqli_stmt_free_result($stmtSelectManuf);
-
-        // --- 2. Vérification de l'Unité de Contrôle Attachée (attached_to) par NOM ---
-
-        $attachedSerialExists = false;
-        $finalAttachedTo = $attachedToName;
-
-        if (!empty($attachedToName)) {
-            // Lier le NOM de l'unité à la requête SELECT
-            mysqli_stmt_bind_param($stmtSelectAttached, "s", $attachedToName);
-            mysqli_stmt_execute($stmtSelectAttached);
-
-            // Correction de synchronisation
-            mysqli_stmt_store_result($stmtSelectAttached);
-
-            // Vérifie si un résultat a été trouvé
-            if (mysqli_stmt_num_rows($stmtSelectAttached) > 0) {
-                $attachedSerialExists = true;
-            }
-
-            // Libérer le résultat avant l'INSERT
-            mysqli_stmt_free_result($stmtSelectAttached);
-
-            if (!$attachedSerialExists) {
-                // Si la valeur est fournie MAIS la référence n'existe pas
-                $errors[] = "Échec à la ligne $lineNumber : Nom d'unité de contrôle **'".$attachedToName."'** non trouvé dans la table control_unit.";
-                continue;
-            }
-        } else {
-            // Si le champ est vide dans le CSV, le transformer en NULL pour la DB
-            $finalAttachedTo = NULL;
-        }
-
-
-        // --- 3. Insertion dans 'screen' ---
-
-        // Le type de liaison reste "sisdsss" car 'attached_to' est un VARCHAR (s)
-        mysqli_stmt_bind_param($stmtInsert, "sisdsss",
-            $serial, $manufacturerId, $model,
-            $sizeInch, $resolution, $connector,
-            $finalAttachedTo // Utilisation du Nom vérifié (NULL ou Nom valide)
-        );
-
-        if (!mysqli_stmt_execute($stmtInsert)) {
-            $errors[] = "Échec de l'insertion à la ligne $lineNumber: " . mysqli_stmt_error($stmtInsert);
+    if ($row = mysqli_fetch_assoc($resMan)) {
+        $manufacturerId = $row['id'];
+    } else {
+        // Le fabricant n'existe pas, on le crée
+        mysqli_stmt_bind_param($stmtInsertManuf, "s", $manufacturerName);
+        if (mysqli_stmt_execute($stmtInsertManuf)) {
+            $manufacturerId = mysqli_insert_id($loginToDb);
         }
     }
 
-    // --- GESTION DES LOGS (Centralisée) ---
-    // On prépare la description et l'IP
+    // --- 2. GESTION LIAISON UNITÉ (Attached To) ---
+    $finalAttachedTo = NULL;
 
+    if (!empty($attachedToName)) {
+        mysqli_stmt_bind_param($stmtUnit, "s", $attachedToName);
+        mysqli_stmt_execute($stmtUnit);
+        $resUnit = mysqli_stmt_get_result($stmtUnit);
+
+        if ($rowUnit = mysqli_fetch_assoc($resUnit)) {
+            // L'unité existe, on valide le lien
+            $finalAttachedTo = $attachedToName;
+        } else {
+            // L'unité n'existe pas dans la base
+            // CHOIX : On rejette la ligne OU on importe sans lier ?
+            // Ici, on compte une erreur car lier un écran à un PC fantôme est risqué
+            $errorCount++;
+            $errorsDetails[] = "Serial $serial : Unité '$attachedToName' inconnue.";
+            continue; // On passe à la ligne suivante du CSV
+        }
+    }
+
+    // --- 3. INSERTION ÉCRAN ---
+    mysqli_stmt_bind_param($stmtInsert, "sisdsss",
+        $serial, $manufacturerId, $model,
+        $sizeInch, $resolution, $connector,
+        $finalAttachedTo
+    );
+
+    try {
+        mysqli_stmt_execute($stmtInsert);
+        $successCount++;
+    } catch (mysqli_sql_exception $e) {
+        if ($e->getCode() == 1062) {
+            // Doublon (Serial déjà existant)
+            $duplicateCount++;
+        } else {
+            // Autre erreur SQL
+            $errorCount++;
+            $errorsDetails[] = "Erreur SQL Serial $serial : " . $e->getMessage();
+        }
+    }
+}
+
+// Fermeture des ressources
+fclose($fp);
+mysqli_stmt_close($stmtInsert);
+mysqli_stmt_close($stmtManuf);
+mysqli_stmt_close($stmtInsertManuf);
+mysqli_stmt_close($stmtUnit);
+
+// --- LOGS ---
+if ($successCount > 0) {
     $usernameTech = $_SESSION['username'];
-    $logDescription = $usernameTech . " a ajouté des écrans via un fichier csv ";
+    // Correction ici : Utilisation de $usernameTech et non $username
+    $logDescription = "$usernameTech a importé des écrans (CSV). Succès: $successCount, Doublons: $duplicateCount, Erreurs: $errorCount";
     $ip_address = $_SERVER['REMOTE_ADDR'];
 
-    // On utilise une requête préparée pour les logs aussi (plus propre/sûr)
     $queryLog = "INSERT INTO logs (username, description, ip_address) VALUES (?, ?, ?)";
     $stmtLog = mysqli_prepare($loginToDb, $queryLog);
 
     if ($stmtLog) {
-        mysqli_stmt_bind_param($stmtLog, "sss", $username, $logDescription, $ip_address);
+        mysqli_stmt_bind_param($stmtLog, "sss", $usernameTech, $logDescription, $ip_address);
         mysqli_stmt_execute($stmtLog);
         mysqli_stmt_close($stmtLog);
     }
-
-    // 4. Fermeture des ressources
-    mysqli_stmt_close($stmtInsert);
-    mysqli_stmt_close($stmtSelectManuf);
-    mysqli_stmt_close($stmtSelectAttached);
-    fclose($fp);
-    header("Location: ../tech-panel.php?section=screens");
-    exit; // Toujours mettre exit après une redirection
-
-
-} else {
-    $errors[] = "Impossible d'ouvrir le fichier CSV temporaire.";
 }
 
+mysqli_close($loginToDb);
 
-
+// --- REDIRECTION ---
+// On redirige avec les détails
+header("Location: ../tech-panel.php?section=screens&success=import_done&added=$successCount&dupes=$duplicateCount&errors=$errorCount");
+exit;
 ?>
