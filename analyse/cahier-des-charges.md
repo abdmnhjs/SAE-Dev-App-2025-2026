@@ -1,7 +1,7 @@
-# CAHIER DES CHARGES - SAE 3 & 4 (2025)
+# CAHIER DES CHARGES
 
 ## Introduction
-Nous sommes une équipe de 4 à 5 étudiants travaillant sur un projet informatique s'étalant sur les semestres 3 et 4. L’objectif de ce projet est de mettre en place une plateforme web de gestion de parc informatique (inventaire) développée en PHP et MySQL (ou équivalent).
+Nous sommes une équipe de 4 étudiants travaillant sur un projet informatique s'étalant sur les semestres 3 et 4. L’objectif de ce projet est de mettre en place une plateforme web de gestion de parc informatique développée en PHP et MySQL.
 
 Le site comportera :
 - Une page d’accueil avec texte et vidéo explicative,
@@ -69,3 +69,4 @@ Les priorités de développement et les rendus attendus sont les suivants :
    - Documentation complète du code et du projet disponible sur le dépôt Git.
    - Code mis à jour régulièrement.
    - Communication professionnelle (mails) avec les intervenants.
+
