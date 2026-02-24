@@ -101,7 +101,7 @@ INSERT INTO users (name, mdp, role)
 VALUES
     ('sysadmin', 'sysadmin', 'sysadmin'),
     ('adminweb', 'adminweb', 'adminweb'),
-    ('tech1', 'tech1', 'tech');
+    ('tech1', '*tech1*', 'tech');
 
 -- Exemples de données pour les tables de référence
 INSERT INTO os_list (name) VALUES

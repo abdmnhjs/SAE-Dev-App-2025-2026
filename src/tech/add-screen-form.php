@@ -4,28 +4,21 @@ require '../includes/init.php';
 if($_SESSION["role"] !== "tech"){
     header('location: ../index.php');
     exit();
-}?>
+}
+$sidebarBase = '../';
+$sidebarTechPrefix = '';
+?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset='UTF-8'>
     <title>Tech Panel</title>
+    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/tech/tech-panel.css">
 </head>
-<body>
-<div class='sidebar'>
-    <div class='sidebar-sections'>
-            <a class='sidebar-section' href='../logout.php' class='sections'>Se déconnecter</a>
-
-        <a class='sidebar-section' href='tech-panel.php?section=screens'>écrans</a>
-        <a class='sidebar-section' href='tech-panel.php?section=control-units'>Unités de contrôle</a>
-            <a class='sidebar-section' href='add-screen-form.php'>Ajouter un écran</a>
-    <a class='sidebar-section' href='add-control-unit-form.php'>Ajouter une unité de controle</a>
-        <a class='sidebar-section' href='../stats.php'>Statistiques</a>
-
-
-    </div>
-</div>
+<body class="with-sidebar">
+<?php require __DIR__ . '/../includes/sidebar.php'; ?>
+<main class="main-with-sidebar tech-panel-main">
 <div>
 <form method='post' action='actions/action-add-screen.php'>
     <table>
@@ -108,5 +101,6 @@ if($_SESSION["role"] !== "tech"){
         <code>SERIAL,MANUFACTURER,MODEL,SIZE_INCH,RESOLUTION,CONNECTOR,ATTACHED_TO</code>
     </p>
 </div>
+</main>
 </body>
 </html>

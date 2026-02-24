@@ -7,29 +7,20 @@ if($_SESSION["role"] !== "adminweb"){
     header('location: ../index.php');
     exit();
 }
-
+$sidebarBase = '../';
+$sidebarAdminPrefix = '';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset='UTF-8'>
-    <title>Tech Panel</title>
+    <title>Admin - Logs</title>
+    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/adminweb.css">
 </head>
-<body>
-<div class='sidebar'>
-    <div class='sidebar-sections'>
-        <a class='sidebar-section' href='../logout.php' class='sections'>Se déconnecter</a>
-        <a class='sidebar-section' href='create-tech-form.php'>Créer un technicien</a>
-        <a class='sidebar-section' href='add-os-form.php'>Ajouter un système d'exploitation</a>
-        <a class='sidebar-section' href='add-manufacturer-form.php'>Ajouter un fabriquant</a>
-        <a class="sidebar-section" href="../stats.php">Statistiques</a>
-        <a class="sidebar-section" href="admin_panel-logs.php">Logs</a>
-
-    </div>
-</div>
-
-
+<body class="with-sidebar">
+<?php require __DIR__ . '/../includes/sidebar.php'; ?>
+<main class="main-with-sidebar">
 <form method="post">
     <button class='admin-panel-section' name="action" value="ip">By IP Address</button>
     <button class='admin-panel-section' name="action" value="user">By Username</button>
@@ -117,4 +108,6 @@ if ($action === 'per_day') $results = logsPerDay($loginToDb);
         <?php endforeach; ?>
     </table>
 <?php endif; ?>
+</main>
+</body>
 </html>

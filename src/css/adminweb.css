@@ -8,53 +8,13 @@
 }
 
 body {
-    background-color: #121212; /* Fond général sombre */
-    color: white;              /* Texte général en blanc */
+    background-color: #121212;
+    color: white;
     font-family: 'Geist', sans-serif;
     margin: 0;
-    margin-left: 250px;        /* Marge pour laisser la place à la sidebar */
 }
 
-/* =========================================
-   2. SIDEBAR (Barre latérale)
-   ========================================= */
-.sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 250px;
-    background-color: #ffffff; /* Fond blanc */
-    padding: 20px 0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    z-index: 1000;
-}
-
-.sidebar-sections {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0 15px;
-}
-
-.sidebar-section {
-    display: block;
-    padding: 15px 20px;
-    color: #333333; /* Texte NOIR car le fond de la sidebar est blanc */
-    text-decoration: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.sidebar-section:hover {
-    background-color: #121212; /* Devient sombre au survol */
-    color: #ffffff;            /* Le texte devient blanc au survol */
-    transform: translateX(5px);
-}
+/* Sidebar : gérée par styles.css (include commun) */
 
 .sidebar-section.active {
     background-color: #3498db;

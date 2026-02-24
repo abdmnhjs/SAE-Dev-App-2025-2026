@@ -1,28 +1,23 @@
-
-<nav>
-    <a href="index.php"><img src="images/logo.png" alt="logo-img" width="80" height="80"></a>
-    <a href="stats.php" class="sections">Statistiques</a>
-    <a href="connexion.php" class="sections">Se connecter</a>
-    <a href="inscription.php" class="sections">S'inscrire</a>
-
-
-
-    <?php
-    session_start();
-
-    if(isset($_SESSION['username'])) {
-        $username= $_SESSION['username'];
-        echo "<p class='sections'>Bonjour " . $_SESSION['username'] . "</p>";
-        echo "<a href='logout.php' class='sections'>Se déconnecter</a>";
-    } else {
-        echo "<p class='sections'>Vous n'êtes pas connecté.</p>";
-    }
-    ?>
-</nav>
-
 <?php
-include_once "html/connexion.html";
-
-if (isset($_GET['error'])) {
-    echo "<p style='color: red'>Erreur de connexion</p>";
-}
+session_start();
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Connexion</title>
+</head>
+<body class="with-sidebar">
+<?php require __DIR__ . '/includes/sidebar.php'; ?>
+<main class="main-with-sidebar">
+    <div class="connexion">
+        <?php include_once "html/connexion.html"; ?>
+        <?php if (isset($_GET['error'])) : ?>
+            <p style="color: red">Erreur de connexion</p>
+        <?php endif; ?>
+    </div>
+</main>
+</body>
+</html>

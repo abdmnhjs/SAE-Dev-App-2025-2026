@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require './probas-stats/stats.php';
 require 'includes/connexion_bdd.php';
@@ -115,14 +116,15 @@ if ($resultChartMan) {
 <head>
     <meta charset='UTF-8'>
     <title>Tech Panel</title>
-    <link rel="stylesheet" href="css/tech/tech-panel.css">
+    <link rel="stylesheet" href="css/styles.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 40px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        th { background-color: #f2f2f2; color: #333; }
+        td { color: #e0e0e0; }
 
         .charts-container {
             display: flex;
@@ -134,52 +136,18 @@ if ($resultChartMan) {
         .chart-box {
             width: 45%;
             min-width: 300px;
-            background: #fff;
+            background: #282828;
             padding: 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #444;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        h4 { text-align: center; color: #333; }
-
-        nav {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 3rem;
-        }
-
-        .sections {
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
+        h4 { text-align: center; color: #e0e0e0; }
     </style>
 </head>
-<body>
-
-<nav>
-    <a href="index.php"><img src="images/logo.png" alt="logo-img" width="80" height="80"></a>
-    <a href="stats.php" class="sections">Statistiques</a>
-    <a href="connexion.php" class="sections">Se connecter</a>
-    <a href="inscription.php" class="sections">S'inscrire</a>
-
-
-
-    <?php
-    session_start();
-
-
-
-    if(isset($_SESSION['username'])) {
-        $username= $_SESSION['username'];
-        echo "<p class='sections'>Bonjour " . $_SESSION['username'] . "</p>";
-        echo "<a href='logout.php' class='sections'>Se déconnecter</a>";
-    } else {
-        echo "<p class='sections'>Vous n'êtes pas connecté.</p>";
-    }
-    ?>
-</nav>
+<body class="with-sidebar">
+<?php require __DIR__ . '/includes/sidebar.php'; ?>
+<main class="main-with-sidebar">
 
 <div class="main-content">
 
@@ -237,6 +205,8 @@ if ($resultChartMan) {
     <hr>
 
 </div>
+
+</main>
 
 <script>
     const osLabels = <?php echo json_encode($osLabels); ?>;

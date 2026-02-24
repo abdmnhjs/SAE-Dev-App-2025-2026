@@ -5,28 +5,21 @@ require '../includes/init.php';
 if($_SESSION["role"] !== "adminweb"){
     header('location: ../index.php');
     exit();
-}?>
-
+}
+$sidebarBase = '../';
+$sidebarAdminPrefix = '';
+?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset='UTF-8'>
-    <title>Tech Panel</title>
+    <title>Admin - Créer un technicien</title>
+    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/adminweb.css">
 </head>
-<body>
-<div class='sidebar'>
-    <div class='sidebar-sections'>
-        <a class='sidebar-section' href='../logout.php' class='sections'>Se déconnecter</a>
-        <a class='sidebar-section' href='create-tech-form.php'>Créer un technicien</a>
-        <a class='sidebar-section' href='add-os-form.php'>Ajouter un système d'exploitation</a>
-        <a class='sidebar-section' href='add-manufacturer-form.php'>Ajouter un fabriquant</a>
-        <a class="sidebar-section" href="../stats.php">Statistiques</a>
-        <a class="sidebar-section" href="admin_panel-logs.php">Logs</a>
-
-    </div>
-</div>
-
+<body class="with-sidebar">
+<?php require __DIR__ . '/../includes/sidebar.php'; ?>
+<main class="main-with-sidebar">
 <?php
 if (isset($_SESSION['username']) && $_SESSION['username'] === "adminweb"){
     echo "<div>
@@ -37,8 +30,9 @@ if (isset($_SESSION['username']) && $_SESSION['username'] === "adminweb"){
 <input type='password' name='password' id='password'>
 <button type='submit' name='submit'>Créer le technicien</button>
 </form>
-</div>
-</html>
-";
-
+</div>";
 }
+?>
+</main>
+</body>
+</html>

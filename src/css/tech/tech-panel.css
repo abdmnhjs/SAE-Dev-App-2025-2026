@@ -1,124 +1,115 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-/* Container de la sidebar */
-.sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 250px;
-    background-color: #ffffff;
-    padding: 20px 0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-}
+/* Sidebar : CSS dans includes/sidebar.php */
 
 body {
     background-color: #121212;
-    margin-left: 250px;
-    font-family: 'Geist', sans-serif
+    font-family: 'Geist', sans-serif;
+    color: #e0e0e0;
 }
 
-* {
-    color: white;
+/* Zone principale tech panel : thème sombre comme le reste du site */
+.tech-panel-main {
+    gap: 2rem !important;
 }
 
-
-
-.sidebar a {
-    color: black;
+.tech-panel-main,
+.tech-panel-main * {
+    color: #e0e0e0;
 }
 
-/* Container des sections */
-.sidebar-sections {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0 15px;
-}
-
-/* Style des liens de section */
-.sidebar-section {
-    display: block;
-    padding: 15px 20px;
-    color: #ecf0f1;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-/* Effet au survol */
-.sidebar-section:hover {
+.tech-panel-main h1,
+.tech-panel-main h2,
+.tech-panel-main h3 {
     color: #fff;
-    background-color: #121212;
-    transform: translateX(5px);
 }
 
-/* Section active (optionnel) */
-.sidebar-section.active {
-    background-color: #3498db;
-    font-weight: bold;
-}
-
-/* Style pour les tableaux */
-table {
+/* Tableaux */
+.tech-panel-main table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background-color: #1a1a1a;
 }
 
-table th, table td {
+.tech-panel-main table th,
+.tech-panel-main table td {
     padding: 12px;
     text-align: left;
+    border: 1px solid #333;
+    color: #e0e0e0;
+}
+
+.tech-panel-main table th {
+    background-color: #282828;
+    color: #fff;
+    font-weight: bold;
+}
+
+.tech-panel-main table tr:hover {
+    background-color: #252525;
+}
+
+.tech-panel-main table a {
+    color: #7eb8ff;
+    text-decoration: none;
+}
+
+.tech-panel-main table a:hover {
+    color: #a8d4ff;
+    text-decoration: underline;
+}
+
+/* Formulaires */
+.tech-panel-main button {
+    margin: 5px;
+    padding: 10px 20px;
+    background-color: #282828;
+    color: #fff;
     border: 1px solid #444;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
 }
 
-table th {
+.tech-panel-main button:hover {
     background-color: #333;
-    font-weight: bold;
+    border-color: #555;
 }
 
-table tr:hover {
-    background-color: #1a1a1a;
-}
-
-button {
+.tech-panel-main select {
     margin: 5px;
-    padding: 10px 20px;
-    background-color: #333; /* green */
-    color: white;
-    border: 2px solid white;
-    border-radius: 5px;
+    padding: 8px 12px;
+    background-color: #282828;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 6px;
     cursor: pointer;
-    font-weight: bold;
-}
-button:hover {
-    background-color: #1a1a1a;
 }
 
-select {
-        margin: 5px;
-    padding: 5px 5px;
-    background-color: #333; /* green */
-    color: white;
-    border: 2px solid white;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-select:hover {
-    background-color: #1a1a1a;
-}
-
-input {
-    margin: 5px;
-    padding: 10px 20px;
+.tech-panel-main select:hover {
     background-color: #333;
-    color: white;
-    border: 2px solid white;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
+}
+
+.tech-panel-main input {
+    margin: 5px;
+    padding: 10px 14px;
+    background-color: #282828;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.tech-panel-main input::placeholder {
+    color: #888;
+}
+
+.tech-panel-main label {
+    color: #ccc;
+}
+
+/* Blocs / divs dans le tech panel */
+.tech-panel-main > div {
+    background-color: transparent;
 }

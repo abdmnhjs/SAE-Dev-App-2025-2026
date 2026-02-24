@@ -14,37 +14,22 @@ $controlUnits = mysqli_query($loginToDb, $queryControlUnit);
 $queryScreen = "SELECT * FROM screen";
 $screens = mysqli_query($loginToDb, $queryScreen);
 
+$sidebarBase = '../';
+$sidebarTechPrefix = '';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset='UTF-8'>
     <title>Tech Panel</title>
+    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/tech/tech-panel.css">
 </head>
-<body>
-<div class='sidebar'>
-    <div class='sidebar-sections'>
-            <a class='sidebar-section' href='../logout.php' class='sections'>Se déconnecter</a>
-
-        <a class='sidebar-section' href='tech-panel.php?section=screens'>écrans</a>
-        <a class='sidebar-section' href='tech-panel.php?section=control-units'>Unités de contrôle</a>
-
-        <a class='sidebar-section' href='add-screen-form.php'>Ajouter un écran</a>
-    <a class='sidebar-section' href='add-control-unit-form.php'>Ajouter une unité de controle</a>
-        <a class='sidebar-section' href='../stats.php'>Statistiques</a>
-
-
-    </div>
-</div>
-
-
+<body class="with-sidebar">
+<?php require __DIR__ . '/../includes/sidebar.php'; ?>
+<main class="main-with-sidebar tech-panel-main">
 <?php
-echo "
-<div>
-    <h1>Bienvenue tech1</h1>
-</div>
-";
+echo "<div><h1>Bienvenue " . htmlspecialchars($_SESSION['username'] ?? 'technicien') . "</h1></div>";
 
 
 
@@ -138,5 +123,6 @@ if (isset($_GET['section']) && $_GET['section'] == "control-units") {
     echo "</table>";
 }
 ?>
+</main>
 </body>
 </html>

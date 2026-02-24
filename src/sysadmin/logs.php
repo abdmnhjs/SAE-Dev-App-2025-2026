@@ -11,18 +11,20 @@ $select = mysqli_select_db($loginToDb, $db);
 
 $queryLogs = "SELECT * FROM logs WHERE description IS NOT NULL";
 $logs = mysqli_query($loginToDb, $queryLogs);
-?>
 
+$sidebarBase = '../';
+$sidebarSysadminPrefix = '';
+?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset='UTF-8'>
-    <title>Tech Panel</title>
+    <title>Sysadmin - Logs</title>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
-<div class='sidebar'>
-    <div class='sidebar-sections'>
-        <a class='sidebar-section' href='../logout.php' class='sections'>Se déconnecter</a>
-    </div>
+<body class="with-sidebar">
+<?php require __DIR__ . '/../includes/sidebar.php'; ?>
+<main class="main-with-sidebar">
     <table>
         <tr>
             <th>Nom d'utilisateur</th>
@@ -31,19 +33,18 @@ $logs = mysqli_query($loginToDb, $queryLogs);
             <th>Durée d'activité sur la plateforme</th>
             <th>Date de création du log</th>
         </tr>
-
     <?php
-
     while ($row = mysqli_fetch_assoc($logs)) {
         echo "<tr>";
-        echo "<td>" . $row['username'] . "</td>";
-        echo "<td>" . $row['ip_address'] . "</td>";
-        echo "<td>" . $row['description'] . "</td>";
-        echo "<td>" . $row['duration_seconds'] . "</td>";
-        echo "<td>" . $row['log_time'] . "</td>";
+        echo "<td>" . htmlspecialchars($row['username']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['ip_address']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['description']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['duration_seconds']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['log_time']) . "</td>";
         echo "</tr>";
-    }?>
+    }
+    ?>
     </table>
-
-</div>
+</main>
+</body>
 </html>

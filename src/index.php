@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,31 +8,9 @@
     <link rel="stylesheet" href="css/styles.css">
     <title>Accueil</title>
 </head>
-<body>
-
-<nav>
-    <a href="index.php"><img src="images/logo.png" alt="logo-img" width="80" height="80"></a>
-    <a href="stats.php" class="sections">Statistiques</a>
-    <a href="connexion.php" class="sections">Se connecter</a>
-    <a href="inscription.php" class="sections">S'inscrire</a>
-
-
-
-<?php
-session_start();
-
-
-
-if(isset($_SESSION['username'])) {
-    $username= $_SESSION['username'];
-    echo "<p class='sections'>Bonjour " . $_SESSION['username'] . "</p>";
-    echo "<a href='logout.php' class='sections'>Se déconnecter</a>";
-} else {
-    echo "<p class='sections'>Vous n'êtes pas connecté.</p>";
-}
-?>
-</nav>
-<main style="margin-top: 70px; display: flex; flex-direction: column; gap: 140px;">
+<body class="with-sidebar">
+<?php require __DIR__ . '/includes/sidebar.php'; ?>
+<main class="main-with-sidebar">
 
     <div class="section">
         <h1 class="hero-title">Votre parc informatique tout en un.</h1>
