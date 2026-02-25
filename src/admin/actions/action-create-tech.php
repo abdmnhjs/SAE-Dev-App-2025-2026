@@ -10,12 +10,20 @@ if($_SESSION["role"] !== "adminweb"){
 // Récupérer et valider les données
 $username = isset($_POST["username"]) ? trim($_POST["username"]) : '';
 $password = isset($_POST["password"]) ? trim($_POST["password"]) : '';
+$password_confirm = isset($_POST["password_confirm"]) ? trim($_POST["password_confirm"]) : '';
 $role = "tech";
 
 // Validation des champs
-if (empty($username) || empty($password)) {
+if (empty($username) || empty($password) || empty($password_confirm)) {
     mysqli_close($loginToDb);
-    header("Location: ../admin_panel-logs.php?error=empty_fields");
+    header("Location: ../create-tech-form.php?error=empty_fields");
+    exit();
+}
+
+// Vérification que les deux mots de passe correspondent
+if ($password !== $password_confirm) {
+    mysqli_close($loginToDb);
+    header("Location: ../create-tech-form.php?error=password_mismatch");
     exit();
 }
 
@@ -31,7 +39,7 @@ if ($check_stmt) {
     if (mysqli_stmt_num_rows($check_stmt) > 0) {
         mysqli_stmt_close($check_stmt);
         mysqli_close($loginToDb);
-        header("Location: ../admin_panel-logs.php?error=user_exists");
+        header("Location: ../create-tech-form.php?error=user_exists");
         exit();
     }
     mysqli_stmt_close($check_stmt);
