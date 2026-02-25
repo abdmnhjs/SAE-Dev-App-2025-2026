@@ -69,18 +69,18 @@ if ($isAuthorized) {
             ?>
 
             <div>
-                <form method='post' action='actions/action-edit-control-unit.php?serial=<?php echo htmlspecialchars($controlUnit['serial']); ?>'>
+                <form method="post" action="actions/action-edit-control-unit.php?serial=<?php echo htmlspecialchars($controlUnit['serial']); ?>">
                     <h3>Modification de l'Unité de Contrôle (Série: <?php echo htmlspecialchars($controlUnit['serial']); ?>)</h3>
 
-                    <label>Nom</label>
-                    <input type='text' name='name' value='<?php echo htmlspecialchars($controlUnit['name']); ?>' required>
+                    <label for="edit-cu-name">Nom</label>
+                    <input type="text" name="name" id="edit-cu-name" value="<?php echo htmlspecialchars($controlUnit['name']); ?>" required>
 
-                    <label>Numéro de série</label>
-                    <input type='text' value='<?php echo htmlspecialchars($controlUnit['serial']); ?>' readonly required>
+                    <label for="edit-cu-serial">Numéro de série</label>
+                    <input type="text" id="edit-cu-serial" value="<?php echo htmlspecialchars($controlUnit['serial']); ?>" readonly aria-readonly="true">
 
-                    <label>Fabricant</label>
-                    <select name='manufacturer' required>
-                        <option value='<?php echo htmlspecialchars($controlUnit['id_manufacturer']); ?>' selected>
+                    <label for="edit-cu-manufacturer">Fabricant</label>
+                    <select name="manufacturer" id="edit-cu-manufacturer" required>
+                        <option value="<?php echo htmlspecialchars($controlUnit['id_manufacturer']); ?>" selected>
                             <?php echo htmlspecialchars($manufacturerData['name']); ?>
                         </option>
                         <?php
@@ -95,24 +95,24 @@ if ($isAuthorized) {
                         ?>
                     </select>
 
-                    <label>Modèle</label>
-                    <input type='text' name='model' value='<?php echo htmlspecialchars($controlUnit['model']); ?>' required>
+                    <label for="edit-cu-model">Modèle</label>
+                    <input type="text" name="model" id="edit-cu-model" value="<?php echo htmlspecialchars($controlUnit['model']); ?>" required>
 
-                    <label>Type</label>
-                    <input type='text' name='type' value='<?php echo htmlspecialchars($controlUnit['type']); ?>' placeholder='PC, Serveur, Laptop...' required>
+                    <label for="edit-cu-type">Type</label>
+                    <input type="text" name="type" id="edit-cu-type" value="<?php echo htmlspecialchars($controlUnit['type']); ?>" placeholder="PC, Serveur, Laptop..." required>
 
-                    <label>CPU</label>
-                    <input type='text' name='cpu' value='<?php echo htmlspecialchars($controlUnit['cpu']); ?>' placeholder='Intel Core i7-10700' required>
+                    <label for="edit-cu-cpu">CPU</label>
+                    <input type="text" name="cpu" id="edit-cu-cpu" value="<?php echo htmlspecialchars($controlUnit['cpu']); ?>" placeholder="Intel Core i7-10700" required>
 
-                    <label>RAM (MB)</label>
-                    <input type='number' name='ramMb' value='<?php echo htmlspecialchars($controlUnit['ram_mb']); ?>' placeholder='16384' required>
+                    <label for="edit-cu-ramMb">RAM (MB)</label>
+                    <input type="number" name="ramMb" id="edit-cu-ramMb" value="<?php echo htmlspecialchars($controlUnit['ram_mb']); ?>" placeholder="16384" required>
 
-                    <label>Disque (GB)</label>
-                    <input type='number' name='diskGb' value='<?php echo htmlspecialchars($controlUnit['disk_gb']); ?>' placeholder='512' required>
+                    <label for="edit-cu-diskGb">Disque (GB)</label>
+                    <input type="number" name="diskGb" id="edit-cu-diskGb" value="<?php echo htmlspecialchars($controlUnit['disk_gb']); ?>" placeholder="512" required>
 
-                    <label>Système d'exploitation</label>
-                    <select name='os' required>
-                        <option value='<?php echo htmlspecialchars($controlUnit['id_os']); ?>' selected>
+                    <label for="edit-cu-os">Système d'exploitation</label>
+                    <select name="os" id="edit-cu-os" required>
+                        <option value="<?php echo htmlspecialchars($controlUnit['id_os']); ?>" selected>
                             <?php echo htmlspecialchars($osData['name']); ?>
                         </option>
                         <?php
@@ -127,28 +127,28 @@ if ($isAuthorized) {
                         ?>
                     </select>
 
-                    <label>Domaine</label>
-                    <input type='text' name='domain' value='<?php echo htmlspecialchars($controlUnit['domain']); ?>' placeholder='CORP.LOCAL'>
+                    <label for="edit-cu-location">Localisation</label>
+                    <input type="text" name="location" id="edit-cu-location" value="<?php echo htmlspecialchars($controlUnit['location']); ?>" required>
 
-                    <label>Localisation</label>
-                    <input type='text' name='location' value='<?php echo htmlspecialchars($controlUnit['location']); ?>' required>
+                    <label for="edit-cu-building">Bâtiment</label>
+                    <input type="text" name="building" id="edit-cu-building" value="<?php echo htmlspecialchars($controlUnit['building']); ?>" required>
 
-                    <label>Bâtiment</label>
-                    <input type='text' name='building' value='<?php echo htmlspecialchars($controlUnit['building']); ?>' required>
+                    <label for="edit-cu-room">Salle</label>
+                    <input type="text" name="room" id="edit-cu-room" value="<?php echo htmlspecialchars($controlUnit['room']); ?>" required>
 
-                    <label>Salle</label>
-                    <input type='text' name='room' value='<?php echo htmlspecialchars($controlUnit['room']); ?>' required>
+                    <label for="edit-cu-macaddr">Adresse MAC</label>
+                    <input type="text" name="macaddr" id="edit-cu-macaddr" value="<?php echo htmlspecialchars($controlUnit['macaddr']); ?>" placeholder="00:1A:2B:3C:4D:5E" required>
 
-                    <label>Adresse MAC</label>
-                    <input type='text' name='macaddr' value='<?php echo htmlspecialchars($controlUnit['macaddr']); ?>' placeholder='00:1A:2B:3C:4D:5E' required>
+                    <label for="edit-cu-purchaseDate">Date d'achat</label>
+                    <input type="date" name="purchaseDate" id="edit-cu-purchaseDate" value="<?php echo htmlspecialchars($controlUnit['purchase_date']); ?>" required>
 
-                    <label>Date d'achat</label>
-                    <input type='date' name='purchaseDate' value='<?php echo htmlspecialchars($controlUnit['purchase_date']); ?>' required>
+                    <label for="edit-cu-warrantyEnd">Fin de garantie</label>
+                    <input type="date" name="warrantyEnd" id="edit-cu-warrantyEnd" value="<?php echo htmlspecialchars($controlUnit['warranty_end']); ?>" required>
 
-                    <label>Fin de garantie</label>
-                    <input type='date' name='warrantyEnd' value='<?php echo htmlspecialchars($controlUnit['warranty_end']); ?>' required>
+                    <label for="edit-cu-domain">Domaine (optionnel)</label>
+                    <input type="text" name="domain" id="edit-cu-domain" value="<?php echo htmlspecialchars($controlUnit['domain']); ?>" placeholder="CORP.LOCAL">
 
-                    <button type='submit'>Modifier l'unité de contrôle</button>
+                    <button type="submit">Modifier l'unité de contrôle</button>
                 </form>
             </div>
 

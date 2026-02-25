@@ -75,15 +75,15 @@ body.with-sidebar { margin-left: 270px; margin-right: 40px; }
         <?php elseif ($_SESSION['role'] === 'tech') : ?>
             <span class="sidebar-label">Technicien</span>
             <a class="sidebar-section" href="<?php echo $techPrefix; ?>tech-panel.php?section=screens">Écrans</a>
-            <a class="sidebar-section" href="<?php echo $techPrefix; ?>tech-panel.php?section=control-units">Unités de contrôle</a>
+            <a class="sidebar-section" href="<?php echo $techPrefix; ?>tech-panel.php?section=control-units">Unités centrales</a>
             <a class="sidebar-section" href="<?php echo $techPrefix; ?>add-screen-form.php">Ajouter un écran</a>
-            <a class="sidebar-section" href="<?php echo $techPrefix; ?>add-control-unit-form.php">Ajouter une unité</a>
+            <a class="sidebar-section" href="<?php echo $techPrefix; ?>add-central-unit-form.php">Ajouter une unité centrale</a>
             <span class="sidebar-user"><?php echo htmlspecialchars($_SESSION['username'] ?? ''); ?></span>
             <a class="sidebar-section" href="<?php echo $base; ?>logout.php">Se déconnecter</a>
         <?php elseif ($_SESSION['role'] === 'adminweb') : ?>
             <span class="sidebar-label">Administration</span>
             <a class="sidebar-section" href="<?php echo $adminPrefix; ?>create-tech-form.php">Créer un technicien</a>
-            <a class="sidebar-section" href="<?php echo $adminPrefix; ?>add-os-form.php">Ajouter un OS</a>
+            <a class="sidebar-section" href="<?php echo $adminPrefix; ?>add-os-form.php">Ajouter un système d'exploitation</a>
             <a class="sidebar-section" href="<?php echo $adminPrefix; ?>add-manufacturer-form.php">Ajouter un fabricant</a>
             <a class="sidebar-section" href="<?php echo $adminPrefix; ?>admin_panel-logs.php">Logs</a>
             <span class="sidebar-user"><?php echo htmlspecialchars($_SESSION['username'] ?? ''); ?></span>

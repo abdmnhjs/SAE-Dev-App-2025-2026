@@ -52,15 +52,15 @@ if ($isAuthorized) {
             ?>
 
             <div>
-                <form method='post' action='actions/action-edit-screen.php?serial=<?php echo htmlspecialchars($screen['serial']); ?>'>
+                <form method="post" action="actions/action-edit-screen.php?serial=<?php echo htmlspecialchars($screen['serial']); ?>">
                     <h2>Modification de l'Écran: <?php echo htmlspecialchars($screen['serial']); ?></h2>
 
-                    <label>Numéro de série</label>
-                    <input type='text' name='serial' value='<?php echo htmlspecialchars($screen['serial']); ?>' readonly required>
+                    <label for="edit-screen-serial">Numéro de série</label>
+                    <input type="text" name="serial" id="edit-screen-serial" value="<?php echo htmlspecialchars($screen['serial']); ?>" readonly aria-readonly="true">
 
-                    <label>Fabricant</label>
-                    <select name='manufacturer' required>
-                        <option value='<?php echo htmlspecialchars($screen['id_manufacturer']); ?>' selected>
+                    <label for="edit-screen-manufacturer">Fabricant</label>
+                    <select name="manufacturer" id="edit-screen-manufacturer" required>
+                        <option value="<?php echo htmlspecialchars($screen['id_manufacturer']); ?>" selected>
                             <?php echo htmlspecialchars($manufacturerData['name']); ?>
                         </option>
 
@@ -77,36 +77,35 @@ if ($isAuthorized) {
                         ?>
                     </select>
 
-                    <label>Modèle</label>
-                    <input type='text' name='model' value='<?php echo htmlspecialchars($screen['model']); ?>' required>
+                    <label for="edit-screen-model">Modèle</label>
+                    <input type="text" name="model" id="edit-screen-model" value="<?php echo htmlspecialchars($screen['model']); ?>" required>
 
-                    <label>Taille (pouces)</label>
-                    <input type='number' step='0.1' name='sizeInch' value='<?php echo htmlspecialchars($screen['size_inch']); ?>' required>
+                    <label for="edit-screen-sizeInch">Taille (pouces)</label>
+                    <input type="number" step="0.1" name="sizeInch" id="edit-screen-sizeInch" value="<?php echo htmlspecialchars($screen['size_inch']); ?>" required>
 
-                    <label>Résolution</label>
-                    <input type='text' name='resolution' value='<?php echo htmlspecialchars($screen['resolution']); ?>' placeholder='1920x1080' required>
+                    <label for="edit-screen-resolution">Résolution</label>
+                    <input type="text" name="resolution" id="edit-screen-resolution" value="<?php echo htmlspecialchars($screen['resolution']); ?>" placeholder="1920x1080" required>
 
-                    <label>Connecteur</label>
-                    <input type='text' name='connector' value='<?php echo htmlspecialchars($screen['connector']); ?>' placeholder='HDMI, DisplayPort, VGA...' required>
+                    <label for="edit-screen-connector">Connecteur</label>
+                    <input type="text" name="connector" id="edit-screen-connector" value="<?php echo htmlspecialchars($screen['connector']); ?>" placeholder="HDMI, DisplayPort, VGA..." required>
 
-                    <label>Attaché à</label>
-                    <select name='attachedTo' required>
-                        <option value='<?php echo htmlspecialchars($screen['attached_to']); ?>' selected>
+                    <label for="edit-screen-attachedTo">Attaché à (optionnel)</label>
+                    <select name="attachedTo" id="edit-screen-attachedTo">
+                        <option value="<?php echo htmlspecialchars($screen['attached_to']); ?>" selected>
                             <?php echo htmlspecialchars($screen['attached_to'] ?? 'AUCUNE'); ?>
                         </option>
-                        <option value=''>AUCUNE</option> <?php
+                        <option value="">AUCUNE</option> <?php
                         // Liste des unités de contrôle
                         if ($allControlUnitsResult) {
                             while($row = mysqli_fetch_assoc($allControlUnitsResult)){
                                 if ($row['name'] !== $screen['attached_to']) {
-                                    // CORRECTION: Utiliser $row['name'] pour la valeur et l'affichage
                                     echo "<option value='".htmlspecialchars($row['name'])."'>".htmlspecialchars($row['name'])."</option>";
                                 }
                             }
                         }
                         ?>
                     </select>
-                    <button type='submit'>Modifier les informations du moniteur</button>
+                    <button type="submit">Modifier les informations du moniteur</button>
                 </form>
 
 

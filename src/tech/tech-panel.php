@@ -115,8 +115,8 @@ if (isset($_GET['section']) && $_GET['section'] == "control-units") {
                 echo "<td>" . htmlspecialchars($value) . "</td>";
             }
         }
-        echo "<td><a href='edit-control-unit-form.php?serial=" . htmlspecialchars($row['serial']) . "'>Modifier</a><br>";
-        echo "<a href='action-delete-control-unit.php?delete=" . htmlspecialchars($row['serial']) . "'>Supprimer</a></td>";
+        echo "<td><a href='edit-central-unit-form.php?serial=" . htmlspecialchars($row['serial']) . "'>Modifier</a><br>";
+        echo "<a href='action-delete-central-unit.php?delete=" . htmlspecialchars($row['serial']) . "'>Supprimer</a></td>";
 
         echo "</tr>";
     }

@@ -109,6 +109,40 @@ body {
     color: #ccc;
 }
 
+/* Formulaires sémantiques (fieldset + form-group, conforme W3C) */
+.tech-panel-main fieldset {
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    background-color: #1a1a1a;
+}
+
+.tech-panel-main fieldset legend {
+    color: #fff;
+    font-weight: bold;
+    padding: 0 0.5rem;
+}
+
+.tech-panel-main .form-group {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0.75rem 1rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    max-width: 40rem;
+}
+
+.tech-panel-main .form-group.form-actions {
+    grid-template-columns: 1fr;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.tech-panel-main .form-group.form-actions button {
+    justify-self: start;
+}
+
 /* Blocs / divs dans le tech panel */
 .tech-panel-main > div {
     background-color: transparent;
