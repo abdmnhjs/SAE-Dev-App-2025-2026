@@ -64,7 +64,7 @@ if ($stmt) {
             mysqli_stmt_execute($stmtLog);
             mysqli_stmt_close($stmtLog);
         }
-        header("Location: ../tech-panel.php?section=control-units");
+        header("Location: ../tech-panel.php?section=central-units");
     } else {
         header("Location: ../tech-panel.php?error=insert_failed");
     }

@@ -155,7 +155,7 @@ if (isset($_GET['section']) && $_GET['section'] == "screens") {
     echo "</table>";
 }
 
-if (isset($_GET['section']) && $_GET['section'] == "control-units") {
+if (isset($_GET['section']) && $_GET['section'] == "central-units") {
     // Valeurs distinctes pour les filtres
     $manufacturersCu = mysqli_query($loginToDb, "SELECT id, name FROM manufacturer_list ORDER BY name");
     $modelsCu = mysqli_query($loginToDb, "SELECT DISTINCT model FROM control_unit WHERE model IS NOT NULL AND model != '' ORDER BY model");
@@ -167,7 +167,7 @@ if (isset($_GET['section']) && $_GET['section'] == "control-units") {
 
     echo "<div class=\"filters-panel\">";
     echo "<form method=\"get\" action=\"tech-panel.php\" class=\"filters-form\">";
-    echo "<input type=\"hidden\" name=\"section\" value=\"control-units\">";
+    echo "<input type=\"hidden\" name=\"section\" value=\"central-units\">";
 
     echo "<label>Fabricant <select name=\"filter_manufacturer\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($manufacturersCu)) {
@@ -220,7 +220,7 @@ if (isset($_GET['section']) && $_GET['section'] == "control-units") {
 
     echo "<button type=\"submit\">Filtrer</button>";
     echo "</form>";
-    echo "<a href=\"tech-panel.php?section=control-units\" class=\"filters-reset\">Réinitialiser</a>";
+    echo "<a href=\"tech-panel.php?section=central-units\" class=\"filters-reset\">Réinitialiser</a>";
     echo "</div>";
 
     // Construction du WHERE

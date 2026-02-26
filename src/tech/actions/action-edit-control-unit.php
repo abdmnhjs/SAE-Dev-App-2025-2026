@@ -91,7 +91,7 @@ if ($stmt) {
             mysqli_stmt_execute($stmtLog);
             mysqli_stmt_close($stmtLog);
         }
-        header("Location: ../tech-panel.php?section=control-units&success=unit_updated");
+        header("Location: ../tech-panel.php?section=central-units&success=unit_updated");
         exit();
     } else {
         // En cas d'échec de l'exécution (ex: violation de contrainte)

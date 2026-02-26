@@ -75,7 +75,7 @@ body.with-sidebar { margin-left: 270px; margin-right: 40px; }
         <?php elseif ($_SESSION['role'] === 'tech') : ?>
             <span class="sidebar-label">Technicien</span>
             <a class="sidebar-section" href="<?php echo $techPrefix; ?>tech-panel.php?section=screens">Écrans</a>
-            <a class="sidebar-section" href="<?php echo $techPrefix; ?>tech-panel.php?section=control-units">Unités centrales</a>
+            <a class="sidebar-section" href="<?php echo $techPrefix; ?>tech-panel.php?section=central-units">Unités centrales</a>
             <a class="sidebar-section" href="<?php echo $techPrefix; ?>add-screen-form.php">Ajouter un écran</a>
             <a class="sidebar-section" href="<?php echo $techPrefix; ?>add-central-unit-form.php">Ajouter une unité centrale</a>
             <span class="sidebar-user"><?php echo htmlspecialchars($_SESSION['username'] ?? ''); ?></span>

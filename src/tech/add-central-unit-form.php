@@ -131,7 +131,7 @@ $sidebarTechPrefix = '';
     </form>
     <form class="form-csv" method="post" action="actions/action-add-central-unit-csv.php" enctype="multipart/form-data">
         <label for="add-cu-csv-file" class="filebtn">Import CSV</label>
-        <input type="file" id="add-cu-csv-file" accept=".csv,text/csv" name="control-units-csv" />
+        <input type="file" id="add-cu-csv-file" accept=".csv,text/csv" name="central-units-csv" />
         <button type="submit" name="submit-csv">Ajouter des unités centrales via un fichier csv</button>
     </form>
 

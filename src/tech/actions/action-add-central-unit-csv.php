@@ -10,22 +10,22 @@ if($_SESSION["role"] !== "tech"){
     exit();
 }
 
-if (!isset($_FILES["control-units-csv"])) {
-    header("Location: ../tech-panel.php?section=control-units");
+if (!isset($_FILES["central-units-csv"])) {
+    header("Location: ../tech-panel.php?section=central-units");
     exit;
 }
 
-$csvFile = $_FILES["control-units-csv"]["tmp_name"];
+$csvFile = $_FILES["central-units-csv"]["tmp_name"];
 
 if (!file_exists($csvFile)) {
-    header("Location: ../tech-panel.php?section=control-units");
+    header("Location: ../tech-panel.php?section=central-units");
     exit;
 }
 
 $fp = fopen($csvFile, "r");
 
 if (!$fp) {
-    header("Location: ../tech-panel.php?section=control-units");
+    header("Location: ../tech-panel.php?section=central-units");
     exit;
 }
 
@@ -174,7 +174,7 @@ if ($successCount > 0) {
 mysqli_close($loginToDb);
 
 // --- REDIRECTION FINALE ---
-$redirectUrl = "../tech-panel.php?section=control-units&success=import_done&added=$successCount&dupes=$duplicateCount&errors=$errorCount";
+$redirectUrl = "../tech-panel.php?section=central-units&success=import_done&added=$successCount&dupes=$duplicateCount&errors=$errorCount";
 header("Location: " . $redirectUrl);
 exit;
 ?>

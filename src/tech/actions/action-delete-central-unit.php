@@ -17,5 +17,5 @@ if ($serial) {
     mysqli_stmt_close($stmt);
 }
 
-header("Location: tech-panel.php?section=control-units");
+header("Location: tech-panel.php?section=central-units");
 exit;
