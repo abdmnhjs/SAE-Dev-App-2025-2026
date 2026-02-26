@@ -9,7 +9,7 @@ if($_SESSION["role"] !== "tech"){
 }
 $select = mysqli_select_db($loginToDb, $db); //les variables sont dans connexion_bdd.php, ca marche même si l'éditeur indique que les variables n'existe pas.
 
-$queryControlUnit = "SELECT * FROM control_unit";
+$queryControlUnit = "SELECT * FROM central_unit";
 $controlUnits = mysqli_query($loginToDb, $queryControlUnit);
 $queryScreen = "SELECT * FROM screen";
 $screens = mysqli_query($loginToDb, $queryScreen);
@@ -158,12 +158,12 @@ if (isset($_GET['section']) && $_GET['section'] == "screens") {
 if (isset($_GET['section']) && $_GET['section'] == "central-units") {
     // Valeurs distinctes pour les filtres
     $manufacturersCu = mysqli_query($loginToDb, "SELECT id, name FROM manufacturer_list ORDER BY name");
-    $modelsCu = mysqli_query($loginToDb, "SELECT DISTINCT model FROM control_unit WHERE model IS NOT NULL AND model != '' ORDER BY model");
-    $typesCu = mysqli_query($loginToDb, "SELECT DISTINCT type FROM control_unit WHERE type IS NOT NULL AND type != '' ORDER BY type");
+    $modelsCu = mysqli_query($loginToDb, "SELECT DISTINCT model FROM central_unit WHERE model IS NOT NULL AND model != '' ORDER BY model");
+    $typesCu = mysqli_query($loginToDb, "SELECT DISTINCT type FROM central_unit WHERE type IS NOT NULL AND type != '' ORDER BY type");
     $osList = mysqli_query($loginToDb, "SELECT id, name FROM os_list ORDER BY name");
-    $locations = mysqli_query($loginToDb, "SELECT DISTINCT location FROM control_unit WHERE location IS NOT NULL AND location != '' ORDER BY location");
-    $buildings = mysqli_query($loginToDb, "SELECT DISTINCT building FROM control_unit WHERE building IS NOT NULL AND building != '' ORDER BY building");
-    $rooms = mysqli_query($loginToDb, "SELECT DISTINCT room FROM control_unit WHERE room IS NOT NULL AND room != '' ORDER BY room");
+    $locations = mysqli_query($loginToDb, "SELECT DISTINCT location FROM central_unit WHERE location IS NOT NULL AND location != '' ORDER BY location");
+    $buildings = mysqli_query($loginToDb, "SELECT DISTINCT building FROM central_unit WHERE building IS NOT NULL AND building != '' ORDER BY building");
+    $rooms = mysqli_query($loginToDb, "SELECT DISTINCT room FROM central_unit WHERE room IS NOT NULL AND room != '' ORDER BY room");
 
     echo "<div class=\"filters-panel\">";
     echo "<form method=\"get\" action=\"tech-panel.php\" class=\"filters-form\">";
@@ -246,7 +246,7 @@ if (isset($_GET['section']) && $_GET['section'] == "central-units") {
     if (!empty($_GET['filter_room'])) {
         $whereCu[] = "cu.room = '" . mysqli_real_escape_string($loginToDb, $_GET['filter_room']) . "'";
     }
-    $query = "SELECT cu.* FROM control_unit cu";
+    $query = "SELECT cu.* FROM central_unit cu";
     if (count($whereCu) > 0) {
         $query .= " WHERE " . implode(" AND ", $whereCu);
     }

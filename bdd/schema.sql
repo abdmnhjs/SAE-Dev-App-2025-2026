@@ -22,9 +22,9 @@ CREATE OR REPLACE TABLE manufacturer_list (
     name VARCHAR(32) NOT NULL UNIQUE
 );
 
--- 4. Table des unités de contrôle (ordinateurs/serveurs)
+-- 4. Table des unités centrales (ordinateurs/serveurs)
 -- AJOUT de la colonne 'is_active' pour gérer l'état actif/inactif
-CREATE OR REPLACE TABLE control_unit (
+CREATE OR REPLACE TABLE central_unit (
     serial VARCHAR(100),
     name VARCHAR(255) NOT NULL PRIMARY KEY,
     id_manufacturer INTEGER,
@@ -44,21 +44,21 @@ CREATE OR REPLACE TABLE control_unit (
     is_active BOOLEAN DEFAULT TRUE, -- NOUVEAU: TRUE pour actif, FALSE pour inactif
 
     -- Clés étrangères
-    CONSTRAINT fk_control_unit_manufacturer
+    CONSTRAINT fk_central_unit_manufacturer
         FOREIGN KEY (id_manufacturer)
         REFERENCES manufacturer_list(id)
         ON DELETE SET NULL
         ON UPDATE CASCADE,
 
-    CONSTRAINT fk_control_unit_os
+    CONSTRAINT fk_central_unit_os
         FOREIGN KEY (id_os)
         REFERENCES os_list(id)
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
 
--- SUPPRESSION des tables active_control_unit et inactive_control_unit.
--- L'état est maintenant géré par la colonne 'is_active' de control_unit.
+-- SUPPRESSION des tables active_central_unit et inactive_central_unit.
+-- L'état est maintenant géré par la colonne 'is_active' de central_unit.
 
 -- 5. Table des logs (inchangée)
 CREATE OR REPLACE TABLE logs (
@@ -91,7 +91,7 @@ CREATE OR REPLACE TABLE screen (
 
     CONSTRAINT fk_screen_attached
         FOREIGN KEY (attached_to)
-        REFERENCES control_unit(name)
+        REFERENCES central_unit(name)
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );

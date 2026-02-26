@@ -13,12 +13,12 @@ if(isset($_POST["os_id"])){
     $resultName = mysqli_query($loginToDb, $queryName);
     $osName = ($row = mysqli_fetch_assoc($resultName)) ? $row['name'] : "Inconnu";
 
-    $queryCountSpecific = "SELECT COUNT(*) as count FROM control_unit WHERE id_os = " . $selectedOsId;
+    $queryCountSpecific = "SELECT COUNT(*) as count FROM central_unit WHERE id_os = " . $selectedOsId;
     $resultSpecific = mysqli_query($loginToDb, $queryCountSpecific);
     $dataSpecific = mysqli_fetch_assoc($resultSpecific);
     $countSpecific = (int)$dataSpecific['count'];
 
-    $queryCountTotal = "SELECT COUNT(*) as count FROM control_unit";
+    $queryCountTotal = "SELECT COUNT(*) as count FROM central_unit";
     $resultTotal = mysqli_query($loginToDb, $queryCountTotal);
     $dataTotal = mysqli_fetch_assoc($resultTotal);
     $countTotal = (int)$dataTotal['count'];

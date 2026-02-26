@@ -42,7 +42,7 @@ if ($manufacturerId === false || $ramMb === false || $diskGb === false || $osId 
 }
 
 // --- Requête Préparée pour la Mise à Jour ---
-$query = "UPDATE control_unit SET 
+$query = "UPDATE central_unit SET 
         name = ?, id_manufacturer = ?, 
         model = ?, type = ?, cpu = ?, ram_mb = ?, 
         disk_gb = ?, id_os = ?, domain = ?, 

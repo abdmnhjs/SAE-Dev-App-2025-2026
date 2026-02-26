@@ -48,7 +48,7 @@ $stmtInsertManuf = mysqli_prepare($loginToDb, $insertManuf);
 
 // B. Vérification Unité Centrale (Attached_to)
 // On vérifie si le nom de l'ordinateur existe vraiment
-$queryUnit = "SELECT name FROM control_unit WHERE name = ?";
+$queryUnit = "SELECT name FROM central_unit WHERE name = ?";
 $stmtUnit = mysqli_prepare($loginToDb, $queryUnit);
 
 // C. Insertion Écran

@@ -24,7 +24,7 @@ $macaddr = $_POST['macaddr'];
 $purchaseDate = $_POST['purchaseDate'];
 $warrantyEnd = $_POST['warrantyEnd'];
 
-$query = "INSERT INTO control_unit (name, serial, id_manufacturer, 
+$query = "INSERT INTO central_unit (name, serial, id_manufacturer, 
                           model, type, cpu, ram_mb, 
                           disk_gb, id_os, domain, 
                           location, building, room, 

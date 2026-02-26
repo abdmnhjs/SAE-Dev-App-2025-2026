@@ -41,7 +41,7 @@ if ($isAuthorized) {
 
             // --- 3. Récupérer TOUTES les unités de contrôle disponibles ---
             // CORRECTION: Sélectionner 'name' (clé) et 'serial' (pour info/tri si besoin)
-            $allControlUnitsQuery = "SELECT name, serial FROM `control_unit` ORDER BY name";
+            $allControlUnitsQuery = "SELECT name, serial FROM `central_unit` ORDER BY name";
             $allControlUnitsResult = mysqli_query($loginToDb, $allControlUnitsQuery);
 
             // --- 4. Récupérer tous les fabricants ---

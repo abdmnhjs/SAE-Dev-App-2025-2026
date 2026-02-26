@@ -16,7 +16,7 @@ if ($isAuthorized) {
     $serial = $_GET['serial'];
 
     // --- 1. Requête Préparée pour l'unité de contrôle spécifique ---
-    $queryControlUnit = "SELECT * FROM control_unit WHERE serial = ?";
+    $queryControlUnit = "SELECT * FROM central_unit WHERE serial = ?";
     $stmt = mysqli_prepare($loginToDb, $queryControlUnit);
 
     if ($stmt) {

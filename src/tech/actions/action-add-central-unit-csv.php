@@ -39,7 +39,7 @@ $duplicateCount = 0; // Nouveau compteur pour les doublons
 // --- PRÉPARATION DES REQUÊTES (Optimisation : on prépare une seule fois, on exécute plusieurs fois) ---
 
 // 1. Préparation INSERT principal
-$query = "INSERT INTO control_unit (name, serial, id_manufacturer,
+$query = "INSERT INTO central_unit (name, serial, id_manufacturer,
                       model, type, cpu, ram_mb,
                       disk_gb, id_os, domain,
                       location, building, room,

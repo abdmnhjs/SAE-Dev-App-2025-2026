@@ -23,7 +23,7 @@ while ($row = mysqli_fetch_assoc($resultDuration)) {
 $medialResult = (count($durationValues) > 0) ? medial($durationValues) : 0;
 
 // B. Écart-type (RAM)
-$queryRam = "SELECT ram_mb FROM control_unit";
+$queryRam = "SELECT ram_mb FROM central_unit";
 $resultRam = mysqli_query($loginToDb, $queryRam);
 $ramValues = [];
 while ($row = mysqli_fetch_assoc($resultRam)) {
@@ -32,7 +32,7 @@ while ($row = mysqli_fetch_assoc($resultRam)) {
 $standardDeviationResult = (count($ramValues) > 0) ? standardDeviation($ramValues) : 0;
 
 // C. Variance (Disque)
-$queryDisk = "SELECT disk_gb FROM control_unit";
+$queryDisk = "SELECT disk_gb FROM central_unit";
 $resultDisk = mysqli_query($loginToDb, $queryDisk);
 $diskValues = [];
 while ($row = mysqli_fetch_assoc($resultDisk)) {
@@ -44,7 +44,7 @@ $varianceResult = (count($diskValues) > 0) ? variance($diskValues) : 0;
 $queryWarranty = "SELECT 
                     COUNT(*) as total,
                     SUM(CASE WHEN warranty_end < CURDATE() THEN 1 ELSE 0 END) as expired
-                  FROM control_unit 
+                  FROM central_unit 
                   WHERE is_active = 1";
 $resultWarranty = mysqli_query($loginToDb, $queryWarranty);
 $rowWarranty = mysqli_fetch_assoc($resultWarranty);
@@ -79,7 +79,7 @@ if (count($resolutions) > 0) {
 // G. Répartition par OS (pour le Graphique 1)
 // CORRECTION ICI : COUNT(c.name) au lieu de COUNT(c.id)
 $queryChartOs = "SELECT l.name, COUNT(c.name) as count 
-                 FROM control_unit c 
+                 FROM central_unit c 
                  JOIN os_list l ON c.id_os = l.id 
                  GROUP BY l.name";
 $resultChartOs = mysqli_query($loginToDb, $queryChartOs);
@@ -178,11 +178,11 @@ if ($resultChartMan) {
             <td><?php echo round($medialResult, 2); ?> min</td>
         </tr>
         <tr>
-            <td>Écart-type de la RAM des unités de contrôle</td>
+            <td>Écart-type de la RAM des unités centrales/td>
             <td><?php echo round($standardDeviationResult, 2); ?> Mb</td>
         </tr>
         <tr>
-            <td>Variance de la taille de stockage entre les unités de contrôle</td>
+            <td>Variance de la taille de stockage entre les unités centrales</td>
             <td><?php echo round($varianceResult, 2); ?> Go</td>
         </tr>
 

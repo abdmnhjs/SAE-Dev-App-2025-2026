@@ -10,7 +10,7 @@ if($_SESSION["role"] !== "tech"){
 $serial = isset($_GET['delete']) ? trim($_GET['delete']) : null;
 
 if ($serial) {
-    $query = "DELETE FROM control_unit WHERE serial = ?";
+    $query = "DELETE FROM central_unit WHERE serial = ?";
     $stmt = mysqli_prepare($loginToDb, $query);
     mysqli_stmt_bind_param($stmt, "s", $serial);
     mysqli_stmt_execute($stmt);
