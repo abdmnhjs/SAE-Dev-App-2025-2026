@@ -78,6 +78,7 @@ body.with-sidebar { margin-left: 270px; margin-right: 40px; }
             <a class="sidebar-section" href="<?php echo $techPrefix; ?>tech-panel.php?section=central-units">Unités centrales</a>
             <a class="sidebar-section" href="<?php echo $techPrefix; ?>add-screen-form.php">Ajouter un écran</a>
             <a class="sidebar-section" href="<?php echo $techPrefix; ?>add-central-unit-form.php">Ajouter une unité centrale</a>
+            <a class="sidebar-section" href="<?php echo $techPrefix; ?>tech-panel.php?section=rebut">Liste du rebut</a>
             <span class="sidebar-user"><?php echo htmlspecialchars($_SESSION['username'] ?? ''); ?></span>
             <a class="sidebar-section" href="<?php echo $base; ?>logout.php">Se déconnecter</a>
         <?php elseif ($_SESSION['role'] === 'adminweb') : ?>
@@ -86,6 +87,7 @@ body.with-sidebar { margin-left: 270px; margin-right: 40px; }
             <a class="sidebar-section" href="<?php echo $adminPrefix; ?>add-os-form.php">Ajouter un système d'exploitation</a>
             <a class="sidebar-section" href="<?php echo $adminPrefix; ?>add-manufacturer-form.php">Ajouter un fabricant</a>
             <a class="sidebar-section" href="<?php echo $adminPrefix; ?>admin_panel-logs.php">Logs</a>
+            <a class="sidebar-section" href="<?php echo $adminPrefix; ?>rebut-list.php">Liste du rebut</a>
             <span class="sidebar-user"><?php echo htmlspecialchars($_SESSION['username'] ?? ''); ?></span>
             <a class="sidebar-section" href="<?php echo $base; ?>logout.php">Se déconnecter</a>
         <?php elseif ($_SESSION['role'] === 'sysadmin') : ?>

@@ -41,7 +41,8 @@ CREATE OR REPLACE TABLE central_unit (
     macaddr VARCHAR(17),
     purchase_date DATE,
     warranty_end DATE,
-    is_active BOOLEAN DEFAULT TRUE, -- NOUVEAU: TRUE pour actif, FALSE pour inactif
+    is_active BOOLEAN DEFAULT TRUE, -- TRUE pour actif, FALSE pour inactif
+    rebut_date DATE NULL, -- non NULL = au rebut (liste du rebut)
 
     -- Clés étrangères
     CONSTRAINT fk_central_unit_manufacturer
@@ -80,7 +81,8 @@ CREATE OR REPLACE TABLE screen (
     resolution VARCHAR(20),
     connector VARCHAR(50),
     attached_to VARCHAR(100),
-    is_active BOOLEAN DEFAULT TRUE, -- NOUVEAU: TRUE pour actif, FALSE pour inactif
+    is_active BOOLEAN DEFAULT TRUE, -- TRUE pour actif, FALSE pour inactif
+    rebut_date DATE NULL, -- non NULL = au rebut (liste du rebut)
 
     -- Clés étrangères
     CONSTRAINT fk_screen_manufacturer
@@ -93,6 +95,25 @@ CREATE OR REPLACE TABLE screen (
         FOREIGN KEY (attached_to)
         REFERENCES central_unit(name)
         ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+-- 7. Liste du rebut : export figé pour archivage / export futur
+CREATE OR REPLACE TABLE rebu_export (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    label VARCHAR(255) NULL COMMENT 'Libellé optionnel de l''export'
+);
+
+CREATE OR REPLACE TABLE rebu_export_item (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    export_id INTEGER NOT NULL,
+    item_type ENUM('screen', 'central_unit') NOT NULL,
+    item_ref VARCHAR(255) NOT NULL COMMENT 'serial pour screen, name pour central_unit',
+    CONSTRAINT fk_rebu_export_item_export
+        FOREIGN KEY (export_id)
+        REFERENCES rebu_export(id)
+        ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
