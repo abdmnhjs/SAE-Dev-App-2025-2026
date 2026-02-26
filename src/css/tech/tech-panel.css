@@ -147,3 +147,50 @@ body {
 .tech-panel-main > div {
     background-color: transparent;
 }
+
+/* Panneau de filtres */
+.tech-panel-main .filters-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+.tech-panel-main .filters-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+}
+
+.tech-panel-main .filters-form label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+}
+
+.tech-panel-main .filters-form select {
+    min-width: 0;
+}
+
+.tech-panel-main .filters-reset {
+    padding: 8px 14px;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.tech-panel-main .filters-reset:hover {
+    background-color: #444;
+    color: #fff;
+}
