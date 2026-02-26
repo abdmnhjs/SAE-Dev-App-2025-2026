@@ -12,20 +12,20 @@ if($_SESSION["role"] !== "tech"){
 
 // 1. Validation du fichier
 if (empty($_FILES["screens-csv"]) || $_FILES["screens-csv"]["error"] !== UPLOAD_ERR_OK) {
-    header("Location: ../tech-panel.php?error=no_file_uploaded");
+    header("Location: ../tech-panel.php?section=screens");
     exit;
 }
 
 $uploadedFilePath = $_FILES["screens-csv"]["tmp_name"];
 
 if (!file_exists($uploadedFilePath)) {
-    header("Location: ../tech-panel.php?error=file_not_found");
+    header("Location: ../tech-panel.php?section=screens");
     exit;
 }
 
 $fp = fopen($uploadedFilePath, "r");
 if (!$fp) {
-    header("Location: ../tech-panel.php?error=cannot_open_file");
+    header("Location: ../tech-panel.php?section=screens");
     exit;
 }
 

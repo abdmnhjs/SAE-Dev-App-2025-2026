@@ -86,7 +86,7 @@ $sidebarTechPrefix = '';
     </fieldset>
 </form>
 
-    <form method="post" action="actions/action-add-screen-csv.php" enctype="multipart/form-data">
+    <form class="form-csv" method="post" action="actions/action-add-screen-csv.php" enctype="multipart/form-data">
         <label for="add-screen-csv-file">Fichier csv (Nous vous recommandons que vos écrans soient attachés à des unités de contrôle existantes)</label>
         <input type="file" id="add-screen-csv-file" accept=".csv,text/csv" name="screens-csv">
         <button type="submit" name="submit-csv">Ajouter des écrans via un fichier csv</button>

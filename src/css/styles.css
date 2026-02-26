@@ -22,8 +22,12 @@ nav {
 
 .description {
     color: #FFFFFF;
-    opacity: 45%;
     text-align: center;
+}
+
+.block .description {
+    color: #ffffff;
+    opacity: 1;
 }
 
 
@@ -162,6 +166,13 @@ td {
     margin-bottom: 10px;
     width: 100%;
     max-width: 400px;
+}
+
+/* Message d'erreur : rouge lisible sur fond sombre (contraste WCAG) */
+.error-msg {
+    color: #f87171;
+    margin-top: 8px;
+    margin-bottom: 0;
 }
 
 .block {

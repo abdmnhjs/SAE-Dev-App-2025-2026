@@ -11,21 +11,21 @@ if($_SESSION["role"] !== "tech"){
 }
 
 if (!isset($_FILES["control-units-csv"])) {
-    header("Location: ../tech-panel.php?error=no_file");
+    header("Location: ../tech-panel.php?section=control-units");
     exit;
 }
 
 $csvFile = $_FILES["control-units-csv"]["tmp_name"];
 
 if (!file_exists($csvFile)) {
-    header("Location: ../tech-panel.php?error=file_not_found");
+    header("Location: ../tech-panel.php?section=control-units");
     exit;
 }
 
 $fp = fopen($csvFile, "r");
 
 if (!$fp) {
-    header("Location: ../tech-panel.php?error=cannot_open_file");
+    header("Location: ../tech-panel.php?section=control-units");
     exit;
 }
 

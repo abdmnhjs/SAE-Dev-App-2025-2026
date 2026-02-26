@@ -18,15 +18,15 @@ session_start();
             <h2 class="titre">Bon retour parmi nous</h2>
             <p class="description">Connectez vous à votre compte infra' pour continuer</p>
             <div class="connexion">
-                <label class="champs">Nom d'utilisateur</label>
-                <input type="text" name="username" class="input">
-                <label class="champs">Mot de passe</label>
-                <input type="password" name="password" class="input">
+                <label class="champs" for="username">Nom d'utilisateur</label>
+                <input type="text" id="username" name="username" class="input">
+                <label class="champs" for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" class="input">
                 <div class="hero-buttons">
                     <button type="submit" class="classic-button" style="color: #121212;">Se connecter</button>
                 </div>
                 <?php if (isset($_GET['error'])) : ?>
-                    <p style="color: red; margin-top: 8px;">Erreur de connexion</p>
+                    <p class="error-msg">Erreur de connexion</p>
                 <?php endif; ?>
             </div>
         </form>

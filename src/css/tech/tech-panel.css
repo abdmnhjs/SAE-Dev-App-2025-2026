@@ -11,6 +11,8 @@ body {
 /* Zone principale tech panel : thème sombre comme le reste du site */
 .tech-panel-main {
     gap: 2rem !important;
+    min-height: fit-content;
+    overflow: visible;
 }
 
 .tech-panel-main,
@@ -146,6 +148,49 @@ body {
 /* Blocs / divs dans le tech panel */
 .tech-panel-main > div {
     background-color: transparent;
+    min-height: fit-content;
+    overflow: visible;
+    padding-bottom: 2rem;
+    flex: 0 0 auto; /* ne pas rétrécir dans le flex main */
+    width: 100%;
+}
+
+/* Formulaire CSV : bloc bien visible, même style que le fieldset au-dessus */
+.tech-panel-main .form-csv {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+    min-height: fit-content;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background-color: #1a1a1a;
+    padding: 1rem 1.5rem;
+    max-width: 40rem;
+}
+
+.tech-panel-main .form-csv label,
+.tech-panel-main .form-csv input[type="file"],
+.tech-panel-main .form-csv button {
+    flex-shrink: 0;
+}
+
+/* Label et input file du formulaire CSV : ne pas compresser verticalement */
+.tech-panel-main .form-csv label {
+    display: block;
+    min-height: 2.5rem;
+    line-height: 1.4;
+    width: 100%;
+    max-width: 40rem;
+}
+
+.tech-panel-main .form-csv input[type="file"] {
+    min-height: 2.5rem;
+    width: 100%;
+    max-width: 24rem;
+    padding: 0.5rem 0.75rem;
 }
 
 /* Panneau de filtres */
