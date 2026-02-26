@@ -64,7 +64,7 @@ body.with-sidebar { margin-left: 270px; margin-right: 40px; }
 </style>
 <div class="sidebar-app">
     <div class="sidebar-header">
-        <a href="<?php echo $base; ?>index.php"><img src="<?php echo $base; ?>images/logo.png" alt="Logo" width="60" height="60"></a>
+        <a href="<?php echo $base; ?>index.php"><img src="<?php echo $base; ?>images/logo.png" alt="logo-infra" width="60" height="60"></a>
     </div>
     <div class="sidebar-sections">
         <a class="sidebar-section" href="<?php echo $base; ?>index.php">Accueil</a>

@@ -46,21 +46,21 @@ if (isset($_GET['section']) && $_GET['section'] == "screens") {
     echo "<form method=\"get\" action=\"tech-panel.php\" class=\"filters-form\">";
     echo "<input type=\"hidden\" name=\"section\" value=\"screens\">";
 
-    echo "<label>Fabricant <select name=\"filter_manufacturer\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_screen_manufacturer\">Fabricant <select id=\"filter_screen_manufacturer\" name=\"filter_manufacturer\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($manufacturers)) {
         $sel = (isset($_GET['filter_manufacturer']) && $_GET['filter_manufacturer'] === (string)$r['id']) ? ' selected' : '';
         echo "<option value=\"" . (int)$r['id'] . "\"{$sel}>" . htmlspecialchars($r['name']) . "</option>";
     }
     echo "</select></label>";
 
-    echo "<label>Modèle <select name=\"filter_model\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_screen_model\">Modèle <select id=\"filter_screen_model\" name=\"filter_model\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($modelsScreen)) {
         $sel = (isset($_GET['filter_model']) && $_GET['filter_model'] === $r['model']) ? ' selected' : '';
         echo "<option value=\"" . htmlspecialchars($r['model']) . "\"{$sel}>" . htmlspecialchars($r['model']) . "</option>";
     }
     echo "</select></label>";
 
-    echo "<label>Taille <select name=\"filter_size\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_screen_size\">Taille <select id=\"filter_screen_size\" name=\"filter_size\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($sizes)) {
         $v = $r['size_inch'];
         $sel = (isset($_GET['filter_size']) && $_GET['filter_size'] === (string)$v) ? ' selected' : '';
@@ -68,21 +68,21 @@ if (isset($_GET['section']) && $_GET['section'] == "screens") {
     }
     echo "</select></label>";
 
-    echo "<label>Résolution <select name=\"filter_resolution\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_screen_resolution\">Résolution <select id=\"filter_screen_resolution\" name=\"filter_resolution\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($resolutions)) {
         $sel = (isset($_GET['filter_resolution']) && $_GET['filter_resolution'] === $r['resolution']) ? ' selected' : '';
         echo "<option value=\"" . htmlspecialchars($r['resolution']) . "\"{$sel}>" . htmlspecialchars($r['resolution']) . "</option>";
     }
     echo "</select></label>";
 
-    echo "<label>Connecteur <select name=\"filter_connector\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_screen_connector\">Connecteur <select id=\"filter_screen_connector\" name=\"filter_connector\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($connectors)) {
         $sel = (isset($_GET['filter_connector']) && $_GET['filter_connector'] === $r['connector']) ? ' selected' : '';
         echo "<option value=\"" . htmlspecialchars($r['connector']) . "\"{$sel}>" . htmlspecialchars($r['connector']) . "</option>";
     }
     echo "</select></label>";
 
-    echo "<label>Attaché à <select name=\"filter_attached_to\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_screen_attached_to\">Attaché à <select id=\"filter_screen_attached_to\" name=\"filter_attached_to\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($attachedTo)) {
         $sel = (isset($_GET['filter_attached_to']) && $_GET['filter_attached_to'] === $r['attached_to']) ? ' selected' : '';
         echo "<option value=\"" . htmlspecialchars($r['attached_to']) . "\"{$sel}>" . htmlspecialchars($r['attached_to']) . "</option>";
@@ -169,49 +169,49 @@ if (isset($_GET['section']) && $_GET['section'] == "central-units") {
     echo "<form method=\"get\" action=\"tech-panel.php\" class=\"filters-form\">";
     echo "<input type=\"hidden\" name=\"section\" value=\"central-units\">";
 
-    echo "<label>Fabricant <select name=\"filter_manufacturer\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_cu_manufacturer\">Fabricant <select id=\"filter_cu_manufacturer\" name=\"filter_manufacturer\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($manufacturersCu)) {
         $sel = (isset($_GET['filter_manufacturer']) && $_GET['filter_manufacturer'] === (string)$r['id']) ? ' selected' : '';
         echo "<option value=\"" . (int)$r['id'] . "\"{$sel}>" . htmlspecialchars($r['name']) . "</option>";
     }
     echo "</select></label>";
 
-    echo "<label>Modèle <select name=\"filter_model\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_cu_model\">Modèle <select id=\"filter_cu_model\" name=\"filter_model\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($modelsCu)) {
         $sel = (isset($_GET['filter_model']) && $_GET['filter_model'] === $r['model']) ? ' selected' : '';
         echo "<option value=\"" . htmlspecialchars($r['model']) . "\"{$sel}>" . htmlspecialchars($r['model']) . "</option>";
     }
     echo "</select></label>";
 
-    echo "<label>Type <select name=\"filter_type\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_cu_type\">Type <select id=\"filter_cu_type\" name=\"filter_type\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($typesCu)) {
         $sel = (isset($_GET['filter_type']) && $_GET['filter_type'] === $r['type']) ? ' selected' : '';
         echo "<option value=\"" . htmlspecialchars($r['type']) . "\"{$sel}>" . htmlspecialchars($r['type']) . "</option>";
     }
     echo "</select></label>";
 
-    echo "<label>OS <select name=\"filter_os\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_cu_os\">OS <select id=\"filter_cu_os\" name=\"filter_os\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($osList)) {
         $sel = (isset($_GET['filter_os']) && $_GET['filter_os'] === (string)$r['id']) ? ' selected' : '';
         echo "<option value=\"" . (int)$r['id'] . "\"{$sel}>" . htmlspecialchars($r['name']) . "</option>";
     }
     echo "</select></label>";
 
-    echo "<label>Localisation <select name=\"filter_location\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_cu_location\">Localisation <select id=\"filter_cu_location\" name=\"filter_location\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($locations)) {
         $sel = (isset($_GET['filter_location']) && $_GET['filter_location'] === $r['location']) ? ' selected' : '';
         echo "<option value=\"" . htmlspecialchars($r['location']) . "\"{$sel}>" . htmlspecialchars($r['location']) . "</option>";
     }
     echo "</select></label>";
 
-    echo "<label>Bâtiment <select name=\"filter_building\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_cu_building\">Bâtiment <select id=\"filter_cu_building\" name=\"filter_building\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($buildings)) {
         $sel = (isset($_GET['filter_building']) && $_GET['filter_building'] === $r['building']) ? ' selected' : '';
         echo "<option value=\"" . htmlspecialchars($r['building']) . "\"{$sel}>" . htmlspecialchars($r['building']) . "</option>";
     }
     echo "</select></label>";
 
-    echo "<label>Salle <select name=\"filter_room\"><option value=\"\">— Tous</option>";
+    echo "<label for=\"filter_cu_room\">Salle <select id=\"filter_cu_room\" name=\"filter_room\"><option value=\"\">— Tous</option>";
     while ($r = mysqli_fetch_assoc($rooms)) {
         $sel = (isset($_GET['filter_room']) && $_GET['filter_room'] === $r['room']) ? ' selected' : '';
         echo "<option value=\"" . htmlspecialchars($r['room']) . "\"{$sel}>" . htmlspecialchars($r['room']) . "</option>";
