@@ -1,11 +1,11 @@
 <?php
 session_start();
 require '../../includes/init.php';
-if($_SESSION["role"] !== "adminweb"){
+require_once __DIR__ . '/../../includes/password_crypto.php';
+if ($_SESSION["role"] !== "adminweb") {
     header('location: ../index.php');
     exit();
 }
-
 
 // Récupérer et valider les données
 $username = isset($_POST["username"]) ? trim($_POST["username"]) : '';
@@ -45,12 +45,15 @@ if ($check_stmt) {
     mysqli_stmt_close($check_stmt);
 }
 
+// Chiffrement du mot de passe avec ChaCha20 avant stockage
+$mdp_stored = password_encrypt($password);
+
 // Insérer le nouvel utilisateur
 $query = "INSERT INTO users (name, mdp, role) VALUES (?, ?, ?)";
 $stmt = mysqli_prepare($loginToDb, $query);
 
 if ($stmt) {
-    mysqli_stmt_bind_param($stmt, "sss", $username, $password, $role);
+    mysqli_stmt_bind_param($stmt, "sss", $username, $mdp_stored, $role);
 
     if (mysqli_stmt_execute($stmt)) {
         // --- GESTION DES LOGS (Centralisée) ---

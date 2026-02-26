@@ -2,6 +2,7 @@
 session_start();
 
 require "includes/connexion_bdd.php";
+require "includes/password_crypto.php";
 
 if (!isset($_SESSION['session_start_time'])) {
     $_SESSION['session_start_time'] = time();
@@ -10,17 +11,23 @@ if (!isset($_SESSION['session_start_time'])) {
 $username = $_POST["username"];
 $password = $_POST["password"];
 
-// Vérification du login
-$queryRole = "SELECT role FROM users WHERE name = ? AND mdp = ?";
-$stmt = mysqli_prepare($loginToDb, $queryRole);
+// Récupérer l'utilisateur par nom puis vérifier le mdp (chiffré ChaCha20 ou legacy clair)
+$queryUser = "SELECT name, mdp, role FROM users WHERE name = ?";
+$stmt = mysqli_prepare($loginToDb, $queryUser);
 
 if ($stmt) {
-    mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+    mysqli_stmt_bind_param($stmt, "s", $username);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
+        if (!password_verify_plain($password, $row["mdp"])) {
+            mysqli_stmt_close($stmt);
+            mysqli_close($loginToDb);
+            header("Location: connexion.php?error=1");
+            exit();
+        }
         $role = $row["role"];
 
         // Initialisation de la session
@@ -62,13 +69,12 @@ if ($stmt) {
         }
         exit();
 
-    } else {
-        // Mauvais login/mdp
-        mysqli_stmt_close($stmt);
-        mysqli_close($loginToDb);
-        header("Location: connexion.php?error=1");
-        exit();
     }
+    // Utilisateur non trouvé
+    mysqli_stmt_close($stmt);
+    mysqli_close($loginToDb);
+    header("Location: connexion.php?error=1");
+    exit();
 } else {
     die("Erreur de préparation de la requête: " . mysqli_error($loginToDb));
 }
