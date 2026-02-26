@@ -1,0 +1,204 @@
+/* Page Sysadmin - Journaux d'activité (même direction artistique que tech / admin) */
+
+.sysadmin-logs-main {
+    gap: 2rem;
+    min-height: fit-content;
+}
+
+.sysadmin-logs-main h1 {
+    color: #fff;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+}
+
+.sysadmin-logs-main,
+.sysadmin-logs-main * {
+    color: #e0e0e0;
+}
+
+/* Bloc filtres */
+.sysadmin-logs-main .filters-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.sysadmin-logs-main .filters-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    margin: 0;
+}
+
+.sysadmin-logs-main .filters-form label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    color: #ccc;
+    font-size: 0.95rem;
+}
+
+.sysadmin-logs-main .filters-form select {
+    padding: 8px 12px;
+    background-color: #282828;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.sysadmin-logs-main .filters-form select:hover {
+    background-color: #333;
+}
+
+.sysadmin-logs-main .filters-form select:focus {
+    outline: none;
+    border-color: #555;
+}
+
+.sysadmin-logs-main .filters-form button[type="submit"] {
+    padding: 10px 18px;
+    background-color: #282828;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.sysadmin-logs-main .filters-form button[type="submit"]:hover {
+    background-color: #333;
+    border-color: #555;
+}
+
+.sysadmin-logs-main .filters-reset {
+    color: #7eb8ff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.sysadmin-logs-main .filters-reset:hover {
+    color: #a8d4ff;
+    text-decoration: underline;
+}
+
+/* Tableau */
+.sysadmin-logs-main .logs-table-wrap {
+    overflow-x: auto;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+.sysadmin-logs-main table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.sysadmin-logs-main table th,
+.sysadmin-logs-main table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+    color: #e0e0e0;
+}
+
+.sysadmin-logs-main table th {
+    background-color: #282828;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.sysadmin-logs-main table tr:hover {
+    background-color: #252525;
+}
+
+.sysadmin-logs-main table tr:last-child td {
+    border-bottom: none;
+}
+
+.sysadmin-logs-main .log-duration-empty {
+    color: #666;
+}
+
+/* Pagination */
+.sysadmin-logs-main .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid #333;
+}
+
+.sysadmin-logs-main .pagination-info {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.sysadmin-logs-main .pagination-links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sysadmin-logs-main .pagination-links a,
+.sysadmin-logs-main .pagination-links span {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.sysadmin-logs-main .pagination-links a {
+    background-color: #282828;
+    color: #fff;
+    border: 1px solid #444;
+}
+
+.sysadmin-logs-main .pagination-links a:hover {
+    background-color: #333;
+    border-color: #555;
+    color: #fff;
+}
+
+.sysadmin-logs-main .pagination-links span.disabled {
+    background-color: #222;
+    color: #666;
+    border: 1px solid #333;
+    cursor: not-allowed;
+}
+
+.sysadmin-logs-main .pagination-links span.current {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    font-weight: 600;
+}
+
+/* Message vide */
+.sysadmin-logs-main .logs-empty {
+    padding: 2rem;
+    text-align: center;
+    color: #888;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+}

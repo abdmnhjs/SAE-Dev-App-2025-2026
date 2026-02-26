@@ -51,7 +51,7 @@ if ($stmt) {
         $stmtLog = mysqli_prepare($loginToDb, $queryLog);
 
         if ($stmtLog) {
-            mysqli_stmt_bind_param($stmtLog, "sss", $username, $logDescription, $ip_address);
+            mysqli_stmt_bind_param($stmtLog, "sss", $usernameTech, $logDescription, $ip_address);
             mysqli_stmt_execute($stmtLog);
             mysqli_stmt_close($stmtLog);
         }
