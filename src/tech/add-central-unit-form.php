@@ -129,7 +129,7 @@ $sidebarTechPrefix = '';
             </div>
         </fieldset>
     </form>
-    <form method="post" action="actions/action-add-control-unit-csv.php" enctype="multipart/form-data">
+    <form method="post" action="actions/action-add-central-unit-csv.php" enctype="multipart/form-data">
 
         <label for="add-cu-csv-file" class="filebtn">Import CSV</label>
         <input type="file" id="add-cu-csv-file" accept=".csv,text/csv" name="control-units-csv" />
