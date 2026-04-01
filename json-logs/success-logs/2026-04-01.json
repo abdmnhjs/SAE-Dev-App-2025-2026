@@ -1,0 +1,16 @@
+[
+    {
+        "username": "adminweb",
+        "ip": "::1",
+        "date": "Wed, 01 Apr 2026 18:02:22 +0200",
+        "action": "success_login",
+        "attempts_before": 9
+    },
+    {
+        "username": "sysadmin",
+        "ip": "::1",
+        "date": "Wed, 01 Apr 2026 18:03:11 +0200",
+        "action": "success_login",
+        "attempts_before": 0
+    }
+]

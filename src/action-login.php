@@ -3,7 +3,8 @@ session_start();
 
 require "includes/connexion_bdd.php";
 require "includes/password_crypto.php";
-
+require "sysadmin/LogsSAE.php";
+$logsJson = new LogsSAE();
 if (!isset($_SESSION['session_start_time'])) {
     $_SESSION['session_start_time'] = time();
 }
@@ -23,6 +24,10 @@ if ($stmt) {
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         if (!password_verify_plain($password, $row["mdp"])) {
+            // < Echec de connexion donc logs en json.>
+            $_SESSION['login_attempts'] = ($_SESSION['login_attempts'] ?? 0) + 1;
+            $logsJson->failedLogin("Mauvais mot de passe", $username);
+            // </ Echec de connexion donc logs en json.>
             mysqli_stmt_close($stmt);
             mysqli_close($loginToDb);
             header("Location: connexion.php?error=1");
@@ -33,6 +38,11 @@ if ($stmt) {
         // Initialisation de la session
         $_SESSION["role"] = $role;
         $_SESSION["username"] = $username;
+
+        // < Reussite de connexion donc logs en json.>
+        $logsJson->successLogin($_SESSION['login_attempts'] ?? 0);
+        unset($_SESSION['login_attempts']);
+        // < Reussite de connexion donc logs en json.>
 
         // Fermeture du statement de login (mais PAS de la connexion BDD globale)
         mysqli_stmt_close($stmt);
@@ -71,6 +81,13 @@ if ($stmt) {
 
     }
     // Utilisateur non trouvé
+
+    // < Echec de connexion donc logs en json.>
+    $_SESSION['login_attempts'] = ($_SESSION['login_attempts'] ?? 0) + 1;
+    $logsJson->failedLogin("Utilisateur non trouvé", $username);
+    // < Echec de connexion donc logs en json.>
+
+
     mysqli_stmt_close($stmt);
     mysqli_close($loginToDb);
     header("Location: connexion.php?error=1");
@@ -78,4 +95,5 @@ if ($stmt) {
 } else {
     die("Erreur de préparation de la requête: " . mysqli_error($loginToDb));
 }
+
 ?>
