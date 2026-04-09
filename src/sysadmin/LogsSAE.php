@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../includes/User.php';
+require __DIR__ . '/../includes/LogEntry.php';
 class LogsSAE
 {
     private string $logDir;
@@ -14,13 +14,13 @@ class LogsSAE
 
     }
 
-    public function createUserLog(string $action = "Unknown"): User
+    public function createUserLog(string $action = "Unknown"): LogEntry
     {
         $username = "Unknown";
         if (session_status() === PHP_SESSION_ACTIVE) {
             $username = $_SESSION['username'];
         }
-        return new User($username, $action);
+        return new LogEntry($username, $action);
     }
 
     public function successLogin(int $attempts = 0): void
@@ -71,4 +71,25 @@ class LogsSAE
         echo json_encode($logEntry, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         file_put_contents($filename, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     }
+    public function loadLogs(string $dir): array {
+    $entries = [];
+
+    $files = glob($dir . '/*.json');
+    if ($files === false) return $entries;
+
+    foreach ($files as $file) {
+        $content = file_get_contents($file);
+        if ($content === false) continue;
+
+        $decoded = json_decode($content, true);
+        if (!is_array($decoded)) continue;
+
+        $entries = array_merge($entries, $decoded);
+    }
+
+    // Tri par date croissante
+    usort($entries, fn($a, $b) => strtotime($a['date']) <=> strtotime($b['date']));
+
+    return $entries;
+}
 }

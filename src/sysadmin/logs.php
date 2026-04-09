@@ -2,81 +2,90 @@
 session_start();
 
 require '../includes/init.php';
+require 'LogsSAE.php';
 if ($_SESSION["role"] !== "sysadmin") {
     header('Location: ../index.php');
     exit();
 }
 
-mysqli_select_db($loginToDb, $db);
-
 define('LOGS_PER_PAGE', 25);
 
-$filter_user = isset($_GET['filter_user']) ? trim($_GET['filter_user']) : '';
-$filter_ip   = isset($_GET['filter_ip']) ? trim($_GET['filter_ip']) : '';
-$page        = isset($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
-$offset      = ($page - 1) * LOGS_PER_PAGE;
+$logsJson = new LogsSAE();
+$logs_location = __DIR__ . '/../../json-logs';
+$logs_location_success = __DIR__ . '/../../json-logs/success-logs';
+$logs_location_fails = __DIR__ . '/../../json-logs/fails-logs';
+$successLogs = $logsJson->loadLogs($logs_location_success);
+$failedLogs = $logsJson->loadLogs($logs_location_fails);
+// Fusion et tri anti-chronologique (plus récent en premier)
+$allLogs = array_merge($successLogs, $failedLogs);
+usort($allLogs, fn($a, $b) => strtotime($b['date']) <=> strtotime($a['date']));
 
-// Construction de la requête avec filtres
-$where = ["description IS NOT NULL"];
-$params = [];
-$types = '';
+// ---------- Normalisation des champs ----------
+// Les JSON utilisent "username", "ip", "date", "action", "reason"
+// On les mappe vers les noms utilisés dans le template pour ne pas tout réécrire
+$allLogs = array_map(function ($entry) {
+    return [
+        'log_time'         => $entry['date']     ?? '',
+        'username'         => $entry['username'] ?? '',
+        'ip_address'       => $entry['ip']       ?? '',
+        'description'      => $entry['action']   ?? '',
+        'reason'           => $entry['reason']   ?? '',
+        'duration_seconds' => $entry['duration'] ?? null,
+    ];
+}, $allLogs);
+
+// Filtre : on retire les entrées sans action (équivalent du WHERE description IS NOT NULL)
+$allLogs = array_filter($allLogs, fn($l) => $l['description'] !== '');
+$allLogs = array_values($allLogs);
+
+// ---------- Valeurs distinctes pour les menus (avant filtrage) ----------
+
+$distinctUsers   = array_unique(array_column($allLogs, 'username'));
+$distinctActions = array_unique(array_column($allLogs, 'description'));
+sort($distinctUsers);
+sort($distinctActions);
+
+// ---------- Filtres GET ----------
+
+$filter_user   = isset($_GET['filter_user'])   ? trim($_GET['filter_user'])   : '';
+$filter_action = isset($_GET['filter_action']) ? trim($_GET['filter_action']) : '';
+$search        = isset($_GET['search'])        ? trim($_GET['search'])        : '';
 
 if ($filter_user !== '') {
-    $where[] = "username = ?";
-    $params[] = $filter_user;
-    $types .= 's';
+    $allLogs = array_values(array_filter($allLogs, fn($l) => $l['username'] === $filter_user));
 }
-if ($filter_ip !== '') {
-    $where[] = "ip_address = ?";
-    $params[] = $filter_ip;
-    $types .= 's';
+if ($filter_action !== '') {
+    $allLogs = array_values(array_filter($allLogs, fn($l) => $l['description'] === $filter_action));
 }
-
-$whereSql = count($where) > 0 ? ' WHERE ' . implode(' AND ', $where) : '';
-
-// Total pour la pagination
-$countSql = "SELECT COUNT(*) AS total FROM logs" . $whereSql;
-if (count($params) > 0) {
-    $stmtCount = mysqli_prepare($loginToDb, $countSql);
-    mysqli_stmt_bind_param($stmtCount, $types, ...$params);
-    mysqli_stmt_execute($stmtCount);
-    $total = (int) mysqli_fetch_assoc(mysqli_stmt_get_result($stmtCount))['total'];
-    mysqli_stmt_close($stmtCount);
-} else {
-    $resCount = mysqli_query($loginToDb, $countSql);
-    $total = (int) mysqli_fetch_assoc($resCount)['total'];
+if ($search !== '') {
+    $needle = mb_strtolower($search);
+    $allLogs = array_values(array_filter($allLogs, function ($l) use ($needle) {
+        return str_contains(mb_strtolower($l['username']),    $needle)
+            || str_contains(mb_strtolower($l['ip_address']),  $needle)
+            || str_contains(mb_strtolower($l['description']), $needle)
+            || str_contains(mb_strtolower($l['reason']),      $needle);
+    }));
 }
 
+// ---------- Pagination ----------
+
+$page       = isset($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
+$total      = count($allLogs);
 $totalPages = $total > 0 ? (int) ceil($total / LOGS_PER_PAGE) : 1;
-$page = min(max(1, $page), $totalPages);
-$offset = ($page - 1) * LOGS_PER_PAGE;
+$page       = min($page, $totalPages);
+$offset     = ($page - 1) * LOGS_PER_PAGE;
 
-// Liste des logs avec pagination
-$sql = "SELECT * FROM logs" . $whereSql . " ORDER BY log_time DESC LIMIT " . (int) LOGS_PER_PAGE . " OFFSET " . (int) $offset;
-if (count($params) > 0) {
-    $stmt = mysqli_prepare($loginToDb, $sql);
-    mysqli_stmt_bind_param($stmt, $types, ...$params);
-    mysqli_stmt_execute($stmt);
-    $logs = mysqli_stmt_get_result($stmt);
-} else {
-    $logs = mysqli_query($loginToDb, $sql);
-}
+$logsPage = array_slice($allLogs, $offset, LOGS_PER_PAGE);
 
-// Valeurs distinctes pour les filtres
-$usersResult = mysqli_query($loginToDb, "SELECT DISTINCT username FROM logs WHERE description IS NOT NULL ORDER BY username");
-$ipsResult   = mysqli_query($loginToDb, "SELECT DISTINCT ip_address FROM logs WHERE description IS NOT NULL ORDER BY ip_address");
+// ---------- Helpers ----------
 
 function formatDuration($seconds) {
     if ($seconds === null || $seconds === '' || (int) $seconds === 0) {
         return '—';
     }
     $s = (int) $seconds;
-    if ($s < 60) {
-        return $s . ' s';
-    }
-    $min = floor($s / 60);
-    $sec = $s % 60;
-    return $min . ' min ' . $sec . ' s';
+    if ($s < 60) return $s . ' s';
+    return floor($s / 60) . ' min ' . ($s % 60) . ' s';
 }
 
 $sidebarBase = '../';
@@ -99,20 +108,24 @@ $sidebarSysadminPrefix = '';
 
     <div class="filters-panel">
         <form method="get" action="logs.php" class="filters-form">
+            <input type="text"
+                   id="search" name="search"
+                   placeholder="Rechercher (utilisateur, IP, action, raison…)"
+                   value="<?php echo htmlspecialchars($search); ?>">
             <label for="filter_user">Utilisateur
                 <select id="filter_user" name="filter_user">
                     <option value="">— Tous</option>
-                    <?php while ($u = mysqli_fetch_assoc($usersResult)) : ?>
-                        <option value="<?php echo htmlspecialchars($u['username']); ?>"<?php echo $filter_user === $u['username'] ? ' selected' : ''; ?>><?php echo htmlspecialchars($u['username']); ?></option>
-                    <?php endwhile; ?>
+                    <?php foreach ($distinctUsers as $u) : ?>
+                        <option value="<?php echo htmlspecialchars($u); ?>"<?php echo $filter_user === $u ? ' selected' : ''; ?>><?php echo htmlspecialchars($u); ?></option>
+                    <?php endforeach; ?>
                 </select>
             </label>
-            <label for="filter_ip">Adresse IP
-                <select id="filter_ip" name="filter_ip">
+            <label for="filter_action">Action
+                <select id="filter_action" name="filter_action">
                     <option value="">— Toutes</option>
-                    <?php while ($ip = mysqli_fetch_assoc($ipsResult)) : ?>
-                        <option value="<?php echo htmlspecialchars($ip['ip_address']); ?>"<?php echo $filter_ip === $ip['ip_address'] ? ' selected' : ''; ?>><?php echo htmlspecialchars($ip['ip_address']); ?></option>
-                    <?php endwhile; ?>
+                    <?php foreach ($distinctActions as $a) : ?>
+                        <option value="<?php echo htmlspecialchars($a); ?>"<?php echo $filter_action === $a ? ' selected' : ''; ?>><?php echo htmlspecialchars($a); ?></option>
+                    <?php endforeach; ?>
                 </select>
             </label>
             <button type="submit">Filtrer</button>
@@ -120,7 +133,7 @@ $sidebarSysadminPrefix = '';
         <a href="logs.php" class="filters-reset">Réinitialiser</a>
     </div>
 
-    <?php if (mysqli_num_rows($logs) === 0) : ?>
+    <?php if (count($logsPage) === 0) : ?>
         <p class="logs-empty">Aucune entrée de journal pour les critères sélectionnés.</p>
     <?php else : ?>
         <div class="logs-table-wrap">
@@ -130,20 +143,22 @@ $sidebarSysadminPrefix = '';
                         <th>Date / heure</th>
                         <th>Utilisateur</th>
                         <th>Adresse IP</th>
-                        <th>Description</th>
+                        <th>Action</th>
+                        <th>Détail</th>
                         <th>Durée</th>
                     </tr>
                 </thead>
                 <tbody>
-                <?php while ($row = mysqli_fetch_assoc($logs)) : ?>
+                <?php foreach ($logsPage as $row) : ?>
                     <tr>
                         <td><?php echo htmlspecialchars($row['log_time']); ?></td>
                         <td><?php echo htmlspecialchars($row['username']); ?></td>
                         <td><?php echo htmlspecialchars($row['ip_address']); ?></td>
                         <td><?php echo htmlspecialchars($row['description']); ?></td>
-                        <td class="<?php echo ($row['duration_seconds'] === null || $row['duration_seconds'] === '') ? 'log-duration-empty' : ''; ?>"><?php echo htmlspecialchars(formatDuration($row['duration_seconds'])); ?></td>
+                        <td><?php echo htmlspecialchars($row['reason']); ?></td>
+                        <td class="<?php echo empty($row['duration_seconds']) ? 'log-duration-empty' : ''; ?>"><?php echo htmlspecialchars(formatDuration($row['duration_seconds'])); ?></td>
                     </tr>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
@@ -157,8 +172,9 @@ $sidebarSysadminPrefix = '';
                 <div class="pagination-links">
                     <?php
                     $queryParams = [];
-                    if ($filter_user !== '') $queryParams['filter_user'] = $filter_user;
-                    if ($filter_ip !== '') $queryParams['filter_ip'] = $filter_ip;
+                    if ($filter_user   !== '') $queryParams['filter_user']   = $filter_user;
+                    if ($filter_action !== '') $queryParams['filter_action'] = $filter_action;
+                    if ($search        !== '') $queryParams['search']        = $search;
                     $queryString = http_build_query($queryParams);
                     $baseUrl = 'logs.php' . ($queryString !== '' ? '?' . $queryString : '');
                     $sep = ($queryString !== '') ? '&' : '?';

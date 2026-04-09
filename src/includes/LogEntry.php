@@ -1,6 +1,6 @@
 <?php
 
-class User
+class LogEntry
 {
     private $username;
     private $ip;
