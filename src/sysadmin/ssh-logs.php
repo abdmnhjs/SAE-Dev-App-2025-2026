@@ -1,8 +1,12 @@
 <?php
 
 $output = [];
-exec('journalctl -u ssh -n 100 --no-pager | grep "Failed"', $output);
+$return_var = 0;
 
-foreach ($output as $line) {
-    echo htmlspecialchars($line) . "<br>";
-}
+exec('journalctl -u ssh -n 100 --no-pager 2>&1', $output, $return_var);
+
+echo "<pre>";
+print_r($output);
+echo "</pre>";
+
+echo "Code retour: " . $return_var;
