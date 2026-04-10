@@ -39,9 +39,27 @@ exec('journalctl -u ssh -n 100 --no-pager 2>&1 | grep -E "Accepted|Failed|sessio
                 Logs
             </tr>
             <?php foreach ($output as $line): ?>
+            <tr>
                 <td><?php echo htmlspecialchars($line); ?></td>
+            </tr>
             <?php endforeach; ?>
         </table>
+                <div class="logs-table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Logs</th>
+                    </tr>
+                </thead>
+                <tbody>
+            <?php foreach ($output as $line): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($line); ?></td>
+            </tr>
+            <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
 
         <p><strong>Code retour:</strong> <?php echo $return_var; ?></p>
     </section>
