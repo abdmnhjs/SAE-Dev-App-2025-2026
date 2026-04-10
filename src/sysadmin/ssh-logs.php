@@ -14,10 +14,15 @@ $return_var = 0;
 $sidebarBase = '../';
 $sidebarSysadminPrefix = '';
 $from = max(1, (int)($_GET['from'] ?? 1));
-$to = max($from + 1, (int)($_GET['to'] ?? 100));
+$to   = max($from + 1, (int)($_GET['to'] ?? 100));
 
-exec("journalctl -u ssh -n $to --no-pager 2>&1 | grep -E 'Accepted|Failed|session opened'", $raw, $return_var);
+// Fetch a large batch — don't limit to $to, let grep filter first
+exec("journalctl -u ssh -n 10000 --no-pager 2>&1 | grep -E 'Accepted|Failed|session opened'", $raw, $return_var);
 
+// Reverse so line 1 = newest
+$raw = array_reverse($raw);
+
+// Now slice correctly
 $output = array_slice($raw, $from - 1, $to - $from + 1);
 ?>
 <!DOCTYPE html>
