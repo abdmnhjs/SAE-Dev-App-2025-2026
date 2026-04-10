@@ -115,18 +115,18 @@ $sidebarSysadminPrefix = '';
                    placeholder="Rechercher (utilisateur, IP, action…)"
                    value="<?php echo htmlspecialchars($search); ?>">
             <label for="filter_user">Utilisateur
-                <select id="filter_user" name="filter_user">
-                    <option value="">— Tous</option>
+                <select id="filter_user" name="filter_user" style="color: black">
+                    <option value=""  style="color: black;">— Tous</option>
                     <?php foreach ($distinctUsers as $u) : ?>
-                        <option value="<?php echo htmlspecialchars($u); ?>"<?php echo $filter_user === $u ? ' selected' : ''; ?>><?php echo htmlspecialchars($u); ?></option>
+                        <option  style="color: black;" value="<?php echo htmlspecialchars($u); ?>"<?php echo $filter_user === $u ? ' selected' : ''; ?>><?php echo htmlspecialchars($u); ?></option>
                     <?php endforeach; ?>
                 </select>
             </label>
             <label for="filter_action">Action
-                <select id="filter_action" name="filter_action">
-                    <option value="">— Toutes</option>
+                <select id="filter_action" name="filter_action" style="color: black">
+                    <option value=""  style="color: black;">— Toutes</option>
                     <?php foreach ($distinctActions as $a) : ?>
-                        <option value="<?php echo htmlspecialchars($a); ?>"<?php echo $filter_action === $a ? ' selected' : ''; ?>><?php echo htmlspecialchars($a); ?></option>
+                        <option  style="color: black;" value="<?php echo htmlspecialchars($a); ?>"<?php echo $filter_action === $a ? ' selected' : ''; ?>><?php echo htmlspecialchars($a); ?></option>
                     <?php endforeach; ?>
                 </select>
             </label>
