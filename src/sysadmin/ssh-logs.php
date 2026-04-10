@@ -13,8 +13,12 @@ $output = [];
 $return_var = 0;
 $sidebarBase = '../';
 $sidebarSysadminPrefix = '';
-exec('journalctl -u ssh -n 100 --no-pager 2>&1 | grep -E "Accepted|Failed|session opened"', $output, $return_var);
+$from = max(1, (int)($_GET['from'] ?? 1));
+$to = max($from + 1, (int)($_GET['to'] ?? 100));
 
+exec("journalctl -u ssh -n $to --no-pager 2>&1 | grep -E 'Accepted|Failed|session opened'", $raw, $return_var);
+
+$output = array_slice($raw, $from - 1, $to - $from + 1);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -32,26 +36,32 @@ exec('journalctl -u ssh -n 100 --no-pager 2>&1 | grep -E "Accepted|Failed|sessio
 <main class="main-with-sidebar sysadmin-logs-main">
     <h1>Journaux d'activité</h1>
 
-
-        <h2>Derniers événements SSH</h2>
-        <div class="logs-table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Logs</th>
-                    </tr>
-                </thead>
-                <tbody>
-            <?php foreach ($output as $line): ?>
+    <div class="filters-panel">
+        <form method="GET" class="filters-form">
+            <label>De la ligne : <input style="color: black;" type="number" name="from" min="1" value="<?php echo $from; ?>"></label>
+            <label>À la ligne : <input style="color: black;" type="number" name="to" min="2" value="<?php echo $to; ?>"></label>
+            <button type="submit">Afficher</button>
+        </form>
+    </div>
+    <h2>Derniers événements SSH</h2>
+    <div class="logs-table-wrap">
+        <table>
+            <thead>
             <tr>
-                <td><?php echo htmlspecialchars($line); ?></td>
+                <th>Logs</th>
             </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($output as $line): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($line); ?></td>
+                </tr>
             <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
+    </div>
 
-        <p><strong>Code retour:</strong> <?php echo $return_var; ?></p>
+    <p><strong>Code retour:</strong> <?php echo $return_var; ?></p>
 
 </main>
 </body>

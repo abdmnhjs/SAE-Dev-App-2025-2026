@@ -112,16 +112,15 @@ $output = $logsJson->allLogsFrom($dossier_actif);
             <table>
                 <thead>
                 <tr>
-                    <th>Nom du fichier</th>
-                    <th>Action</th>
+                    <th>Fichiers</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($output as $log): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($log['log_name']); ?></td>
-                        <td>
-                            <form method="POST" action="gestion-logs.php" style="display:contents"
+                        <td><?php echo htmlspecialchars($log['log_name']); ?>
+
+                            <form method="POST" action="gestion-logs.php" style="margin:0; padding:0; display:inline"
                                   onsubmit="return confirm('Supprimer <?php echo htmlspecialchars(addslashes($log['log_name'])); ?> ?')">
                                 <input type="hidden" name="csrf_token"
                                        value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
