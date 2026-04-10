@@ -35,22 +35,22 @@ $output = array_slice($raw, $from - 1, $to - $from + 1);
     <link rel="stylesheet" href="../css/adminweb.css">
     <link rel="stylesheet" href="../css/sysadmin.css">
 </head>
-<body class="with-sidebar">
+<body class="with-sidebar" >
 <?php require __DIR__ . '/../includes/sidebar.php'; ?>
 
-<main class="main-with-sidebar sysadmin-logs-main">
+<main class="main-with-sidebar sysadmin-logs-main" style="gap: 0">
     <h1>Journaux d'activité</h1>
 
     <div class="filters-panel">
         <form method="GET" class="filters-form">
-            <label>De la ligne : <input style="color: black;" type="number" name="from" min="1" value="<?php echo $from; ?>"></label>
-            <label>À la ligne : <input style="color: black;" type="number" name="to" min="2" value="<?php echo $to; ?>"></label>
+            <label>De la ligne: <input style="color: black;" type="number" name="from" min="1" value="<?php echo $from; ?>"></label>
+            <label>À la ligne: <input style="color: black;" type="number" name="to" min="2" value="<?php echo $to; ?>"></label>
             <button type="submit">Afficher</button>
         </form>
     </div>
     <h2>Derniers événements SSH</h2>
     <strong>Il y a : <?php echo count($output)?> lignes.</strong>
-    <div class="logs-table-wrap">
+    <div class="logs-table-wrap" style="margin: 0; padding: 0;">
         <table>
             <thead>
             <tr>

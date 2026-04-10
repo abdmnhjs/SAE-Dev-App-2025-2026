@@ -73,7 +73,7 @@ $output = $logsJson->allLogsFrom($dossier_actif);
 <body class="with-sidebar">
 <?php require __DIR__ . '/../includes/sidebar.php'; ?>
 
-<main class="main-with-sidebar sysadmin-logs-main">
+<main class="main-with-sidebar sysadmin-logs-main" style="gap: 0">
     <h1>Journaux d'activité — Logs JSON</h1>
 
     <!-- Filtre type de log -->

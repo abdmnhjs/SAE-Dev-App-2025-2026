@@ -103,7 +103,7 @@ $sidebarSysadminPrefix = '';
 </head>
 <body class="with-sidebar">
 <?php require __DIR__ . '/../includes/sidebar.php'; ?>
-<main class="main-with-sidebar sysadmin-logs-main">
+<main class="main-with-sidebar sysadmin-logs-main" style="gap: 0">
     <h1>Journaux d'activité</h1>
 
     <div class="filters-panel">
