@@ -49,6 +49,7 @@ $output = array_slice($raw, $from - 1, $to - $from + 1);
         </form>
     </div>
     <h2>Derniers événements SSH</h2>
+    <strong>Il y a : <?php echo count($output)?> lignes.</strong>
     <div class="logs-table-wrap">
         <table>
             <thead>
