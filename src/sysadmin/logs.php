@@ -18,6 +18,8 @@ $successLogs = $logsJson->loadLogs($logs_location_success);
 $failedLogs = $logsJson->loadLogs($logs_location_fails);
 // Fusion et tri anti-chronologique (plus récent en premier)
 $allLogs = array_merge($successLogs, $failedLogs);
+
+
 usort($allLogs, fn($a, $b) => strtotime($b['date']) <=> strtotime($a['date']));
 
 // ---------- Normalisation des champs ----------
@@ -30,7 +32,7 @@ $allLogs = array_map(function ($entry) {
         'ip_address'       => $entry['ip']       ?? '',
         'description'      => $entry['action']   ?? '',
         'reason'           => $entry['reason']   ?? '',
-        'duration_seconds' => $entry['duration'] ?? null,
+        'attempts' => $entry['attempts_before'] ?? null,
     ];
 }, $allLogs);
 
@@ -130,7 +132,6 @@ $sidebarSysadminPrefix = '';
             </label>
             <button type="submit">Filtrer</button>
         </form>
-        <a href="logs.php" class="filters-reset">Réinitialiser</a>
     </div>
 
     <?php if (count($logsPage) === 0) : ?>
@@ -145,7 +146,7 @@ $sidebarSysadminPrefix = '';
                         <th>Adresse IP</th>
                         <th>Action</th>
                         <th>Détail</th>
-                        <th>Durée</th>
+                        <th>Tentatives</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -156,7 +157,7 @@ $sidebarSysadminPrefix = '';
                         <td><?php echo htmlspecialchars($row['ip_address']); ?></td>
                         <td><?php echo htmlspecialchars($row['description']); ?></td>
                         <td><?php echo htmlspecialchars($row['reason']); ?></td>
-                        <td class="<?php echo empty($row['duration_seconds']) ? 'log-duration-empty' : ''; ?>"><?php echo htmlspecialchars(formatDuration($row['duration_seconds'])); ?></td>
+                        <td><?php echo $row['attempts'] !== null ? htmlspecialchars($row['attempts']) : '—'; ?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
