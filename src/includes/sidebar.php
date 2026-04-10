@@ -94,6 +94,7 @@ body.with-sidebar { margin-left: 270px; margin-right: 40px; }
             <span class="sidebar-label">Sysadmin</span>
             <a class="sidebar-section" href="<?php echo $sysadminPrefix; ?>logs.php">Logs</a>
             <a class="sidebar-section" href="<?php echo $sysadminPrefix; ?>ssh-logs.php">Logs SSH</a>
+                    <a class="sidebar-section" href="<?php echo $sysadminPrefix; ?>gestion-logs.php">Supprimer Logs</a>
             <span class="sidebar-user"><?php echo htmlspecialchars($_SESSION['username'] ?? ''); ?></span>
             <a class="sidebar-section" href="<?php echo $base; ?>logout.php">Se déconnecter</a>
         <?php endif; ?>
