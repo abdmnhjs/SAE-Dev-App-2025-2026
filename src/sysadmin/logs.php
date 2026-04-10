@@ -110,7 +110,7 @@ $sidebarSysadminPrefix = '';
         <form method="get" action="logs.php" class="filters-form">
             <input type="text"
                    id="search" name="search"
-                   placeholder="Rechercher (utilisateur, IP, action, raison…)"
+                   placeholder="Rechercher (utilisateur, IP, action…)"
                    value="<?php echo htmlspecialchars($search); ?>">
             <label for="filter_user">Utilisateur
                 <select id="filter_user" name="filter_user">

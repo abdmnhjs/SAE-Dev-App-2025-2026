@@ -18,10 +18,10 @@ $sidebarSysadminPrefix = '';
 
 $logsJson = new LogsSAE();
 
-$DOSSIER_AUTORISE_FAILS   = '/var/www/html/SAE-Dev-App-2025-2026/json-logs/fails-json';
-$DOSSIER_AUTORISE_SUCCESS = '/var/www/html/SAE-Dev-App-2025-2026/json-logs/success-json';
+$DOSSIER_AUTORISE_FAILS = '/var/www/html/SAE-Dev-App-2025-2026/json-logs/fails-logs';
+$DOSSIER_AUTORISE_SUCCESS = '/var/www/html/SAE-Dev-App-2025-2026/json-logs/success-logs';
 $resultat = null;
-$output   = [];
+$output = [];
 
 // ── POST : suppression ────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fichier'])) {
@@ -109,35 +109,35 @@ $output = $logsJson->allLogsFrom($dossier_actif);
         <?php if (empty($output)): ?>
             <p>Aucun fichier trouvé.</p>
         <?php else: ?>
-        <table>
-            <thead>
+            <table>
+                <thead>
                 <tr>
                     <th>Nom du fichier</th>
                     <th>Action</th>
                 </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($output as $log): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($log['log_name']); ?></td>
-                    <td>
-                        <form method="POST" action="gestion-logs.php" style="display:contents"
-                              onsubmit="return confirm('Supprimer <?php echo htmlspecialchars(addslashes($log['log_name'])); ?> ?')">
-                            <input type="hidden" name="csrf_token"
-                                   value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                            <!-- Chemin complet pour supprimerFichierSecurise() -->
-                            <input type="hidden" name="fichier"
-                                   value="<?php echo htmlspecialchars($log['chemin_complet']); ?>">
-                            <!-- Type pour choisir le bon dossier autorisé côté POST -->
-                            <input type="hidden" name="type"
-                                   value="<?php echo htmlspecialchars($type_get); ?>">
-                            <button type="submit" style="background-color: red">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <?php foreach ($output as $log): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($log['log_name']); ?></td>
+                        <td>
+                            <form method="POST" action="gestion-logs.php" style="display:contents"
+                                  onsubmit="return confirm('Supprimer <?php echo htmlspecialchars(addslashes($log['log_name'])); ?> ?')">
+                                <input type="hidden" name="csrf_token"
+                                       value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                                <!-- Chemin complet pour supprimerFichierSecurise() -->
+                                <input type="hidden" name="fichier"
+                                       value="<?php echo htmlspecialchars($log['chemin_complet']); ?>">
+                                <!-- Type pour choisir le bon dossier autorisé côté POST -->
+                                <input type="hidden" name="type"
+                                       value="<?php echo htmlspecialchars($type_get); ?>">
+                                <button type="submit" style="background-color: red">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
         <?php endif; ?>
     </div>
 
