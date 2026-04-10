@@ -34,11 +34,14 @@ exec('journalctl -u ssh -n 100 --no-pager 2>&1 | grep -E "Accepted|Failed|sessio
 
     <section class="logs-table-wrap">
         <h2>Derniers événements SSH</h2>
-        <ul>
+        <table>
+            <tr>
+                Logs
+            </tr>
             <?php foreach ($output as $line): ?>
-                <li><?php echo htmlspecialchars($line); ?></li>
+                <td><?php echo htmlspecialchars($line); ?></td>
             <?php endforeach; ?>
-        </ul>
+        </table>
 
         <p><strong>Code retour:</strong> <?php echo $return_var; ?></p>
     </section>
