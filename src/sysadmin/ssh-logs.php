@@ -15,9 +15,9 @@ $sidebarBase = '../';
 $sidebarSysadminPrefix = '';
 $from = max(1, (int)($_GET['from'] ?? 1));
 $to   = max($from + 1, (int)($_GET['to'] ?? 100));
-
+$limit = 10000 * max(1, $to / 10);
 // Fetch a large batch — don't limit to $to, let grep filter first
-exec("journalctl -u ssh -n 10000 --no-pager 2>&1 | grep -E 'Accepted|Failed|session opened'", $raw, $return_var);
+exec("journalctl -u ssh -n $limit --no-pager 2>&1 | grep -E 'Accepted|Failed|session opened'", $raw, $return_var);
 
 // Reverse so line 1 = newest
 $raw = array_reverse($raw);
