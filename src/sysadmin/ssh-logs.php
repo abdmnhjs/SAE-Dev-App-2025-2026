@@ -32,19 +32,9 @@ exec('journalctl -u ssh -n 100 --no-pager 2>&1 | grep -E "Accepted|Failed|sessio
 <main class="main-with-sidebar sysadmin-logs-main">
     <h1>Journaux d'activité</h1>
 
-    <section class="logs-table-wrap">
+
         <h2>Derniers événements SSH</h2>
-        <table>
-            <tr>
-                Logs
-            </tr>
-            <?php foreach ($output as $line): ?>
-            <tr>
-                <td><?php echo htmlspecialchars($line); ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-                <div class="logs-table-wrap">
+        <div class="logs-table-wrap">
             <table>
                 <thead>
                     <tr>
@@ -62,7 +52,7 @@ exec('journalctl -u ssh -n 100 --no-pager 2>&1 | grep -E "Accepted|Failed|sessio
         </div>
 
         <p><strong>Code retour:</strong> <?php echo $return_var; ?></p>
-    </section>
+
 </main>
 </body>
 </html>
