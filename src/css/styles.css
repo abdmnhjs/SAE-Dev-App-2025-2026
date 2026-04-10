@@ -243,3 +243,6 @@ input {
     display: block;
     margin: 0 auto;  /* Centre l'image à l'intérieur du bloc */
 }
+select {
+    color-scheme: light;
+}

@@ -80,7 +80,7 @@ $output = $logsJson->allLogsFrom($dossier_actif);
     <div class="filters-panel">
         <form method="GET" action="gestion-logs.php" class="filters-form">
             <label for="type">Type de logs :</label>
-            <select name="type" id="type">
+            <select name="type" id="type" >
                 <option style="color: black;" value="success" <?php echo $type_get === 'success' ? 'selected' : ''; ?>>
                     Succès
                 </option>
